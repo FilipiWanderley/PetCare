@@ -1,7 +1,7 @@
 :root {
   /* Brand Colors - Pet Friendly Theme */
-  --primary: #FFD600; /* Bright Yellow */
-  --primary-hover: #E6C000; /* Darker Yellow */
+  --primary: #FBBC05; /* Updated Yellow */
+  --primary-hover: #E5AC00; /* Darker Yellow for hover */
   --secondary: #40E0D0; /* Turquoise/Teal */
   --secondary-hover: #20B2AA; /* Darker Teal */
   --accent: #FF6B6B; /* Soft Red/Pink for hearts/alerts */
