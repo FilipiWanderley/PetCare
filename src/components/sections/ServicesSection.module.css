@@ -1,6 +1,6 @@
 .section {
   padding: 4rem 1rem;
-  background-color: var(--surface-alt); /* Light background for contrast with cards */
+  background-color: #ffffff;
   position: relative;
   z-index: 1;
 }
