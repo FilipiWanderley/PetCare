@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐾 Pet Care - Landing Page
 
-## Getting Started
+Bem-vindo ao repositório do projeto **Pet Care**! Este é um site moderno e responsivo desenvolvido para uma clínica/serviço de cuidados para pets, focado em agendamento de banho, tosa e consultas veterinárias.
 
-First, run the development server:
+## 🛠️ Tecnologias Utilizadas
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Next.js 16**: Framework React de última geração para alta performance e SEO.
+- **React**: Biblioteca para construção de interfaces de usuário interativas.
+- **CSS Modules**: Estilização modular para evitar conflitos de CSS e manter o código organizado.
+- **TypeScript**: Para tipagem estática e código mais seguro.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✅ O Que Já Foi Feito
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Nesta etapa do desenvolvimento, focamos na estruturação da **Página Inicial (Home)** e na identidade visual:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Hero Section (Topo da Página)
+- **Título Personalizado:** Ajuste de peso da fonte para destacar "o cuidado que ele merece" e suavizar o início da frase.
+- **Identidade Visual:** Implementação de cores da marca (amarelo e preto/cinza escuro) com elementos decorativos (blobs, brilhos).
+- **CTA (Call to Action):** Botão "Agendar Agora" em destaque.
 
-## Learn More
+### 2. Seção de Serviços
+- **Ícones em Alta Definição:** Substituição de imagens PNG por **ícones SVG** (vetoriais), garantindo que não percam qualidade em nenhuma tela.
+- **Lista de Serviços:** Adestramento, Alimentação, Veterinário e Banho.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Seção de Depoimentos (Novo!)
+- **Cards de Feedback:** Criação de uma seção dedicada para prova social.
+- **Personalização:** Inclusão de fotos, nomes e papéis específicos (ex: "Tutor de gato", "Tutora de cachorro") conforme solicitado.
+- **Design:** Layout em grid responsivo com efeitos de hover.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Estrutura Global
+- **Header e Footer:** Integrados ao layout principal (`layout.tsx`), aparecendo em todas as páginas.
+- **Fontes:** Configuração da fonte `Inter` via Next.js Fonts.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚧 O Que Falta Fazer / Próximos Passos
 
-## Deploy on Vercel
+Para levar o projeto para o próximo nível ou para produção, sugerimos as seguintes etapas:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  **Funcionalidade de Agendamento:**
+    - Atualmente, o botão "Agendar" é visual. É necessário conectar a um formulário real, link de WhatsApp ou sistema de agendamento.
+    - O componente `AppointmentForm` existe nos arquivos, mas precisa ser integrado à página ou a um modal.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2.  **Revisão de Conteúdo (Header/Footer):**
+    - Verificar se os links do menu (Header) e as informações do rodapé (Footer) estão corretos e apontando para os lugares certos.
+
+3.  **Responsividade Fina:**
+    - Testar exaustivamente em dispositivos móveis muito pequenos ou monitores ultrawide para garantir que o layout não quebre.
+
+4.  **SEO e Performance:**
+    - Adicionar descrições meta reais para o Google.
+    - Otimizar carregamento de imagens secundárias se necessário.
+
+## 🚀 Como Rodar o Projeto
+
+Para visualizar o projeto em sua máquina:
+
+1.  Instale as dependências:
+    ```bash
+    npm install
+    ```
+
+2.  Rode o servidor de desenvolvimento:
+    ```bash
+    npm run dev
+    ```
+
+3.  Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.

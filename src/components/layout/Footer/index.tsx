@@ -39,7 +39,7 @@ export function Footer() {
           <h3>Localização</h3>
           <p>Rua dos Pets, 123</p>
           <p>Bairro Feliz</p>
-          <p>São Paulo - SP, 00000-000</p>
+          <p>Recife - PE, 00000-000</p>
           <a href="#" className={styles.locationLink}>
             <ArrowRight size={16} /> Veja como chegar
           </a>

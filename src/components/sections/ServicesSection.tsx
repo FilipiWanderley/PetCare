@@ -5,32 +5,32 @@ const SERVICES = [
   {
     title: 'Adestramento',
     description: 'Técnicas modernas para melhorar o comportamento e a obediência do seu pet.',
-    image: '/assets/icons/Adestra.png',
+    image: '/assets/icons/SVG/Adestra.svg',
   },
   {
     title: 'Alimentação',
     description: 'Opções nutritivas e balanceadas para a saúde e vitalidade do seu companheiro.',
-    image: '/assets/icons/Alimen.png',
+    image: '/assets/icons/SVG/Alimen.svg',
   },
   {
     title: 'Saúde',
     description: 'Cuidados veterinários completos para garantir o bem-estar do seu animal.',
-    image: '/assets/icons/Saúde.png',
+    image: '/assets/icons/SVG/Saúde.svg',
   },
   {
     title: 'Adoção',
     description: 'Encontre seu novo melhor amigo e dê um lar cheio de amor para quem precisa.',
-    image: '/assets/icons/adoçao.png',
+    image: '/assets/icons/SVG/adoçao.svg',
   },
   {
     title: 'Cuidados',
     description: 'Banho, tosa e higiene completa com profissionais carinhosos e experientes.',
-    image: '/assets/icons/cuidados.png',
+    image: '/assets/icons/SVG/cuidados.svg',
   },
   {
     title: 'Curiosidades',
     description: 'Dicas incríveis e informações úteis para você entender melhor o mundo pet.',
-    image: '/assets/icons/curiosidades.png',
+    image: '/assets/icons/SVG/curiosidades.svg',
   },
 ];
 

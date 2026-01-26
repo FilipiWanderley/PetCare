@@ -2,6 +2,7 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { PromoSection } from '@/components/sections/PromoSection';
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 
 export default function Home() {
   return (
@@ -41,6 +42,7 @@ export default function Home() {
       
       <ServicesSection />
       <PromoSection />
+      <TestimonialsSection />
     </main>
   );
 }
