@@ -202,23 +202,27 @@
   }
 }
 
-/* Testimonial Section (Middle) */
-.testimonialSection {
+/* Services Image Section */
+.servicesImageSection {
   width: 100%;
-  padding: 0;
-  background-color: transparent;
+  padding: 2rem 1rem;
   display: flex;
   justify-content: center;
-  position: relative;
-  z-index: 2;
-  margin-top: -2rem; /* Overlap slightly or just close */
+  background-color: #fff;
 }
 
-.testimonialContainer {
+.servicesImageContainer {
   width: 100%;
-  max-width: 100%; /* Ensure it fills the width */
+  max-width: var(--container-width);
   display: flex;
   justify-content: center;
+}
+
+.servicesImage {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 /* Booking Section */

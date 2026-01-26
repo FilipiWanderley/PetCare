@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import styles from './page.module.css';
 import { ServicesSection } from '@/components/sections/ServicesSection';
-import { TestimonialCard } from '@/components/features/TestimonialCard';
 
 export default function Home() {
   return (
@@ -39,10 +38,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonial Section - Moved between Hero and Booking */}
-      <section className={styles.testimonialSection}>
-        <div className={styles.testimonialContainer}>
-          <TestimonialCard />
+      {/* Services Image Section */}
+      <section className={styles.servicesImageSection}>
+        <div className={styles.servicesImageContainer}>
+          <Image 
+            src="/assets/images/services.png" 
+            alt="Nossos Serviços" 
+            width={1200} 
+            height={600}
+            className={styles.servicesImage}
+          />
         </div>
       </section>
       
