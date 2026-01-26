@@ -40,8 +40,40 @@ export default function Home() {
 
       <section className={styles.bookingSection} id="agendar">
         <div className={styles.bookingContainer}>
-          <h2 className={styles.sectionTitle}>Agende seu horário</h2>
-          <AppointmentForm />
+          <div className={styles.bookingContent}>
+            <div className={styles.formWrapper}>
+              <AppointmentForm />
+            </div>
+            <div className={styles.bookingText}>
+              <h3>Seu pet merece o melhor cuidado</h3>
+              <p>
+                Sabemos que a rotina é corrida, mas a saúde e o bem-estar do seu amigo não podem esperar. 
+                Por isso, criamos um sistema de agendamento pensado em você: rápido, prático e sem burocracia.
+              </p>
+              <ul className={styles.benefitsList}>
+                <li>
+                  <span className={styles.benefitIcon}>✨</span>
+                  <span>Profissionais apaixonados por animais</span>
+                </li>
+                <li>
+                  <span className={styles.benefitIcon}>🏥</span>
+                  <span>Ambiente seguro e higienizado</span>
+                </li>
+                <li>
+                  <span className={styles.benefitIcon}>⏰</span>
+                  <span>Pontualidade e respeito ao seu tempo</span>
+                </li>
+                <li>
+                  <span className={styles.benefitIcon}>💖</span>
+                  <span>Tratamento personalizado para cada pet</span>
+                </li>
+              </ul>
+              <div className={styles.promoBox}>
+                <strong>Primeira vez aqui?</strong>
+                <span>Ganhe um mimo especial no primeiro banho!</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       
