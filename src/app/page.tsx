@@ -11,7 +11,7 @@ export default function Home() {
         <div className={styles.heroContainer}>
           <div className={styles.heroContent}>
             <h1 className={styles.heroTitle}>
-              Cuide do seu pet com agendamento simples e profissional
+              <span className={styles.highlight}>Cuide do seu pet</span> com agendamento simples e profissional
             </h1>
             <p className={styles.heroSubtitle}>
               Agende banho, tosa, consulta e mais serviços para seu pet em poucos cliques. Sem complicação, sem WhatsApp bagunçado.
