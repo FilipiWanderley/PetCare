@@ -23,7 +23,9 @@ export default function Home() {
           <div className={styles.heroImageWrapper}>
             <div className={styles.blobYellowLarge}></div>
             <div className={styles.blobYellowSmall}></div>
-            <div className={styles.sparkle}></div>
+            <div className={`${styles.sparkle} ${styles.sparkleBottom}`}></div>
+            <div className={`${styles.sparkle} ${styles.sparkleEar}`}></div>
+            <div className={`${styles.sparkle} ${styles.sparklePaw}`}></div>
             <Image 
               src="/assets/images/ilustration.png" 
               alt="Cão e Gato felizes" 
