@@ -1,0 +1,129 @@
+.section {
+  padding: 4rem 1rem;
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+.card {
+  background-color: #EDE8E8; /* Exact color requested */
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: visible; /* Allow image to overflow */
+  position: relative;
+  min-height: 300px;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.description {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  color: #fff;
+  padding: 0.875rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(251, 188, 5, 0.3);
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 6px 8px rgba(251, 188, 5, 0.4);
+}
+
+.imageWrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 250px;
+}
+
+.image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  object-fit: contain;
+  /* Visual adjustment to match the reference where image pops out */
+  margin-top: -2rem; 
+  margin-bottom: -2rem;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .card {
+    flex-direction: row;
+    padding: 0;
+    min-height: 320px;
+  }
+
+  .content {
+    padding: 3rem 4rem;
+    flex: 1.2;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .imageWrapper {
+    flex: 0.8;
+    justify-content: flex-end;
+    padding-right: 2rem;
+  }
+
+  .image {
+    max-width: 380px;
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%) scale(1.2); /* Make it pop out more */
+    margin: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card {
+    min-height: 350px;
+  }
+  
+  .image {
+    max-width: 450px;
+    right: 0;
+  }
+}
