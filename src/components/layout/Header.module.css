@@ -59,6 +59,33 @@
   align-items: center;
 }
 
+/* New Nav Link Styles */
+.navLink {
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  position: relative;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: var(--primary); /* Yellow */
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
 /* Button Styles */
 .btn {
   padding: 0.5rem 1.2rem;
@@ -98,36 +125,36 @@
 
 .btnLogin {
   background-color: white;
-  color: #F59E0B; /* Amarelo mais escuro/dourado para melhor leitura */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Mesma sombra do btnWhite */
+  color: var(--text-primary);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  border: 1px solid transparent;
   gap: 0.5rem;
-  border: 1px solid transparent; /* Mesma borda do btnWhite */
 }
 
 .btnLogin:hover {
-  background-color: #f9fafb; /* Mesmo hover do btnWhite */
+  background-color: #f9fafb;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(0,0,0,0.08);
 }
 
 .loginIcon {
-  width: 20px;
-  height: 20px;
   object-fit: contain;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1));
 }
 
 .logoutBtn {
   background: none;
   border: none;
-  color: var(--text-secondary);
   cursor: pointer;
-  padding: 0.25rem;
+  color: var(--text-secondary);
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  transition: color 0.2s;
+  justify-content: center;
 }
 
 .logoutBtn:hover {
-  color: var(--danger);
+  background-color: #fee2e2;
+  color: #ef4444;
 }
