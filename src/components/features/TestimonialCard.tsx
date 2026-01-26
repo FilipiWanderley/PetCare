@@ -6,7 +6,7 @@ import styles from './TestimonialCard.module.css';
 const TESTIMONIALS = [
   {
     quote: "Cuidam com muito carinho e atenção da nossa pet, a equipe é excelente. Os donos são pessoas muito gentis e estão sempre presentes.",
-    author: "Filipi Moraes"
+    author: "Juliana Martins"
   },
   {
     quote: "Serviço impecável! Meu Rex nunca foi tão bem tratado. Recomendo de olhos fechados pela confiança e profissionalismo.",
