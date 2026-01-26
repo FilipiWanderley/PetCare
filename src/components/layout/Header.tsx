@@ -17,7 +17,7 @@ export function Header() {
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
           <Image 
-            src="/assets/logo/pet 1.png" 
+            src="/assets/logo/pet1.png" 
             alt="Pet Care Logo" 
             width={250} 
             height={100} 
