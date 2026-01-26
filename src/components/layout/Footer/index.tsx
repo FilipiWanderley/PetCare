@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Instagram, Facebook, Phone, MapPin, ArrowRight, PawPrint } from 'lucide-react';
+import { Instagram, Phone, ArrowRight, PawPrint } from 'lucide-react';
 import styles from './Footer.module.css';
 
 export function Footer() {
@@ -47,17 +47,11 @@ export function Footer() {
 
         <div className={styles.column}>
           <div className={styles.socialGrid}>
-            <a href="#" className={styles.socialIcon} aria-label="Facebook">
-              <Facebook size={20} />
-            </a>
             <a href="#" className={styles.socialIcon} aria-label="Instagram">
               <Instagram size={20} />
             </a>
-            <a href="#" className={styles.socialIcon} aria-label="WhatsApp">
+            <a href="#" className={styles.socialIcon} aria-label="Telefone">
               <Phone size={20} />
-            </a>
-            <a href="#" className={styles.socialIcon} aria-label="Localização">
-              <MapPin size={20} />
             </a>
           </div>
         </div>
