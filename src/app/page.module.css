@@ -64,7 +64,7 @@
 }
 
 .highlight {
-  color: var(--primary);
+  color: #FBBC05;
 }
 
 @media (min-width: 768px) {
@@ -85,7 +85,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary);
+  background-color: #FBBC05;
   color: #fff;
   padding: 1rem 3.5rem;
   border-radius: 50px;
@@ -93,13 +93,13 @@
   font-size: 1.1rem;
   text-decoration: none;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 6px rgba(255, 193, 7, 0.3);
+  box-shadow: 0 4px 6px rgba(251, 188, 5, 0.3);
 }
 
 .ctaButton:hover {
   transform: translateY(-2px);
   filter: brightness(1.05);
-  box-shadow: 0 6px 8px rgba(255, 193, 7, 0.4);
+  box-shadow: 0 6px 8px rgba(251, 188, 5, 0.4);
 }
 
 /* Image Side */
@@ -151,7 +151,7 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  background-color: var(--primary);
+  background-color: #FBBC05;
   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
   z-index: 1;
   animation: spin 10s linear infinite;
