@@ -1,0 +1,78 @@
+.footer {
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 3rem 1rem 1rem;
+  margin-top: auto;
+}
+
+.content {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.brand h3 {
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.brand p {
+  color: var(--text-secondary);
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex-wrap: wrap; /* Allows wrapping on very small screens if absolutely necessary, but prefers row */
+}
+
+@media (min-width: 480px) {
+  .links {
+    flex-wrap: nowrap;
+    gap: 3rem;
+  }
+}
+
+.column {
+  min-width: 120px; /* Ensure columns don't get too squashed */
+}
+
+.column h4 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.column a {
+  display: block;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  transition: color 0.2s;
+}
+
+.column a:hover {
+  color: var(--primary);
+}
+
+.copyright {
+  max-width: var(--container-width);
+  margin: 2rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

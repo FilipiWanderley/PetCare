@@ -1,0 +1,133 @@
+.header {
+  height: var(--header-height);
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.transparent {
+  position: absolute;
+  width: 100%;
+  background-color: transparent; /* Totalmente transparente */
+  backdrop-filter: none;
+  border-bottom: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 380px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .nav {
+    gap: 1rem;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.logoImage {
+  height: 100px; /* Adjust based on header height (7.5rem = 120px) */
+  width: auto;
+  object-fit: contain;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+.btnWhite {
+  background-color: white;
+  color: var(--text-primary);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  border: 1px solid transparent;
+}
+
+.btnWhite:hover {
+  background-color: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+.btnTurquoise {
+  background-color: var(--secondary);
+  color: white;
+  box-shadow: 0 2px 5px rgba(64, 224, 208, 0.3);
+}
+
+.btnTurquoise:hover {
+  background-color: var(--secondary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(64, 224, 208, 0.4);
+}
+
+.btnLogin {
+  background-color: white;
+  color: #F59E0B; /* Amarelo mais escuro/dourado para melhor leitura */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Mesma sombra do btnWhite */
+  gap: 0.5rem;
+  border: 1px solid transparent; /* Mesma borda do btnWhite */
+}
+
+.btnLogin:hover {
+  background-color: #f9fafb; /* Mesmo hover do btnWhite */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+.loginIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1));
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.logoutBtn:hover {
+  color: var(--danger);
+}
