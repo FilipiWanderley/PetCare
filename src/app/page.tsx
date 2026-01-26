@@ -1,7 +1,6 @@
 import styles from './page.module.css';
 import { HeroCarousel } from '@/components/features/HeroCarousel';
 import { AppointmentForm } from '@/components/features/AppointmentForm';
-import { CTA } from '@/components/sections/CTA';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { TestimonialCard } from '@/components/features/TestimonialCard';
 
@@ -85,8 +84,6 @@ export default function Home() {
       </section>
       
       <ServicesSection />
-      
-      <CTA />
     </main>
   );
 }
