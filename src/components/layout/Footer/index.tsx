@@ -8,7 +8,7 @@ export function Footer() {
       <div className={styles.content}>
         <div className={`${styles.column} ${styles.logoColumn}`}>
           <Image 
-            src="/assets/logo/logo.png" 
+            src="/assets/logo/innerlogo.png" 
             alt="Pet Care Logo" 
             width={240} 
             height={96} 
