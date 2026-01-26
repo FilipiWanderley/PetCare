@@ -38,6 +38,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonial Section - Moved between Hero and Booking */}
+      <section className={styles.testimonialSection}>
+        <div className={styles.testimonialContainer}>
+          <TestimonialCard />
+        </div>
+      </section>
+
       <section className={styles.bookingSection} id="agendar">
         <div className={styles.bookingContainer}>
           <div className={styles.bookingContent}>
@@ -79,8 +86,6 @@ export default function Home() {
       
       <ServicesSection />
       
-      <TestimonialCard />
-
       <CTA />
     </main>
   );
