@@ -178,6 +178,14 @@
   animation-duration: 12s;
 }
 
+.sparkleRight {
+  top: 45%;
+  right: 5%;
+  width: 35px;
+  height: 35px;
+  animation-duration: 9s;
+}
+
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
