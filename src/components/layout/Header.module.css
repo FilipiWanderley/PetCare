@@ -27,20 +27,11 @@
   align-items: center;
 }
 
-@media (max-width: 380px) {
-  .container {
-    padding: 0 0.75rem;
-  }
-  
-  .nav {
-    gap: 1rem;
-  }
-}
-
 .logo {
   display: flex;
   align-items: center;
   transition: opacity 0.2s;
+  z-index: 101; /* Ensure logo stays above overlay if needed, or keep it under menu */
 }
 
 .logo:hover {
@@ -48,7 +39,7 @@
 }
 
 .logoImage {
-  height: 100px; /* Adjust based on header height (7.5rem = 120px) */
+  height: 100px; /* Adjust based on header height */
   width: auto;
   object-fit: contain;
 }
@@ -59,14 +50,14 @@
   align-items: center;
 }
 
-/* New Nav Link Styles */
+/* Nav Link Styles */
 .navLink {
   padding: 0.5rem 0.75rem;
   font-weight: 600;
   color: var(--text-primary);
   text-decoration: none;
   position: relative;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Reduced per previous request */
   transition: color 0.2s ease;
 }
 
@@ -89,7 +80,7 @@
 
 /* Button Styles */
 .btn {
-  padding: 0.5rem 1.2rem;
+  padding: 0.5rem 1.2rem; /* Reduced per previous request */
   border-radius: 2rem;
   font-weight: 600;
   transition: all 0.2s ease;
@@ -99,43 +90,28 @@
   font-size: 0.9rem;
 }
 
-.btnWhite {
-  background-color: white;
-  color: var(--text-primary);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  border: 1px solid transparent;
-}
-
-.btnWhite:hover {
-  background-color: #f9fafb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-}
-
 .btnTurquoise {
   background-color: var(--secondary);
-  color: white;
-  box-shadow: 0 2px 5px rgba(64, 224, 208, 0.3);
+  color: #fff;
+  text-decoration: none;
 }
 
 .btnTurquoise:hover {
-  background-color: var(--secondary-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(64, 224, 208, 0.4);
+  background-color: #36c2b3; /* Darker turquoise */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(64, 224, 208, 0.25);
 }
 
 .btnLogin {
-  background-color: white;
+  background-color: transparent;
   color: var(--text-primary);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  border: 1px solid transparent;
+  border: 2px solid var(--border);
   gap: 0.5rem;
 }
 
 .btnLogin:hover {
-  background-color: #f9fafb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .loginIcon {
@@ -148,14 +124,118 @@
   cursor: pointer;
   color: var(--text-secondary);
   padding: 0.5rem;
-  border-radius: 50%;
-  transition: all 0.2s ease;
+  transition: color 0.2s;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .logoutBtn:hover {
-  background-color: #fee2e2;
-  color: #ef4444;
+  color: var(--error);
+}
+
+/* Mobile Menu Button */
+.mobileMenuBtn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  z-index: 101;
+  padding: 0.5rem;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .mobileMenuBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 350px;
+    height: 100vh;
+    background-color: #ffffff;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    padding: 6rem 2rem 2rem;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .navOpen {
+    right: 0;
+  }
+
+  .navLink {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .navLink::after {
+    display: none;
+  }
+  
+  .navLink:hover {
+    color: var(--primary);
+    padding-left: 0.5rem; /* Slight movement on hover */
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+  
+  .logoutBtn {
+    margin-top: auto;
+    width: 100%;
+    justify-content: center;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+
+  /* Adjust logo size for mobile */
+  .logoImage {
+    height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .logoImage {
+    height: 60px;
+    width: auto;
+  }
 }

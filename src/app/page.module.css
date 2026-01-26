@@ -197,89 +197,28 @@
     height: 500px;
     padding-bottom: 0;
     top: 50%;
-    right: 0;
-    transform: translateY(-50%);
+    right: 50%;
+    transform: translate(50%, -50%);
   }
 }
 
-/* Booking Section */
-.bookingSection {
-  width: 100%;
-  background-color: var(--surface);
-  padding: 4rem 1rem;
-  display: flex;
-  justify-content: center;
-  border-top: 1px solid var(--border);
-  position: relative;
-  z-index: 2;
-}
-
-.bookingContainer {
-  width: 100%;
-  max-width: var(--container-width);
-  background-color: white;
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  box-shadow: var(--shadow-md);
-}
-
-.bookingContent {
-  display: flex;
-  flex-direction: column-reverse; /* Form bottom on mobile */
-  gap: 2rem;
-}
-
-.bookingText h3 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-}
-
-.bookingText p {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 2rem;
-}
-
-.benefitsList {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 2rem;
-}
-
-.benefitsList li {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-.benefitIcon {
-  font-size: 1.25rem;
-}
-
-.promoBox {
-  background-color: #fffbeb; /* Light yellow */
-  border: 1px solid #fcd34d;
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  color: #92400e;
-}
-
-.promoBox strong {
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-@media (min-width: 900px) {
-  .bookingContent {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
+@media (max-width: 600px) {
+  .heroImageWrapper {
+    min-height: 300px;
+  }
+  
+  .ctaButton {
+    padding: 1rem 2rem;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .heroTitle {
+    font-size: 2rem;
+  }
+  
+  .blobYellowLarge {
+    width: 100%;
+    padding-bottom: 100%;
   }
 }
