@@ -4,22 +4,22 @@ import styles from './ServicesSection.module.css';
 const SERVICES = [
   {
     title: 'Banho & Tosa',
-    description: 'Deixe seu pet limpo e cheiroso com nossos produtos premium e profissionais experientes.',
+    description: 'Transforme o dia do seu pet com um spa day completo. Utilizamos produtos hipoalergênicos e técnicas que garantem beleza, conforto e muito bem-estar.',
     image: '/services/bath.jpg',
   },
   {
     title: 'Veterinário',
-    description: 'Consultas de rotina, exames e emergências com nossa equipe veterinária dedicada.',
+    description: 'Saúde em primeiro lugar. Nossa equipe de especialistas está pronta para cuidar do seu pet com diagnósticos precisos e atendimento humanizado.',
     image: '/services/vet.jpg',
   },
   {
     title: 'Vacinação',
-    description: 'Mantenha a saúde do seu amigo em dia com nosso calendário de vacinação completo.',
+    description: 'Proteção garantida. Mantenha a carteirinha em dia com as melhores vacinas do mercado, aplicadas com todo o cuidado e segurança que ele merece.',
     image: '/services/vaccine.jpg',
   },
   {
     title: 'Estética',
-    description: 'Tratamentos especiais de hidratação, tosa da raça e cuidados estéticos.',
+    description: 'Realce a beleza natural. Hidratação profunda, cortes de raça e tratamentos exclusivos para deixar seu pet ainda mais deslumbrante.',
     image: '/services/grooming.jpg',
   },
 ];
@@ -29,9 +29,9 @@ export function ServicesSection() {
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Nossos Serviços</h2>
+          <h2 className={styles.title}>Cuidado Premium para seu Melhor Amigo</h2>
           <p className={styles.subtitle}>
-            Oferecemos tudo que seu pet precisa em um só lugar, com o carinho que ele merece.
+            Mais do que um pet shop, somos um centro de bem-estar. Do banho relaxante aos cuidados médicos essenciais, proporcionamos uma experiência de amor e excelência.
           </p>
         </div>
 
