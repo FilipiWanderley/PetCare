@@ -11,13 +11,13 @@ export default function Home() {
         <div className={styles.heroContainer}>
           <div className={styles.heroContent}>
             <h1 className={styles.heroTitle}>
-              <span className={styles.highlight}>Cuide do seu pet</span> com agendamento simples e profissional
+              Dê ao seu melhor amigo <span className={styles.highlight}>o cuidado que ele merece</span>
             </h1>
             <p className={styles.heroSubtitle}>
-              Agende banho, tosa, consulta e mais serviços para seu pet em poucos cliques. Sem complicação, sem WhatsApp bagunçado.
+              Simplificamos a rotina para você focar no que importa: o amor pelo seu pet. Agende banho, tosa e consultas veterinárias com a agilidade que você precisa.
             </p>
             <a href="#agendar" className={styles.ctaButton}>
-              Acessar
+              Agendar Agora
             </a>
           </div>
           
