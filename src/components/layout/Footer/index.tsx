@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './Footer.module.css';
 
 export function Footer() {
@@ -5,8 +6,18 @@ export function Footer() {
     <footer className={styles.footer}>
       <div className={styles.content}>
         <div className={styles.brand}>
-          <h3>PetCare</h3>
-          <p>Cuidando do seu melhor amigo com amor e dedicação.</p>
+          <div className={styles.logoWrapper}>
+            <Image 
+              src="/assets/logo/logo.png" 
+              alt="Pet Care Logo" 
+              width={180} 
+              height={72} 
+              className={styles.logoImage}
+            />
+          </div>
+          <p>
+            O melhor cuidado para o seu melhor amigo. Oferecemos serviços de banho, tosa e veterinária com profissionais qualificados e muito amor.
+          </p>
         </div>
         
         <div className={styles.links}>

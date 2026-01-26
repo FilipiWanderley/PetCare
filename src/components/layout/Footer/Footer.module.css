@@ -13,14 +13,23 @@
   gap: 2rem;
 }
 
-.brand h3 {
-  color: var(--primary);
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+.brand {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+}
+
+.logoWrapper {
+  margin-bottom: 1rem;
+}
+
+.logoImage {
+  object-fit: contain;
 }
 
 .brand p {
   color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 .links {
