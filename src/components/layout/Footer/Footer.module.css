@@ -1,8 +1,9 @@
 .footer {
-  background-color: var(--primary);
-  color: var(--text-on-primary);
+  background-color: var(--surface);
+  color: var(--text-primary);
   padding-top: 3rem;
   margin-top: auto;
+  border-top: 1px solid var(--border);
 }
 
 .content {
@@ -31,7 +32,7 @@
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--text-on-primary);
+  color: var(--primary);
 }
 
 .column p {
@@ -58,13 +59,13 @@
   align-items: center;
   gap: 0.5rem;
   margin-top: 1rem;
-  color: var(--secondary-hover);
+  color: var(--secondary);
   font-weight: 600;
   transition: color 0.2s;
 }
 
 .locationLink:hover {
-  color: var(--text-on-primary);
+  color: var(--primary);
 }
 
 .socialGrid {
@@ -79,25 +80,25 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: #374151; /* Dark gray */
-  color: white;
+  background-color: var(--primary); /* Yellow background */
+  color: var(--text-on-primary); /* Dark icon */
   border-radius: 50%;
   transition: transform 0.2s, background-color 0.2s;
 }
 
 .socialIcon:hover {
-  background-color: var(--text-on-primary);
+  background-color: var(--primary-hover);
   transform: scale(1.1);
 }
 
 .logoColumn {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 @media (min-width: 1024px) {
   .logoColumn {
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 }
 
@@ -106,8 +107,8 @@
 }
 
 .copyrightBar {
-  background-color: #374151; /* Dark gray matching the reference bottom bar */
-  color: #E5E7EB; /* Light gray text */
+  background-color: var(--primary); /* Yellow bar at bottom */
+  color: var(--text-on-primary); /* Dark text */
   padding: 1.5rem 1rem;
   font-size: 0.875rem;
 }
@@ -119,12 +120,13 @@
 }
 
 .copyrightContent a {
-  color: #E5E7EB;
+  color: var(--text-on-primary);
   text-decoration: none;
   margin: 0 0.25rem;
   transition: color 0.2s;
+  font-weight: 600;
 }
 
 .copyrightContent a:hover {
-  color: var(--primary);
+  color: white;
 }

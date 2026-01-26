@@ -6,6 +6,16 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.content}>
+        <div className={`${styles.column} ${styles.logoColumn}`}>
+          <Image 
+            src="/assets/logo/logo.png" 
+            alt="Pet Care Logo" 
+            width={180} 
+            height={72} 
+            className={styles.logoImage}
+          />
+        </div>
+
         <div className={styles.column}>
           <h3>Serviços</h3>
           <ul className={styles.list}>
@@ -49,16 +59,6 @@ export function Footer() {
               <MapPin size={20} />
             </a>
           </div>
-        </div>
-
-        <div className={`${styles.column} ${styles.logoColumn}`}>
-          <Image 
-            src="/assets/logo/logo.png" 
-            alt="Pet Care Logo" 
-            width={180} 
-            height={72} 
-            className={styles.logoImage}
-          />
         </div>
       </div>
 
