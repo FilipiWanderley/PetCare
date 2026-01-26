@@ -202,29 +202,6 @@
   }
 }
 
-/* Services Image Section */
-.servicesImageSection {
-  width: 100%;
-  padding: 2rem 1rem;
-  display: flex;
-  justify-content: center;
-  background-color: #fff;
-}
-
-.servicesImageContainer {
-  width: 100%;
-  max-width: var(--container-width);
-  display: flex;
-  justify-content: center;
-}
-
-.servicesImage {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  object-fit: contain;
-}
-
 /* Booking Section */
 .bookingSection {
   width: 100%;

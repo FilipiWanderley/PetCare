@@ -43,7 +43,7 @@
 
 @media (min-width: 1024px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -55,6 +55,9 @@
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
 }
 
 .card:hover {
@@ -64,12 +67,18 @@
 
 .imageWrapper {
   position: relative;
-  width: 100%;
-  height: 200px;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FEF3C7; /* Light yellow background for icon */
+  border-radius: 50%;
+  margin-bottom: 1rem;
 }
 
 .content {
-  padding: 1.5rem;
+  padding: 0;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -78,7 +87,7 @@
 .cardTitle {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--secondary-hover); /* Teal for readability */
+  color: var(--secondary-hover);
   margin-bottom: 0.75rem;
 }
 

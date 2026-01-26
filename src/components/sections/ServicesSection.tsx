@@ -3,24 +3,34 @@ import styles from './ServicesSection.module.css';
 
 const SERVICES = [
   {
-    title: 'Banho & Tosa',
-    description: 'Transforme o dia do seu pet com um spa day completo. Utilizamos produtos hipoalergênicos e técnicas que garantem beleza, conforto e muito bem-estar.',
-    image: '/services/bath.jpg',
+    title: 'Adestramento',
+    description: 'Técnicas modernas para melhorar o comportamento e a obediência do seu pet.',
+    image: '/assets/icons/Adestra.png',
   },
   {
-    title: 'Veterinário',
-    description: 'Saúde em primeiro lugar. Nossa equipe de especialistas está pronta para cuidar do seu pet com diagnósticos precisos e atendimento humanizado.',
-    image: '/services/vet.jpg',
+    title: 'Alimentação',
+    description: 'Opções nutritivas e balanceadas para a saúde e vitalidade do seu companheiro.',
+    image: '/assets/icons/Alimen.png',
   },
   {
-    title: 'Vacinação',
-    description: 'Proteção garantida. Mantenha a carteirinha em dia com as melhores vacinas do mercado, aplicadas com todo o cuidado e segurança que ele merece.',
-    image: '/services/vaccine.jpg',
+    title: 'Saúde',
+    description: 'Cuidados veterinários completos para garantir o bem-estar do seu animal.',
+    image: '/assets/icons/Saúde.png',
   },
   {
-    title: 'Estética',
-    description: 'Realce a beleza natural. Hidratação profunda, cortes de raça e tratamentos exclusivos para deixar seu pet ainda mais deslumbrante.',
-    image: '/services/grooming.jpg',
+    title: 'Adoção',
+    description: 'Encontre seu novo melhor amigo e dê um lar cheio de amor para quem precisa.',
+    image: '/assets/icons/adoçao.png',
+  },
+  {
+    title: 'Cuidados',
+    description: 'Banho, tosa e higiene completa com profissionais carinhosos e experientes.',
+    image: '/assets/icons/cuidados.png',
+  },
+  {
+    title: 'Curiosidades',
+    description: 'Dicas incríveis e informações úteis para você entender melhor o mundo pet.',
+    image: '/assets/icons/curiosidades.png',
   },
 ];
 
@@ -29,9 +39,9 @@ export function ServicesSection() {
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Cuidado Premium para seu Melhor Amigo</h2>
+          <h2 className={styles.title}>Tudo para o seu Pet</h2>
           <p className={styles.subtitle}>
-            Mais do que um pet shop, somos um centro de bem-estar. Do banho relaxante aos cuidados médicos essenciais, proporcionamos uma experiência de amor e excelência.
+            Explore nossos serviços e conteúdos pensados com carinho para o seu melhor amigo.
           </p>
         </div>
 
@@ -42,8 +52,9 @@ export function ServicesSection() {
                 <Image
                   src={service.image}
                   alt={service.title}
-                  fill
-                  style={{ objectFit: 'cover' }}
+                  width={80}
+                  height={80}
+                  style={{ objectFit: 'contain' }}
                 />
               </div>
               <div className={styles.content}>

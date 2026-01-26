@@ -37,19 +37,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Services Image Section */}
-      <section className={styles.servicesImageSection}>
-        <div className={styles.servicesImageContainer}>
-          <Image 
-            src="/assets/images/services.png" 
-            alt="Nossos Serviços" 
-            width={1200} 
-            height={600}
-            className={styles.servicesImage}
-          />
-        </div>
-      </section>
       
       <ServicesSection />
     </main>
