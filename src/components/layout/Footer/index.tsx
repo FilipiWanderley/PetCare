@@ -10,8 +10,8 @@ export function Footer() {
           <Image 
             src="/assets/logo/pet1.png" 
             alt="Pet Care Logo" 
-            width={240} 
-            height={96} 
+            width={350} 
+            height={140} 
             className={styles.logoImage}
           />
         </div>

@@ -39,7 +39,7 @@
 }
 
 .logoImage {
-  height: 100px; /* Adjust based on header height */
+  height: 140px; /* Increased from 100px */
   width: auto;
   object-fit: contain;
 }
@@ -225,7 +225,7 @@
 
   /* Adjust logo size for mobile */
   .logoImage {
-    height: 80px;
+    height: 110px;
   }
 }
 
@@ -235,7 +235,7 @@
   }
   
   .logoImage {
-    height: 60px;
+    height: 80px;
     width: auto;
   }
 }
