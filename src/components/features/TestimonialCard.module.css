@@ -1,13 +1,17 @@
 .container {
   background-color: #66c4c0; /* Turquesa */
   color: white;
-  padding: 3rem 2rem; /* Mais padding vertical */
-  border-radius: 1rem;
-  width: 100%; /* Ocupa largura total disponível do container pai */
-  max-width: 100%; /* Remove limite de 400px */
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  margin: 0 auto; /* Remove margem vertical pois section já tem padding */
+  padding: 4rem 2rem; /* Mais padding para dar altura */
+  border-radius: 0; /* Remove bordas arredondadas para ocupar tudo */
+  width: 100vw; /* Força largura total da viewport */
+  max-width: 100vw;
+  box-shadow: none; /* Remove sombra pois é uma faixa agora */
+  margin: 0;
   position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   z-index: 10;
   display: flex;
   flex-direction: column;
