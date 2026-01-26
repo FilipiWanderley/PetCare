@@ -27,6 +27,8 @@ export function Header() {
         </Link>
         <nav className={styles.nav}>
           <Link href="/" className={`${styles.btn} ${styles.btnWhite}`}>Início</Link>
+          <Link href="/produtos" className={`${styles.btn} ${styles.btnWhite}`}>Produtos</Link>
+          <Link href="/agendamentos" className={`${styles.btn} ${styles.btnWhite}`}>Agendamentos</Link>
           
           {isAuthenticated ? (
             <>
