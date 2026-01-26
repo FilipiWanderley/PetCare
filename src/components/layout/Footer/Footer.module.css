@@ -86,8 +86,10 @@
   color: var(--primary);
 }
 
-.social {
-  margin-top: 1rem;
+.footerSocial {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .socialLink {
@@ -110,4 +112,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }

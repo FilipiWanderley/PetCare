@@ -33,16 +33,16 @@ export function Footer() {
             <a href="#">(11) 99999-9999</a>
             <a href="#">contato@petcare.com</a>
             <a href="#">Rua dos Pets, 123</a>
-            <div className={styles.social}>
-              <a href="#" aria-label="Instagram" className={styles.socialLink}>
-                <Instagram size={24} />
-              </a>
-            </div>
           </div>
         </div>
       </div>
       <div className={styles.copyright}>
         <p>&copy; {new Date().getFullYear()} PetCare. Todos os direitos reservados.</p>
+        <div className={styles.footerSocial}>
+          <a href="#" aria-label="Instagram" className={styles.socialLink}>
+            <Instagram size={24} />
+          </a>
+        </div>
       </div>
     </footer>
   );
