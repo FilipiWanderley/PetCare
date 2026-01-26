@@ -17,7 +17,8 @@
 @media (min-width: 768px) {
   .content {
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 6rem; /* Adjust gap to bring sections closer but maintain separation */
     align-items: flex-start; /* Ensure top alignment on desktop */
   }
 }
