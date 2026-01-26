@@ -1,7 +1,7 @@
 .container {
   background-color: #66c4c0; /* Turquesa */
   color: white;
-  padding: 4rem 1rem;
+  padding: 2.5rem 1rem;
   border-radius: 0; /* Remove bordas arredondadas para ocupar tudo */
   width: 100%;
   display: flex;

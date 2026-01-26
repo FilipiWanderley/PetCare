@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 8rem 1rem 4rem 1rem; /* More top padding for header clearance */
+  padding: 8rem 1rem 1rem 1rem; /* Reduced bottom padding to bring next section closer */
   min-height: auto; /* Allow height to be determined by content */
   position: relative;
   z-index: 1;
