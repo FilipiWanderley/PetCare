@@ -19,9 +19,11 @@ export function Footer() {
         <div className={styles.column}>
           <h3>Serviços</h3>
           <ul className={styles.list}>
-            <li><PawPrint size={16} /> Clínica Veterinária</li>
-            <li><PawPrint size={16} /> Centro de Estética</li>
-            <li><PawPrint size={16} /> Pet Shop</li>
+            <li><PawPrint size={16} /> Banho e Tosa</li>
+            <li><PawPrint size={16} /> Consulta Veterinária</li>
+            <li><PawPrint size={16} /> Vacinação</li>
+            <li><PawPrint size={16} /> Hospedagem</li>
+            <li><PawPrint size={16} /> Adestramento</li>
           </ul>
         </div>
 
