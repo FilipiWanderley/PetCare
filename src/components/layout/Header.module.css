@@ -82,7 +82,8 @@
   border-radius: 2px;
 }
 
-.navLink:hover::after {
+.navLink:hover::after,
+.active::after {
   width: 100%;
 }
 
