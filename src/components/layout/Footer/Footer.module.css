@@ -11,6 +11,15 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  align-items: flex-start; /* Ensure everything aligns to top/left on mobile */
+}
+
+@media (min-width: 768px) {
+  .content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start; /* Ensure top alignment on desktop */
+  }
 }
 
 .brand {
@@ -36,13 +45,22 @@
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  flex-wrap: wrap; /* Allows wrapping on very small screens if absolutely necessary, but prefers row */
+  flex-wrap: wrap;
+  align-items: flex-start; /* Ensure columns align to top */
+  margin-top: 1rem; /* Visual balance with the logo text */
 }
 
 @media (min-width: 480px) {
   .links {
     flex-wrap: nowrap;
     gap: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .links {
+    margin-top: 0; /* Remove margin on desktop if aligned with logo */
+    padding-top: 1rem; /* Optional: push down slightly to align with logo text baseline if desired, or remove */
   }
 }
 
@@ -67,6 +85,20 @@
   color: var(--primary);
 }
 
+.social {
+  margin-top: 1rem;
+}
+
+.socialLink {
+  color: var(--text-secondary);
+  transition: color 0.2s;
+  display: inline-block;
+}
+
+.socialLink:hover {
+  color: var(--primary);
+}
+
 .copyright {
   max-width: var(--container-width);
   margin: 2rem auto 0;
@@ -77,11 +109,4 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-@media (min-width: 768px) {
-  .content {
-    flex-direction: row;
-    justify-content: space-between;
-  }
 }
