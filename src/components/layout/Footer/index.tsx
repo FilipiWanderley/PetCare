@@ -30,8 +30,7 @@ export function Footer() {
         <div className={styles.column}>
           <h3>Horários</h3>
           <ul className={styles.list}>
-            <li><strong>Seg-Sex:</strong> 8:00-18:00</li>
-            <li><strong>Sábado:</strong> 8:00-17:00</li>
+            <li><strong>Seg-Sáb:</strong> 9:00-18:00</li>
             <li><strong>Domingo:</strong> Fechado</li>
           </ul>
         </div>
