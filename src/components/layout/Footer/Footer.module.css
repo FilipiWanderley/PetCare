@@ -1,117 +1,130 @@
 .footer {
-  background-color: var(--surface);
-  border-top: 1px solid var(--border);
-  padding: 3rem 1rem 1rem;
+  background-color: var(--primary);
+  color: var(--text-on-primary);
+  padding-top: 3rem;
   margin-top: auto;
 }
 
 .content {
   max-width: var(--container-width);
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  padding: 0 1rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
   gap: 2rem;
-  align-items: flex-start; /* Ensure everything aligns to top/left on mobile */
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .content {
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 6rem; /* Adjust gap to bring sections closer but maintain separation */
-    align-items: flex-start; /* Ensure top alignment on desktop */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.brand {
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
+@media (min-width: 1024px) {
+  .content {
+    grid-template-columns: repeat(5, 1fr);
+    align-items: flex-start;
+  }
 }
 
-.logoWrapper {
+.column h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
   margin-bottom: 1rem;
+  color: var(--text-on-primary);
+}
+
+.column p {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.locationLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  color: var(--secondary-hover);
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.locationLink:hover {
+  color: var(--text-on-primary);
+}
+
+.socialGrid {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 1rem;
+}
+
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #374151; /* Dark gray */
+  color: white;
+  border-radius: 50%;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.socialIcon:hover {
+  background-color: var(--text-on-primary);
+  transform: scale(1.1);
+}
+
+.logoColumn {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .logoColumn {
+    justify-content: flex-end;
+  }
 }
 
 .logoImage {
   object-fit: contain;
 }
 
-.brand p {
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.links {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  flex-wrap: wrap;
-  align-items: flex-start; /* Ensure columns align to top */
-  margin-top: 1rem; /* Visual balance with the logo text */
-}
-
-@media (min-width: 480px) {
-  .links {
-    flex-wrap: nowrap;
-    gap: 3rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .links {
-    margin-top: 0; /* Remove margin on desktop if aligned with logo */
-    padding-top: 1rem; /* Optional: push down slightly to align with logo text baseline if desired, or remove */
-  }
-}
-
-.column {
-  min-width: 120px; /* Ensure columns don't get too squashed */
-}
-
-.column h4 {
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
-}
-
-.column a {
-  display: block;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
-  transition: color 0.2s;
-}
-
-.column a:hover {
-  color: var(--primary);
-}
-
-.footerSocial {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.socialLink {
-  color: var(--text-secondary);
-  transition: color 0.2s;
-  display: inline-block;
-}
-
-.socialLink:hover {
-  color: var(--primary);
-}
-
-.copyright {
-  max-width: var(--container-width);
-  margin: 2rem auto 0;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-  color: var(--text-tertiary);
+.copyrightBar {
+  background-color: #374151; /* Dark gray matching the reference bottom bar */
+  color: #E5E7EB; /* Light gray text */
+  padding: 1.5rem 1rem;
   font-size: 0.875rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+}
+
+.copyrightContent {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.copyrightContent a {
+  color: #E5E7EB;
+  text-decoration: none;
+  margin: 0 0.25rem;
+  transition: color 0.2s;
+}
+
+.copyrightContent a:hover {
+  color: var(--primary);
 }
