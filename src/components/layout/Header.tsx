@@ -17,7 +17,7 @@ export function Header() {
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
           <Image 
-            src="/assets/logo/innerlogo.png" 
+            src="/assets/logo/pet 1.png" 
             alt="Pet Care Logo" 
             width={250} 
             height={100} 
@@ -40,7 +40,7 @@ export function Header() {
           ) : (
             <Link href="/login" className={`${styles.btn} ${styles.btnLogin}`}>
               <Image 
-                src="/assets/logo/pet 1.png" 
+                src="/assets/logo/innerlogo.png" 
                 alt="Ícone" 
                 width={20} 
                 height={20}

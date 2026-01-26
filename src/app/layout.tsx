@@ -10,6 +10,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "PetCare - Agendamento Online",
   description: "Agende banho, tosa e consultas para seu pet",
+  icons: {
+    icon: '/assets/logo/innerlogo.png',
+  },
 };
 
 export default function RootLayout({
