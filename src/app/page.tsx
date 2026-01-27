@@ -5,6 +5,7 @@ import { PromoSection } from '@/components/sections/PromoSection';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { NutritionSection } from '@/components/sections/NutritionSection';
 import { LoyaltySection } from '@/components/sections/LoyaltySection';
+import { NewsletterSection } from '@/components/sections/NewsletterSection';
 
 export default function Home() {
   return (
@@ -47,6 +48,7 @@ export default function Home() {
       <NutritionSection />
       <LoyaltySection />
       <TestimonialsSection />
+      <NewsletterSection />
     </main>
   );
 }
