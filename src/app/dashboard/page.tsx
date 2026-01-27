@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { useAppointments } from '@/hooks/useAppointments';
+import { useSales } from '@/hooks/useSales';
 import { useAuth } from '@/hooks/useAuth';
 import { StatsCard } from '@/components/features/dashboard/StatsCard';
 import { AppointmentCard } from '@/components/features/dashboard/AppointmentCard';
-import { Calendar, CheckCircle, Clock, XCircle, Search, LogOut } from 'lucide-react';
+import { SalesList } from '@/components/features/dashboard/SalesList';
+import { Calendar, LogOut, DollarSign, ShoppingBag, TrendingUp } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import styles from './page.module.css';
@@ -13,6 +15,7 @@ import styles from './page.module.css';
 export default function DashboardPage() {
   const { user, signOut } = useAuth();
   const { appointments, stats } = useAppointments();
+  const { sales, stats: salesStats } = useSales();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
@@ -26,13 +29,20 @@ export default function DashboardPage() {
     return matchesSearch && matchesStatus;
   });
 
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(value);
+  };
+
   return (
     <main className={styles.main}>
       <header className={styles.header}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h1>Dashboard Administrativo</h1>
-            <p>Olá, {user?.name || 'Admin'}. Visão geral dos agendamentos.</p>
+            <p>Olá, {user?.name || 'Admin'}. Visão geral do negócio.</p>
           </div>
           <button 
             onClick={signOut}
@@ -42,7 +52,7 @@ export default function DashboardPage() {
               border: 'none', 
               cursor: 'pointer', 
               color: '#ef4444',
-              display: 'none' // Hidden by default, shown in mobile via CSS if needed, but header has it
+              display: 'none'
             }}
           >
             <LogOut size={24} />
@@ -52,69 +62,79 @@ export default function DashboardPage() {
 
       <section className={styles.statsGrid}>
         <StatsCard 
-          title="Total de Agendamentos" 
-          value={stats.total} 
-          icon={<Calendar size={24} />} 
-          variant="primary" 
-        />
-        <StatsCard 
-          title="Confirmados" 
-          value={stats.confirmed} 
-          icon={<CheckCircle size={24} />} 
+          title="Receita Total" 
+          value={formatCurrency(salesStats.totalRevenue)} 
+          icon={<DollarSign size={24} />} 
           variant="success" 
         />
         <StatsCard 
-          title="Pendentes" 
-          value={stats.pending} 
-          icon={<Clock size={24} />} 
+          title="Vendas Realizadas" 
+          value={salesStats.totalSales} 
+          icon={<ShoppingBag size={24} />} 
+          variant="primary" 
+        />
+        <StatsCard 
+          title="Ticket Médio" 
+          value={formatCurrency(salesStats.averageTicket)} 
+          icon={<TrendingUp size={24} />} 
           variant="warning" 
         />
         <StatsCard 
-          title="Cancelados" 
-          value={stats.cancelled} 
-          icon={<XCircle size={24} />} 
-          variant="danger" 
+          title="Agendamentos Hoje" 
+          value={stats.pending} // Usando pending como proxy para hoje/próximos por enquanto
+          icon={<Calendar size={24} />} 
+          variant="primary" 
         />
       </section>
 
-      <section>
-        <h2 className={styles.sectionTitle}>Agendamentos Recentes</h2>
-        
-        <div className={styles.filters}>
-          <div className={styles.searchFilter}>
-            <Input 
-              placeholder="Buscar por pet ou dono..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              // icon={<Search size={18} />} // Se Input suportasse ícone
-            />
+      <div className={styles.dashboardGrid}>
+        <section>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Saídas de Produtos (Vendas)</h2>
           </div>
-          <div className={styles.statusFilter}>
-            <Select 
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              options={[
-                { label: 'Todos os Status', value: 'all' },
-                { label: 'Pendentes', value: 'pending' },
-                { label: 'Confirmados', value: 'confirmed' },
-                { label: 'Cancelados', value: 'cancelled' },
-              ]}
-            />
-          </div>
-        </div>
+          <SalesList sales={sales} />
+        </section>
 
-        {filteredAppointments.length > 0 ? (
-          <div className={styles.appointmentsGrid}>
-            {filteredAppointments.map((apt) => (
-              <AppointmentCard key={apt.id} appointment={apt} />
-            ))}
+        <section>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Agendamentos Recentes</h2>
           </div>
-        ) : (
-          <div className={styles.emptyState}>
-            <p>Nenhum agendamento encontrado.</p>
+          
+          <div className={styles.filters}>
+            <div className={styles.searchFilter}>
+              <Input 
+                placeholder="Buscar agendamento..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className={styles.statusFilter}>
+              <Select 
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                options={[
+                  { label: 'Todos os Status', value: 'all' },
+                  { label: 'Pendentes', value: 'pending' },
+                  { label: 'Confirmados', value: 'confirmed' },
+                  { label: 'Cancelados', value: 'cancelled' },
+                ]}
+              />
+            </div>
           </div>
-        )}
-      </section>
+
+          {filteredAppointments.length > 0 ? (
+            <div className={styles.appointmentsGrid}>
+              {filteredAppointments.map((apt) => (
+                <AppointmentCard key={apt.id} appointment={apt} />
+              ))}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <p>Nenhum agendamento encontrado.</p>
+            </div>
+          )}
+        </section>
+      </div>
     </main>
   );
 }

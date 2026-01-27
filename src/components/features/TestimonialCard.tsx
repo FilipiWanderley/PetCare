@@ -47,7 +47,7 @@ export function TestimonialCard() {
       <div className={`${styles.content} ${isFading ? styles.fade : ''}`}>
         <div className={styles.stars}>★★★★★</div>
         <p className={styles.quote}>
-          "{TESTIMONIALS[currentIndex].quote}"
+          &ldquo;{TESTIMONIALS[currentIndex].quote}&rdquo;
         </p>
         <p className={styles.author}>{TESTIMONIALS[currentIndex].author}</p>
       </div>

@@ -4,6 +4,7 @@
   padding-top: 3rem;
   margin-top: auto;
   border-top: 1px solid var(--border);
+  position: relative;
 }
 
 .content {
@@ -13,6 +14,8 @@
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 2rem;
+  position: relative;
+  z-index: 3; /* Content above image */
 }
 
 @media (min-width: 640px) {
@@ -113,6 +116,8 @@
   color: var(--text-on-primary); /* Dark text */
   padding: 1.5rem 1rem;
   font-size: 0.875rem;
+  position: relative;
+  z-index: 2; /* Above image */
 }
 
 .copyrightContent {
@@ -131,4 +136,32 @@
 
 .copyrightContent a:hover {
   color: white;
+}
+
+.animalsWrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1; /* Behind copyright bar */
+  pointer-events: none;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 2rem; /* Give some space from the edge */
+  width: 100%;
+  max-width: var(--container-width);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.animalsImage {
+  object-fit: contain;
+  max-width: 450px;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .animalsWrapper {
+    display: none;
+  }
 }

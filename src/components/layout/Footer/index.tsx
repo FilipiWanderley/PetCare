@@ -57,6 +57,16 @@ export function Footer() {
         </div>
       </div>
 
+      <div className={styles.animalsWrapper}>
+        <Image 
+          src="/assets/images/Produtos/ani.svg" 
+          alt="Pets" 
+          width={350} 
+          height={150}
+          className={styles.animalsImage}
+        />
+      </div>
+
       <div className={styles.copyrightBar}>
         <div className={styles.copyrightContent}>
           <p>&copy; {new Date().getFullYear()} PetCare | <a href="#">Política de Privacidade</a> | <a href="#">Site Map</a> | <a href="#">Contato</a></p>

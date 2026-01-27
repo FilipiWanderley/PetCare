@@ -6,10 +6,12 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useCart } from '@/hooks/useCart';
 import styles from './Header.module.css';
 
 export function Header() {
   const { isAuthenticated, signOut } = useAuth();
+  const { totalItems } = useCart();
   const pathname = usePathname();
   const isHome = pathname === '/';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -64,6 +66,18 @@ export function Header() {
               Login
             </Link>
           )}
+
+          <Link href="/carrinho" className={styles.cartBtn} onClick={closeMenu} aria-label="Carrinho">
+            <Image 
+              src="/assets/images/Produtos/compras.svg" 
+              alt="Carrinho de Compras" 
+              width={24} 
+              height={24}
+            />
+            {totalItems > 0 && (
+              <span className={styles.badge}>{totalItems}</span>
+            )}
+          </Link>
         </nav>
 
         {/* Overlay for mobile menu */}

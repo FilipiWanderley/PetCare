@@ -78,59 +78,88 @@
   width: 100%;
 }
 
+/* Cart Button */
+.cartBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.cartBtn:hover {
+  transform: scale(1.1);
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--primary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
 /* Button Styles */
 .btn {
   padding: 0.5rem 1.2rem; /* Reduced per previous request */
   border-radius: 2rem;
   font-weight: 600;
-  transition: all 0.2s ease;
+  font-size: 0.9rem; /* Reduced per previous request */
+  text-decoration: none;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-}
-
-.btnTurquoise {
-  background-color: var(--secondary);
-  color: #fff;
-  text-decoration: none;
-}
-
-.btnTurquoise:hover {
-  background-color: #36c2b3; /* Darker turquoise */
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(64, 224, 208, 0.25);
+  gap: 0.5rem;
 }
 
 .btnLogin {
   background-color: transparent;
   color: var(--text-primary);
-  border: 2px solid var(--border);
-  gap: 0.5rem;
+  border: 1px solid var(--border);
 }
 
 .btnLogin:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
 }
 
-.loginIcon {
-  object-fit: contain;
+.btnTurquoise {
+  background-color: #4FD1C5; /* Turquoise color from image */
+  color: white;
+  border: none;
+}
+
+.btnTurquoise:hover {
+  background-color: #38B2AC;
+  transform: translateY(-1px);
 }
 
 .logoutBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-secondary);
-  padding: 0.5rem;
-  transition: color 0.2s;
   display: flex;
   align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
 }
 
 .logoutBtn:hover {
-  color: var(--error);
+  color: #dc2626;
+  background-color: #fee2e2;
+  border-radius: 50%;
 }
 
 /* Mobile Menu Button */
@@ -138,10 +167,9 @@
   display: none;
   background: none;
   border: none;
-  cursor: pointer;
   color: var(--text-primary);
+  cursor: pointer;
   z-index: 101;
-  padding: 0.5rem;
 }
 
 /* Overlay */
@@ -150,7 +178,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 99;
   backdrop-filter: blur(2px);
@@ -207,35 +235,34 @@
     padding-left: 0.5rem; /* Slight movement on hover */
   }
 
+  .cartBtn {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-right: 0;
+  }
+
+  .cartBtn:hover {
+    padding-left: 0.5rem;
+  }
+
   .btn {
     width: 100%;
     justify-content: center;
     margin-top: 0.5rem;
-    padding: 0.8rem;
-    font-size: 1rem;
   }
-  
+
   .logoutBtn {
-    margin-top: auto;
     width: 100%;
-    justify-content: center;
-    border-top: 1px solid var(--border);
-    padding-top: 1rem;
-  }
-
-  /* Adjust logo size for mobile */
-  .logoImage {
-    height: 110px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 0.75rem;
+    justify-content: flex-start;
+    padding: 0.75rem 0;
+    border-radius: 0;
+    color: #ef4444;
   }
   
-  .logoImage {
-    height: 80px;
-    width: auto;
+  .logoutBtn:hover {
+    background-color: transparent;
+    padding-left: 0.5rem;
   }
 }

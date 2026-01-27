@@ -26,11 +26,14 @@ export function AppointmentsProvider({ children }: { children: ReactNode }) {
 
   // Load from storage on mount
   useEffect(() => {
-    const stored = getFromStorage<Appointment[]>(STORAGE_KEY);
-    if (stored) {
-      setAppointments(stored);
-    }
-    setIsLoaded(true);
+    // Wrap in setTimeout to avoid "setState synchronously within effect" warning
+    setTimeout(() => {
+      const stored = getFromStorage<Appointment[]>(STORAGE_KEY);
+      if (stored) {
+        setAppointments(stored);
+      }
+      setIsLoaded(true);
+    }, 0);
   }, []);
 
   // Save to storage on change

@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
@@ -9,13 +8,8 @@ import { useAppointments } from '@/hooks/useAppointments';
 
 export default function ConfirmPage() {
   const { appointments } = useAppointments();
-  const [lastAppointment, setLastAppointment] = useState(appointments?.[0]);
-
-  useEffect(() => {
-    if (appointments && appointments.length > 0) {
-      setLastAppointment(appointments[0]);
-    }
-  }, [appointments]);
+  // Derived state, no need for useState/useEffect
+  const lastAppointment = appointments && appointments.length > 0 ? appointments[0] : null;
 
   if (!lastAppointment) {
     return (

@@ -1,53 +1,47 @@
-# 🐾 Pet Care - Landing Page
+# 🐾 Pet Care - Plataforma Completa de Serviços Pet
 
-Bem-vindo ao repositório do projeto **Pet Care**! Este é um site moderno e responsivo desenvolvido para uma clínica/serviço de cuidados para pets, focado em agendamento de banho, tosa e consultas veterinárias.
+Bem-vindo ao repositório do projeto **Pet Care**! Este é uma aplicação web completa, moderna e responsiva para clínicas veterinárias e pet shops, integrando serviços de agendamento com e-commerce de produtos pet.
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Next.js 16**: Framework React de última geração para alta performance e SEO.
-- **React**: Biblioteca para construção de interfaces de usuário interativas.
-- **CSS Modules**: Estilização modular para evitar conflitos de CSS e manter o código organizado.
-- **TypeScript**: Para tipagem estática e código mais seguro.
+- **Next.js 16**: Framework React de última geração com Server Components e App Router.
+- **React 19**: Biblioteca para construção de interfaces interativas e reativas.
+- **TypeScript**: Tipagem estática robusta para segurança e manutenibilidade do código.
+- **CSS Modules**: Estilização modular e escalável.
+- **Context API**: Gerenciamento de estado global para Carrinho, Autenticação e Agendamentos.
+- **LocalStorage**: Persistência de dados no navegador para simular backend.
 
-## ✅ O Que Já Foi Feito
+## ✅ Funcionalidades Implementadas
 
-Nesta etapa do desenvolvimento, focamos na estruturação da **Página Inicial (Home)** e na identidade visual:
+### 1. E-commerce e Carrinho de Compras 🛒
+- **Catálogo de Produtos**: Visualização de produtos com imagens, preços e promoções.
+- **Carrinho Inteligente**: 
+  - Adição e remoção de itens em tempo real.
+  - Controle de quantidade (+/-).
+  - Cálculo automático de subtotal e total.
+  - Persistência de dados (o carrinho não se perde ao atualizar a página).
+  - Badge de notificação no menu com contagem de itens.
 
-### 1. Hero Section (Topo da Página)
-- **Título Personalizado:** Ajuste de peso da fonte para destacar "o cuidado que ele merece" e suavizar o início da frase.
-- **Identidade Visual:** Implementação de cores da marca (amarelo e preto/cinza escuro) com elementos decorativos (blobs, brilhos).
-- **CTA (Call to Action):** Botão "Agendar Agora" em destaque.
+### 2. Dashboard Administrativo 📊
+- **Visão Geral**: Painel exclusivo para administradores/gestores.
+- **Estatísticas em Tempo Real**:
+  - Receita Total.
+  - Número de Vendas.
+  - Ticket Médio.
+  - Agendamentos Pendentes/Confirmados.
+- **Gestão de Vendas**: Lista detalhada das últimas transações com status e valores.
+- **Gestão de Agendamentos**: Visualização centralizada dos pedidos de serviço.
 
-### 2. Seção de Serviços
-- **Ícones em Alta Definição:** Substituição de imagens PNG por **ícones SVG** (vetoriais), garantindo que não percam qualidade em nenhuma tela.
-- **Lista de Serviços:** Adestramento, Alimentação, Veterinário e Banho.
+### 3. Sistema de Agendamento 📅
+- **Formulário Completo**: Coleta de dados do tutor, pet, serviço desejado e data/hora.
+- **Confirmação Visual**: Página de sucesso com resumo do agendamento.
+- **Integração**: Os agendamentos realizados aparecem automaticamente no Dashboard.
 
-### 3. Seção de Depoimentos (Novo!)
-- **Cards de Feedback:** Criação de uma seção dedicada para prova social.
-- **Personalização:** Inclusão de fotos, nomes e papéis específicos (ex: "Tutor de gato", "Tutora de cachorro") conforme solicitado.
-- **Design:** Layout em grid responsivo com efeitos de hover.
-
-### 4. Estrutura Global
-- **Header e Footer:** Integrados ao layout principal (`layout.tsx`), aparecendo em todas as páginas.
-- **Fontes:** Configuração da fonte `Inter` via Next.js Fonts.
-
-## 🚧 O Que Falta Fazer / Próximos Passos
-
-Para levar o projeto para o próximo nível ou para produção, sugerimos as seguintes etapas:
-
-1.  **Funcionalidade de Agendamento:**
-    - Atualmente, o botão "Agendar" é visual. É necessário conectar a um formulário real, link de WhatsApp ou sistema de agendamento.
-    - O componente `AppointmentForm` existe nos arquivos, mas precisa ser integrado à página ou a um modal.
-
-2.  **Revisão de Conteúdo (Header/Footer):**
-    - Verificar se os links do menu (Header) e as informações do rodapé (Footer) estão corretos e apontando para os lugares certos.
-
-3.  **Responsividade Fina:**
-    - Testar exaustivamente em dispositivos móveis muito pequenos ou monitores ultrawide para garantir que o layout não quebre.
-
-4.  **SEO e Performance:**
-    - Adicionar descrições meta reais para o Google.
-    - Otimizar carregamento de imagens secundárias se necessário.
+### 4. Interface e Experiência do Usuário (UI/UX) ✨
+- **Design Responsivo**: Otimizado para Mobile, Tablet e Desktop.
+- **Menu Dinâmico**: Navegação fluida com menu hambúrguer para mobile.
+- **Header Inteligente**: Adapta-se ao contexto (transparente na Home, sólido nas outras páginas).
+- **Identidade Visual**: Cores vibrantes, ícones SVG de alta qualidade e tipografia moderna.
 
 ## 🚀 Como Rodar o Projeto
 
@@ -64,3 +58,14 @@ Para visualizar o projeto em sua máquina:
     ```
 
 3.  Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
+
+## 📁 Estrutura do Projeto
+
+- `/src/app`: Rotas e páginas da aplicação (App Router).
+- `/src/components`: Componentes reutilizáveis (Layout, Features, UI).
+- `/src/hooks`: Hooks personalizados (useCart, useAuth, useSales, useAppointments).
+- `/src/lib`: Utilitários e helpers.
+- `/public`: Assets estáticos (imagens, ícones).
+
+---
+*Desenvolvido com carinho para o melhor cuidado do seu pet.* 🐶🐱

@@ -2,8 +2,8 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { PromoSection } from '@/components/sections/PromoSection';
+import { ProductsSection } from '@/components/sections/ProductsSection';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
-import { NutritionSection } from '@/components/sections/NutritionSection';
 import { LoyaltySection } from '@/components/sections/LoyaltySection';
 import { NewsletterSection } from '@/components/sections/NewsletterSection';
 
@@ -45,7 +45,7 @@ export default function Home() {
       
       <ServicesSection />
       <PromoSection />
-      <NutritionSection />
+      <ProductsSection />
       <LoyaltySection />
       <TestimonialsSection />
       <NewsletterSection />
