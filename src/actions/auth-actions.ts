@@ -102,9 +102,22 @@ export async function verifyEmail(token: string) {
 
     console.log(`[AUTH] Email verified for user: ${user.email}`);
 
-    // Auto-login: Create session
-    await createSession(user.id, user.role);
-
+    // Do NOT create session here.
+    // Cookies cannot be set in a Server Component directly if called from a page component that is rendering.
+    // Even though this is a Server Action, when called directly from a Server Component (page.tsx), 
+    // it runs in the context of that component rendering, which prevents setting cookies in some Next.js versions/configurations.
+    // Instead, we will return success and let the user login manually, OR we rely on the user to login.
+    // For a smoother UX, we can try to redirect to a route handler that sets the cookie, but simply asking to login is safer and robust.
+    
+    // HOWEVER, to fix the specific error "Cookies can only be modified in a Server Action or Route Handler",
+    // we should note that verifyEmail IS a server action ('use server' at top).
+    // The issue is likely that it's being called directly in the body of a Server Component (ConfirmEmailPage).
+    // Server Components cannot set cookies. Server Actions can, but only when invoked by a form or client interaction, 
+    // OR if we are careful about the execution context. 
+    
+    // To fix this immediately: We will REMOVE the auto-login from the Server Component call.
+    // The user will see "Confirmed" and then click "Login".
+    
     return { success: true };
   } catch (error) {
     console.error('Verification error:', error);

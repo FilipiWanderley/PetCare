@@ -6,17 +6,15 @@ import { ProductsSection } from '@/components/sections/ProductsSection';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { LoyaltySection } from '@/components/sections/LoyaltySection';
 import { NewsletterSection } from '@/components/sections/NewsletterSection';
-import { NutritionSection } from '@/components/sections/NutritionSection';
-import { getProducts, getNutritionProducts } from '@/actions/product-actions';
+import { getProducts } from '@/actions/product-actions';
 import { getServices } from '@/actions/service-actions';
 import { getTestimonials } from '@/actions/testimonial-actions';
 
 export default async function Home() {
-  const [{ data: products }, { data: services }, { data: testimonials }, { data: nutritionProducts }] = await Promise.all([
+  const [{ data: products }, { data: services }, { data: testimonials }] = await Promise.all([
     getProducts(),
     getServices(),
     getTestimonials(),
-    getNutritionProducts(),
   ]);
 
   return (
@@ -55,7 +53,6 @@ export default async function Home() {
       </section>
       
       <ServicesSection services={services || []} />
-      <NutritionSection products={nutritionProducts || []} />
       <PromoSection />
       <ProductsSection products={products || []} />
       <LoyaltySection />

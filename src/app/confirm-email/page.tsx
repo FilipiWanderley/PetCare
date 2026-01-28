@@ -37,10 +37,10 @@ export default async function ConfirmEmailPage({ searchParams }: ConfirmEmailPag
           <CheckCircle2 className={styles.successIcon} />
           <h1 className={styles.title}>E-mail Confirmado!</h1>
           <p className={styles.message}>
-            Sua conta foi ativada e você já está logado. Clique abaixo para começar.
+            Sua conta foi ativada com sucesso. Clique abaixo para fazer login.
           </p>
-          <Link href="/" className={styles.button}>
-            Ir para a Página Inicial
+          <Link href="/login" className={styles.button}>
+            Ir para Login
           </Link>
         </div>
       </div>

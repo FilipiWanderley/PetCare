@@ -25,31 +25,7 @@ export async function getProducts() {
   }
 }
 
-export async function getNutritionProducts() {
-  try {
-    // We don't check count here because getProducts handles seeding if count is 0.
-    // But if we only fetch nutrition, we might miss seeding if regular products exist but nutrition don't.
-    // Let's safe check.
-    const count = await prisma.product.count({ where: { category: 'nutrition' } });
-    if (count === 0) {
-       await seedNutritionProducts();
-    }
 
-    const products = await prisma.product.findMany({
-      where: {
-        category: 'nutrition',
-      },
-      orderBy: {
-        id: 'asc',
-      },
-    });
-    
-    return { success: true, data: products };
-  } catch (error) {
-    console.error('Get nutrition products error:', error);
-    return { success: false, error: 'Erro ao buscar produtos de nutrição' };
-  }
-}
 
 async function seedProducts() {
   const products = [
@@ -70,49 +46,4 @@ async function seedProducts() {
   }
 }
 
-async function seedNutritionProducts() {
-  const products = [
-    {
-      name: 'Drools',
-      price: 0, // Placeholder
-      image: '/assets/images/Ali1.svg',
-      description: 'Ração seca para cães adultos, sabor frango e ovo, 3 kg.',
-      category: 'nutrition',
-      metadata: {
-        weight: '3KG',
-        blobColor: 'yellow',
-        blobRotation: '0deg',
-      },
-    },
-    {
-      name: 'Canine Creek',
-      price: 0,
-      image: '/assets/images/Ali2.svg',
-      description: 'Ração seca para cães adultos, sabor frango e ovo, 3 kg.',
-      category: 'nutrition',
-      metadata: {
-        weight: '4 KG',
-        blobColor: 'gray',
-        blobRotation: '45deg',
-      },
-    },
-    {
-      name: 'Biscrok Biscuits',
-      price: 0,
-      image: '/assets/images/Ali3.svg',
-      description: 'Ração seca para cães adultos, sabor frango e ovo, 3 kg.',
-      category: 'nutrition',
-      metadata: {
-        weight: '',
-        blobColor: 'yellow',
-        blobRotation: '90deg',
-      },
-    },
-  ];
 
-  for (const p of products) {
-    await prisma.product.create({
-      data: p,
-    });
-  }
-}
