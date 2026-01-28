@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  password     String
+  name         String
+  phone        String?
+  role         String        @default("user") // "user" or "admin"
+  pets         Pet[]
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Pet {
+  id           String        @id @default(cuid())
+  name         String
+  species      String
+  breed        String?
+  age          Int
+  ownerId      String
+  owner        User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Appointment {
+  id        String   @id @default(cuid())
+  date      DateTime
+  service   String
+  status    String   @default("pending") // pending, confirmed, cancelled
+  phone     String?  // Contact phone for this specific appointment
+  notes     String?
+  
+  // Relations
+  petId     String?
+  pet       Pet?     @relation(fields: [petId], references: [id])
+  ownerId   String?
+  owner     User?    @relation(fields: [ownerId], references: [id])
+  
+  // Legacy/Guest fields (if user/pet not registered)
+  guestName String?
+  guestPet  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  image       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  image     String
+  feedback  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Float
+  oldPrice    Float?
+  image       String
+  isSale      Boolean  @default(false)
+  description String?
+  category    String?
+  stock       Int      @default(100)
+  metadata    Json?    // For specific UI fields like blobColor, blobRotation, weight
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

@@ -1,71 +1,91 @@
 # 🐾 Pet Care - Plataforma Completa de Serviços Pet
 
-Bem-vindo ao repositório do projeto **Pet Care**! Este é uma aplicação web completa, moderna e responsiva para clínicas veterinárias e pet shops, integrando serviços de agendamento com e-commerce de produtos pet.
+Bem-vindo ao repositório do projeto **Pet Care**! Esta é uma aplicação web completa, moderna e responsiva para clínicas veterinárias e pet shops, integrando serviços de agendamento com e-commerce de produtos pet. O projeto foi evoluído para uma aplicação Full-Stack funcional com persistência de dados em banco de dados PostgreSQL (Neon) via Prisma ORM.
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Next.js 16**: Framework React de última geração com Server Components e App Router.
+- **Next.js 16**: Framework React de última geração com Server Components, App Router e Server Actions.
 - **React 19**: Biblioteca para construção de interfaces interativas e reativas.
 - **TypeScript**: Tipagem estática robusta para segurança e manutenibilidade do código.
+- **Prisma ORM (v6)**: ORM moderno para Node.js e TypeScript, garantindo type-safety nas queries.
+- **Neon (PostgreSQL)**: Banco de dados relacional serverless.
+- **Zod**: Validação de schema e dados (TypeScript-first).
 - **CSS Modules**: Estilização modular e escalável.
-- **Context API**: Gerenciamento de estado global para Carrinho, Autenticação e Agendamentos.
-- **LocalStorage**: Persistência de dados no navegador para simular backend.
+- **Context API**: Gerenciamento de estado global para Carrinho e Autenticação.
+- **JWT & Bcrypt**: Autenticação segura e hash de senhas.
 
 ## ✅ Funcionalidades Implementadas
 
-### 1. E-commerce e Carrinho de Compras 🛒
-- **Catálogo de Produtos**: Visualização de produtos com imagens, preços e promoções.
+### 1. Backend e Persistência de Dados 🗄️
+- **Integração com Banco de Dados**: Persistência real de dados (Usuários, Pets, Agendamentos, Produtos, Serviços, Depoimentos) utilizando PostgreSQL.
+- **Server Actions**: Operações CRUD executadas diretamente no servidor, garantindo segurança e performance.
+- **Autenticação Segura**: Login e Cadastro com validação, hash de senhas e sessões via JWT.
+- **Optimistic Updates**: Interface reativa que antecipa o sucesso das operações para melhor UX.
+- **Seeding Automático**: Povoamento inicial do banco de dados com produtos e serviços padrão.
+
+### 2. E-commerce e Carrinho de Compras 🛒
+- **Catálogo Dinâmico**: Produtos carregados diretamente do banco de dados.
 - **Carrinho Inteligente**: 
-  - Adição e remoção de itens em tempo real.
+  - Adição e remoção de itens.
   - Controle de quantidade (+/-).
   - Cálculo automático de subtotal e total.
-  - Persistência de dados (o carrinho não se perde ao atualizar a página).
-  - Badge de notificação no menu com contagem de itens.
+  - Persistência local (em processo de migração para o servidor).
 
-### 2. Dashboard Administrativo 📊
-- **Visão Geral**: Painel exclusivo para administradores/gestores.
-- **Estatísticas em Tempo Real**:
-  - Receita Total.
-  - Número de Vendas.
-  - Ticket Médio.
-  - Agendamentos Pendentes/Confirmados.
-- **Gestão de Vendas**: Lista detalhada das últimas transações com status e valores.
-- **Gestão de Agendamentos**: Visualização centralizada dos pedidos de serviço.
+### 3. Dashboard Administrativo 📊
+- **Visão Geral**: Painel para administradores/gestores.
+- **Estatísticas em Tempo Real**: Receita, Vendas e Agendamentos baseados em dados reais.
+- **Gestão de Agendamentos**: Visualização e gerenciamento de status (Pendente/Confirmado/Cancelado).
 
-### 3. Sistema de Agendamento 📅
-- **Formulário Completo**: Coleta de dados do tutor, pet, serviço desejado e data/hora.
-- **Confirmação Visual**: Página de sucesso com resumo do agendamento.
-- **Integração**: Os agendamentos realizados aparecem automaticamente no Dashboard.
+### 4. Sistema de Agendamento 📅
+- **Formulário Integrado**: Agendamento vinculado a usuários registrados ou convidados.
+- **Validações**: Verificação de disponibilidade e dados obrigatórios.
+- **Meus Agendamentos**: Área para o usuário visualizar seu histórico.
 
-### 4. Interface e Experiência do Usuário (UI/UX) ✨
+### 5. Interface e Experiência do Usuário (UI/UX) ✨
 - **Design Responsivo**: Otimizado para Mobile, Tablet e Desktop.
-- **Menu Dinâmico**: Navegação fluida com menu hambúrguer para mobile.
-- **Header Inteligente**: Adapta-se ao contexto (transparente na Home, sólido nas outras páginas).
-- **Identidade Visual**: Cores vibrantes, ícones SVG de alta qualidade e tipografia moderna.
+- **Feedback Visual**: Toasts e mensagens de erro/sucesso claras.
+- **Performance**: Carregamento paralelo de dados e otimização de imagens.
 
 ## 🚀 Como Rodar o Projeto
 
-Para visualizar o projeto em sua máquina:
+Para rodar o projeto localmente:
 
-1.  Instale as dependências:
+1.  **Clone o repositório e instale as dependências:**
     ```bash
     npm install
     ```
 
-2.  Rode o servidor de desenvolvimento:
+2.  **Configure as Variáveis de Ambiente:**
+    Crie um arquivo `.env` na raiz do projeto com a URL do seu banco de dados:
+    ```env
+    DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
+    JWT_SECRET="sua_chave_secreta_aqui"
+    ```
+
+3.  **Configure o Banco de Dados:**
+    Execute as migrações para criar as tabelas e gerar o cliente Prisma:
+    ```bash
+    npx prisma migrate dev --name init
+    ```
+
+4.  **Rode o servidor de desenvolvimento:**
     ```bash
     npm run dev
     ```
 
-3.  Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
+5.  **Acesse a aplicação:**
+    Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ## 📁 Estrutura do Projeto
 
+- `/src/actions`: Server Actions para operações de banco de dados (CRUD).
 - `/src/app`: Rotas e páginas da aplicação (App Router).
 - `/src/components`: Componentes reutilizáveis (Layout, Features, UI).
-- `/src/hooks`: Hooks personalizados (useCart, useAuth, useSales, useAppointments).
-- `/src/lib`: Utilitários e helpers.
-- `/public`: Assets estáticos (imagens, ícones).
+- `/src/hooks`: Hooks personalizados (useCart, useAuth, etc.).
+- `/src/lib`: Configurações de bibliotecas (Prisma, Auth, Session).
+- `/src/types`: Definições de tipos TypeScript.
+- `/prisma`: Schema do banco de dados e migrações.
+- `/public`: Assets estáticos.
 
 ---
 *Desenvolvido com carinho para o melhor cuidado do seu pet.* 🐶🐱

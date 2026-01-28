@@ -10,7 +10,7 @@ import { useCart } from '@/hooks/useCart';
 import styles from './Header.module.css';
 
 export function Header() {
-  const { isAuthenticated, signOut } = useAuth();
+  const { isAuthenticated, signOut, user } = useAuth();
   const { totalItems } = useCart();
   const pathname = usePathname();
   const isHome = pathname === '/';
@@ -47,13 +47,16 @@ export function Header() {
           <Link href="/produtos" className={`${styles.navLink} ${pathname === '/produtos' ? styles.active : ''}`} onClick={closeMenu}>Produtos</Link>
           <Link href="/agendamentos" className={`${styles.navLink} ${pathname === '/agendamentos' ? styles.active : ''}`} onClick={closeMenu}>Agendamentos</Link>
           
-          {isAuthenticated ? (
-            <>
-              <Link href="/dashboard" className={`${styles.btn} ${styles.btnTurquoise}`} onClick={closeMenu}>Dashboard</Link>
+          {isAuthenticated && user ? (
+            <div className={styles.userMenu}>
+              <span className={styles.userName}>Olá, {user.name.split(' ')[0]}</span>
+              {user.role === 'admin' && (
+                <Link href="/dashboard" className={`${styles.btn} ${styles.btnTurquoise}`} onClick={closeMenu}>Dashboard</Link>
+              )}
               <button onClick={() => { signOut(); closeMenu(); }} className={styles.logoutBtn} title="Sair">
                 <LogOut size={20} />
               </button>
-            </>
+            </div>
           ) : (
             <Link href="/login" className={`${styles.btn} ${styles.btnLogin}`} onClick={closeMenu}>
               <Image 

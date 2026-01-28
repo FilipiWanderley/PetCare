@@ -1,50 +1,46 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import * as authLib from '@/lib/auth';
-import type { User, LoginCredentials } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
+import { loginUser, registerUser, logoutUser } from '@/actions/auth-actions';
+import type { User, LoginCredentials, RegisterCredentials } from '@/lib/auth';
 
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   signIn: (credentials: LoginCredentials) => Promise<void>;
+  signUp: (credentials: RegisterCredentials) => Promise<void>;
   signOut: () => void;
   isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export function AuthProvider({ children, initialUser }: { children: ReactNode, initialUser: User | null }) {
+  const [user, setUser] = useState<User | null>(initialUser);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const pathname = usePathname();
 
+  // Update user if initialUser changes (e.g. after revalidation)
   useEffect(() => {
-    // Initial auth check
-    const checkAuth = () => {
-      const currentUser = authLib.getUser();
-      const isAuth = authLib.isAuthenticated();
-      
-      if (isAuth && currentUser) {
-        setUser(currentUser);
-      } else {
-        setUser(null);
-      }
-      setIsLoading(false);
-    };
-
-    checkAuth();
-  }, []);
+    setUser(initialUser);
+  }, [initialUser]);
 
   const signIn = async (credentials: LoginCredentials) => {
     setIsLoading(true);
     try {
-      const { user: loggedUser } = await authLib.signIn(credentials);
-      setUser(loggedUser);
-      router.refresh(); // Ensure middleware sees the new cookie
-      router.push('/dashboard');
+      const result = await loginUser(credentials);
+      if (result.success && result.user) {
+        setUser(result.user);
+        router.refresh();
+        if (result.user.role === 'admin') {
+          router.push('/dashboard');
+        } else {
+          router.push('/');
+        }
+      } else {
+        throw new Error(result.error || 'Login failed');
+      }
     } catch (error) {
       throw error;
     } finally {
@@ -52,17 +48,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const signOut = () => {
-    authLib.signOut();
+  const signUp = async (credentials: RegisterCredentials) => {
+    setIsLoading(true);
+    try {
+      const result = await registerUser(credentials);
+      if (result.success && result.user) {
+        setUser(result.user);
+        router.refresh();
+        router.push('/');
+      } else {
+        throw new Error(result.error || 'Registration failed');
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const signOut = async () => {
+    await logoutUser();
     setUser(null);
-    router.refresh(); // Clear Next.js router cache
-    router.replace('/login'); // Use replace instead of push to prevent back navigation
+    router.refresh();
   };
 
   const value = {
     user,
     isLoading,
     signIn,
+    signUp,
     signOut,
     isAuthenticated: !!user,
   };

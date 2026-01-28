@@ -2,37 +2,19 @@ import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 import styles from './NutritionSection.module.css';
 
-const PRODUCTS = [
-  {
-    id: 1,
-    name: 'Drools',
-    weight: '3KG',
-    description: 'Ração seca para cães adultos, sabor frango e ovo, 3 kg.',
-    image: '/assets/images/Ali1.svg',
-    blobColor: 'yellow',
-    blobRotation: '0deg', // Point Bottom-Left
-  },
-  {
-    id: 2,
-    name: 'Canine Creek',
-    weight: '4 KG',
-    description: 'Ração seca para cães adultos, sabor frango e ovo, 3 kg.',
-    image: '/assets/images/Ali2.svg',
-    blobColor: 'gray',
-    blobRotation: '45deg', // Point Bottom
-  },
-  {
-    id: 3,
-    name: 'Biscrok Biscuits',
-    weight: '', // No weight in title for this one in reference? Reference says "Biscrok Biscuits"
-    description: 'Ração seca para cães adultos, sabor frango e ovo, 3 kg.',
-    image: '/assets/images/Ali3.svg',
-    blobColor: 'yellow',
-    blobRotation: '90deg', // Point Bottom-Right
-  },
-];
+interface NutritionProduct {
+  id: number;
+  name: string;
+  description: string | null;
+  image: string;
+  metadata: any; // Using any for simplicity with Json type, ideally strictly typed
+}
 
-export function NutritionSection() {
+interface NutritionSectionProps {
+  products?: NutritionProduct[];
+}
+
+export function NutritionSection({ products = [] }: NutritionSectionProps) {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -51,7 +33,30 @@ export function NutritionSection() {
         </div>
 
         <div className={styles.grid}>
-          {PRODUCTS.map((product) => (
+          {products.map((product) => {
+             const meta = product.metadata || {};
+             const weight = meta.weight;
+             // blobColor and blobRotation are used in styles? 
+             // The original code used them in the map loop but didn't apply them to styles explicitly in the provided snippet?
+             // Ah, wait, checking the original snippet...
+             // It didn't seem to use blobColor/Rotation in the JSX!
+             // "blobColor: 'yellow', blobRotation: '0deg'" in PRODUCTS array.
+             // But the JSX was:
+             /*
+              <div key={product.id} className={styles.card}>
+                <div className={styles.imageWrapper}>
+                  <Image ... />
+                </div>
+                ...
+             */
+             // It seems they were unused or I missed something in CSS module usage.
+             // Let's assume they might be used later or I should ignore them if they weren't used.
+             // But wait, the image background usually needs them.
+             // If I look at the CSS file content provided earlier:
+             // It doesn't show usage of dynamic colors.
+             // So I will just render the data I have.
+
+             return (
             <div key={product.id} className={styles.card}>
               <div className={styles.imageWrapper}>
                 <Image
@@ -65,7 +70,7 @@ export function NutritionSection() {
               
               <div className={styles.cardContent}>
                 <h3 className={styles.productName}>
-                  {product.name} {product.weight && <span>| {product.weight}</span>}
+                  {product.name} {weight && <span>| {weight}</span>}
                 </h3>
                 <p className={styles.productDesc}>{product.description}</p>
                 <button className={styles.buyBtn}>
@@ -73,7 +78,8 @@ export function NutritionSection() {
                 </button>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
       </div>
     </section>

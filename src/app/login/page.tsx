@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '@/hooks/useAuth';
@@ -47,7 +48,7 @@ export default function LoginPage() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.header}>
-          <h1 className={styles.title}>Área Administrativa</h1>
+          <h1 className={styles.title}>Bem-vindo</h1>
           <p className={styles.subtitle}>Entre com suas credenciais para continuar</p>
         </div>
 
@@ -60,7 +61,7 @@ export default function LoginPage() {
               id="email"
               type="email"
               className={styles.input}
-              placeholder="admin@petcare.com"
+              placeholder="cliente@petcare.com"
               {...register('email', { required: 'Email é obrigatório' })}
             />
             {errors.email && <span className={styles.subtitle} style={{ color: 'red' }}>{errors.email.message}</span>}
@@ -92,6 +93,13 @@ export default function LoginPage() {
             {isLoading ? <div className={styles.spinner} /> : 'Entrar'}
           </button>
         </form>
+
+        <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem' }}>
+          <span style={{ color: 'var(--text-secondary)' }}>Não tem uma conta? </span>
+          <Link href="/cadastro" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>
+            Cadastre-se
+          </Link>
+        </div>
       </div>
 
       {showForgotPassword && (

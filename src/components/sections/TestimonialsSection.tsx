@@ -1,31 +1,19 @@
 import Image from 'next/image';
 import styles from './TestimonialsSection.module.css';
 
-const TESTIMONIALS = [
-  {
-    id: 1,
-    name: 'Renato Santos',
-    role: 'Tutor de gato',
-    image: '/assets/icons/Picture/Picture1.svg',
-    feedback: 'O serviço simplificou o treinamento e me manteve atualizado sobre a saúde do meu amigo peludo. Nunca foi tão fácil proporcionar o melhor para ele. Recomendo a todos os amantes de animais!',
-  },
-  {
-    id: 2,
-    name: 'Giovanna Lima',
-    role: 'Tutora de cachorro',
-    image: '/assets/icons/Picture/Picture2.svg',
-    feedback: 'Desde que comecei a usar os serviços, percebi uma mudança positiva no comportamento do meu pet. As dicas de adestramento são valiosas!',
-  },
-  {
-    id: 3,
-    name: 'Karla Santana',
-    role: 'Tutora de gato',
-    image: '/assets/icons/Picture/Picture3.svg',
-    feedback: 'O atendimento não apenas me lembra das vacinas e consultas, mas também me conectou a uma comunidade incrível de amantes de animais.',
-  },
-];
+interface Testimonial {
+  id?: string | number;
+  name: string;
+  role: string;
+  image: string;
+  feedback: string;
+}
 
-export function TestimonialsSection() {
+interface TestimonialsSectionProps {
+  testimonials?: Testimonial[];
+}
+
+export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionProps) {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -34,8 +22,8 @@ export function TestimonialsSection() {
         </h2>
         
         <div className={styles.grid}>
-          {TESTIMONIALS.map((testimonial) => (
-            <div key={testimonial.id} className={styles.card}>
+          {testimonials.map((testimonial, index) => (
+            <div key={testimonial.id || index} className={styles.card}>
               <div className={styles.cardHeader}>
                 <div className={styles.profileWrapper}>
                   <Image

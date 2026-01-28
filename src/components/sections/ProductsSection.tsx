@@ -6,61 +6,16 @@ import { ShoppingCart } from 'lucide-react';
 import { useCart, Product } from '@/hooks/useCart';
 import styles from './ProductsSection.module.css';
 
-const products: Product[] = [
-  {
-    id: 1,
-    name: 'Brit Premium Pet Food',
-    price: 120.00,
-    image: '/assets/images/Produtos/Background1.svg'
-  },
-  {
-    id: 2,
-    name: 'Petiscos para gatos exigentes',
-    price: 12.00,
-    image: '/assets/images/Produtos/Background2.svg'
-  },
-  {
-    id: 3,
-    name: 'Nutrição exclusiva para animais de estimação',
-    price: 88.00,
-    image: '/assets/images/Produtos/Background3.svg'
-  },
-  {
-    id: 4,
-    name: 'Miau Mordidas',
-    price: 8.00,
-    image: '/assets/images/Produtos/Background4.svg'
-  },
-  {
-    id: 5,
-    name: 'Ração para gatos Ocean Treats',
-    price: 250.00,
-    image: '/assets/images/Produtos/Background5.svg'
-  },
-  {
-    id: 6,
-    name: 'Brinquedos',
-    price: 36.00,
-    image: '/assets/images/Produtos/Background6.svg'
-  },
-  {
-    id: 7,
-    name: 'Petiscos para Patinhas Exigentes',
-    price: 120.00,
-    image: '/assets/images/Produtos/Background7.svg'
-  },
-  {
-    id: 8,
-    name: 'Ração supernutritiva para cães',
-    price: 17.00,
-    oldPrice: 28.00,
-    isSale: true,
-    image: '/assets/images/Produtos/Background8.svg'
-  }
-];
+interface ProductsSectionProps {
+  products?: Product[];
+}
 
-export function ProductsSection() {
+export function ProductsSection({ products = [] }: ProductsSectionProps) {
   const { addToCart } = useCart();
+
+  // If no products passed (e.g. loading or error), we might want to show skeletons or empty state.
+  // But for now, if empty, we just don't render or render empty.
+  // The parent component should handle fetching.
 
   return (
     <section className={styles.section}>
@@ -87,9 +42,10 @@ export function ProductsSection() {
           {products.map((product) => (
             <div key={product.id} className={styles.card}>
               <div className={styles.imageContainer}>
-                {/* Sale tag removed */}
+                {/* Sale tag removed or added back based on data */}
+                {product.isSale && <span className={styles.saleTag}>Oferta</span>}
                 <Image
-                  src={product.image}
+                  src={product.image || '/assets/images/Produtos/img.svg'} // Fallback
                   alt={product.name}
                   width={200}
                   height={200}
