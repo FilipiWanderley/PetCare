@@ -8,7 +8,7 @@ import type { User, LoginCredentials, RegisterCredentials } from '@/lib/auth';
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
-  signIn: (credentials: LoginCredentials) => Promise<void>;
+  signIn: (credentials: LoginCredentials, shouldRedirect?: boolean) => Promise<User | undefined>;
   signUp: (credentials: RegisterCredentials) => Promise<void>;
   signOut: () => void;
   isAuthenticated: boolean;
@@ -26,18 +26,22 @@ export function AuthProvider({ children, initialUser }: { children: ReactNode, i
     setUser(initialUser);
   }, [initialUser]);
 
-  const signIn = async (credentials: LoginCredentials) => {
+  const signIn = async (credentials: LoginCredentials, shouldRedirect = true) => {
     setIsLoading(true);
     try {
       const result = await loginUser(credentials);
       if (result.success && result.user) {
         setUser(result.user);
         router.refresh();
-        if (result.user.role === 'admin') {
-          router.push('/dashboard');
-        } else {
-          router.push('/');
+        
+        if (shouldRedirect) {
+          if (result.user.role === 'admin') {
+            router.push('/dashboard');
+          } else {
+            router.push('/');
+          }
         }
+        return result.user;
       } else {
         throw new Error(result.error || 'Login failed');
       }

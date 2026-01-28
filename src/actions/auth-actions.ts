@@ -46,8 +46,8 @@ export async function registerUser(data: any) {
       },
     });
 
-    await createSession(user.id);
-    return { success: true, user: { id: user.id, name: user.name, email: user.email } };
+    await createSession(user.id, 'user');
+    return { success: true, user: { id: user.id, name: user.name, email: user.email, role: 'user' } };
   } catch (error) {
     console.error('Registration error:', error);
     return { success: false, error: 'Erro ao criar conta' };
@@ -78,8 +78,8 @@ export async function loginUser(data: any) {
       return { success: false, error: 'Credenciais inválidas' };
     }
 
-    await createSession(user.id);
-    return { success: true, user: { id: user.id, name: user.name, email: user.email } };
+    await createSession(user.id, user.role);
+    return { success: true, user: { id: user.id, name: user.name, email: user.email, role: user.role } };
   } catch (error) {
     console.error('Login error:', error);
     return { success: false, error: 'Erro ao fazer login' };
