@@ -14,6 +14,9 @@ model User {
   name         String
   phone        String?
   role         String        @default("user") // "user" or "admin"
+  emailVerified DateTime?
+  confirmationToken String?   @unique
+  confirmationTokenExpires DateTime?
   pets         Pet[]
   appointments Appointment[]
   createdAt    DateTime      @default(now())

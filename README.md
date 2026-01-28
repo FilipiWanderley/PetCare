@@ -46,6 +46,11 @@ Bem-vindo ao repositório do projeto **Pet Care**! Esta é uma aplicação web c
 - **Feedback Visual**: Toasts e mensagens de erro/sucesso claras.
 - **Performance**: Carregamento paralelo de dados e otimização de imagens.
 
+### 6. Fluxo de Registro e Confirmação 📧
+- **Cadastro Completo**: Validação de e-mail e requisitos de senha fortes.
+- **Confirmação por E-mail**: Sistema de verificação com token único enviado por e-mail.
+- **Segurança Reforçada**: Acesso bloqueado até a confirmação do e-mail.
+
 ## 🚀 Como Rodar o Projeto
 
 Para rodar o projeto localmente:
@@ -56,10 +61,18 @@ Para rodar o projeto localmente:
     ```
 
 2.  **Configure as Variáveis de Ambiente:**
-    Crie um arquivo `.env` na raiz do projeto com a URL do seu banco de dados:
+    Crie um arquivo `.env` na raiz do projeto com a URL do seu banco de dados e chaves de segurança:
     ```env
     DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
     JWT_SECRET="sua_chave_secreta_aqui"
+    
+    # Configuração de E-mail (Gmail - Recomendado para Testes Reais)
+    SMTP_HOST=smtp.gmail.com
+    SMTP_PORT=465
+    SMTP_USER=seu-email@gmail.com
+    SMTP_PASS=sua-senha-de-app-google # Gerar em: myaccount.google.com/apppasswords
+    
+    NEXT_PUBLIC_APP_URL="http://localhost:3000"
     ```
 
 3.  **Configure o Banco de Dados:**
@@ -68,12 +81,18 @@ Para rodar o projeto localmente:
     npx prisma migrate dev --name init
     ```
 
-4.  **Rode o servidor de desenvolvimento:**
+4.  **Rode os Testes (Opcional):**
+    Para validar se o fluxo de autenticação e registro está funcionando corretamente:
+    ```bash
+    npm test
+    ```
+
+5.  **Rode o servidor de desenvolvimento:**
     ```bash
     npm run dev
     ```
 
-5.  **Acesse a aplicação:**
+6.  **Acesse a aplicação:**
     Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ## 📁 Estrutura do Projeto
