@@ -14,8 +14,9 @@ export async function getServices() {
         createdAt: 'asc',
       },
     });
+    const unique = dedupeByKey(services, 'title');
     
-    return { success: true, data: services };
+    return { success: true, data: unique };
   } catch (error) {
     console.error('Get services error:', error);
     return { success: false, error: 'Erro ao buscar serviços' };
@@ -57,8 +58,18 @@ async function seedServices() {
   ];
 
   for (const s of services) {
-    await prisma.service.create({
-      data: s,
-    });
+    const exists = await prisma.service.findFirst({ where: { title: s.title } });
+    if (!exists) {
+      await prisma.service.create({ data: s });
+    }
   }
+}
+
+function dedupeByKey<T extends Record<string, any>>(items: T[], key: keyof T): T[] {
+  const map = new Map<string, T>();
+  for (const item of items) {
+    const k = String(item[key]);
+    if (!map.has(k)) map.set(k, item);
+  }
+  return Array.from(map.values());
 }

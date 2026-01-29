@@ -5,11 +5,10 @@ import { createSession, deleteSession } from '@/lib/session';
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
-import { RegisterCredentials, LoginCredentials } from '@/lib/auth'; // We'll update lib/auth types or just redefine here
-
 import { v4 as uuidv4 } from 'uuid';
 import { sendConfirmationEmail } from '@/lib/email';
 
+// Validation Schemas
 const RegisterSchema = z.object({
   name: z.string().min(2, 'Nome deve ter no mínimo 2 caracteres'),
   email: z.string().email('E-mail inválido'),
@@ -25,12 +24,18 @@ const LoginSchema = z.object({
   password: z.string().min(1, 'Senha é obrigatória'),
 });
 
+/**
+ * Registers a new user in the system.
+ * Handles password hashing, unique email validation, and confirmation email sending.
+ * 
+ * @param {any} data - Raw form data containing name, email, and password.
+ * @returns {Promise<{success: boolean, error?: string, message?: string}>} Registration result.
+ */
 export async function registerUser(data: any) {
   const result = RegisterSchema.safeParse(data);
 
   if (!result.success) {
-    // Return the first error message
-    const errorMessage = result.error.errors?.[0]?.message || 'Dados inválidos';
+    const errorMessage = result.error.issues?.[0]?.message || 'Dados inválidos';
     return { success: false, error: errorMessage };
   }
 
@@ -47,7 +52,8 @@ export async function registerUser(data: any) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const confirmationToken = uuidv4();
-    const confirmationTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    // Token expires in 24 hours
+    const confirmationTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
     const user = await prisma.user.create({
       data: {
@@ -62,20 +68,25 @@ export async function registerUser(data: any) {
 
     await sendConfirmationEmail(email, confirmationToken);
 
-    // Log the event
     console.log(`[AUTH] New user registered: ${email}, ID: ${user.id}`);
 
-    // No session creation - require verification
     return { 
       success: true, 
       message: 'Cadastro realizado! Verifique seu e-mail para ativar sua conta.' 
     };
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error('[AUTH] Registration error:', error);
     return { success: false, error: 'Erro ao criar conta' };
   }
 }
 
+/**
+ * Verifies a user's email address using a token.
+ * Updates the user's status to verified if the token is valid and not expired.
+ * 
+ * @param {string} token - The confirmation token sent via email.
+ * @returns {Promise<{success: boolean, error?: string}>} Verification result.
+ */
 export async function verifyEmail(token: string) {
   try {
     const user = await prisma.user.findUnique({
@@ -86,7 +97,6 @@ export async function verifyEmail(token: string) {
       return { success: false, error: 'Token de confirmação inválido.' };
     }
 
-    // Check expiration
     if (user.confirmationTokenExpires && user.confirmationTokenExpires < new Date()) {
       return { success: false, error: 'Token de confirmação expirado.' };
     }
@@ -101,30 +111,22 @@ export async function verifyEmail(token: string) {
     });
 
     console.log(`[AUTH] Email verified for user: ${user.email}`);
-
-    // Do NOT create session here.
-    // Cookies cannot be set in a Server Component directly if called from a page component that is rendering.
-    // Even though this is a Server Action, when called directly from a Server Component (page.tsx), 
-    // it runs in the context of that component rendering, which prevents setting cookies in some Next.js versions/configurations.
-    // Instead, we will return success and let the user login manually, OR we rely on the user to login.
-    // For a smoother UX, we can try to redirect to a route handler that sets the cookie, but simply asking to login is safer and robust.
     
-    // HOWEVER, to fix the specific error "Cookies can only be modified in a Server Action or Route Handler",
-    // we should note that verifyEmail IS a server action ('use server' at top).
-    // The issue is likely that it's being called directly in the body of a Server Component (ConfirmEmailPage).
-    // Server Components cannot set cookies. Server Actions can, but only when invoked by a form or client interaction, 
-    // OR if we are careful about the execution context. 
-    
-    // To fix this immediately: We will REMOVE the auto-login from the Server Component call.
-    // The user will see "Confirmed" and then click "Login".
-    
+    // Note: We intentionally do not create a session here to avoid cookie issues in Server Components.
+    // The user must log in manually after verification.
     return { success: true };
   } catch (error) {
-    console.error('Verification error:', error);
+    console.error('[AUTH] Verification error:', error);
     return { success: false, error: 'Erro ao verificar e-mail.' };
   }
 }
 
+/**
+ * Authenticates a user and creates a session.
+ * 
+ * @param {any} data - Login credentials (email, password).
+ * @returns {Promise<{success: boolean, user?: any, error?: string}>} Login result with user data or error.
+ */
 export async function loginUser(data: any) {
   const result = LoginSchema.safeParse(data);
 
@@ -143,13 +145,7 @@ export async function loginUser(data: any) {
       return { success: false, error: 'Credenciais inválidas' };
     }
 
-    // Check if email is verified
-    // Allow admin bypass if needed, but safer to enforce
-    // For now, if it's an old user (emailVerified is null but no confirmationToken?), 
-    // we might want to allow login or force verification. 
-    // Assuming new flow:
     if (!user.emailVerified) {
-       // Optional: Resend email logic could be here
        return { success: false, error: 'E-mail não verificado. Por favor, verifique sua caixa de entrada.' };
     }
 
@@ -162,11 +158,14 @@ export async function loginUser(data: any) {
     await createSession(user.id, user.role);
     return { success: true, user: { id: user.id, name: user.name, email: user.email, role: user.role } };
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('[AUTH] Login error:', error);
     return { success: false, error: 'Erro ao fazer login' };
   }
 }
 
+/**
+ * Logs out the current user by deleting the session and redirecting to login.
+ */
 export async function logoutUser() {
   await deleteSession();
   redirect('/login');

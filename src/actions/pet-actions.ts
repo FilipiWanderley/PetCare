@@ -3,6 +3,18 @@
 import { prisma } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 
+/**
+ * Creates a new pet record in the database.
+ * Connects the pet to an existing owner via email.
+ * 
+ * @param {Object} data - Pet data.
+ * @param {string} data.name - Name of the pet.
+ * @param {string} data.species - Species (e.g., Dog, Cat).
+ * @param {string} [data.breed] - Breed of the pet.
+ * @param {number} data.age - Age of the pet.
+ * @param {string} data.ownerEmail - Email of the owner (must exist).
+ * @returns {Promise<{success: boolean, data?: any, error?: string}>}
+ */
 export async function createPet(data: {
   name: string;
   species: string;
@@ -11,11 +23,17 @@ export async function createPet(data: {
   ownerEmail: string;
 }) {
   try {
+    const { ownerEmail, ...petData } = data;
+    
     const pet = await prisma.pet.create({
-      data,
+      data: {
+        ...petData,
+        owner: {
+          connect: { email: ownerEmail },
+        },
+      },
     });
     
-    // Revalidate the dashboard or home page where pets might be listed
     revalidatePath('/dashboard');
     return { success: true, data: pet };
   } catch (error) {
@@ -24,12 +42,25 @@ export async function createPet(data: {
   }
 }
 
+/**
+ * Fetches all pets ordered by creation date (newest first).
+ * 
+ * @returns {Promise<{success: boolean, data?: any[], error?: string}>}
+ */
 export async function getPets() {
   try {
     const pets = await prisma.pet.findMany({
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        owner: {
+          select: {
+            name: true,
+            email: true
+          }
+        }
+      }
     });
     return { success: true, data: pets };
   } catch (error) {

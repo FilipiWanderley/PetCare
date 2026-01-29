@@ -17,8 +17,9 @@ export async function getProducts() {
         id: 'asc',
       },
     });
+    const unique = dedupeByKey(products, 'name');
     
-    return { success: true, data: products };
+    return { success: true, data: unique };
   } catch (error) {
     console.error('Get products error:', error);
     return { success: false, error: 'Erro ao buscar produtos' };
@@ -40,10 +41,19 @@ async function seedProducts() {
   ];
 
   for (const p of products) {
-    await prisma.product.create({
-      data: p,
-    });
+    const exists = await prisma.product.findFirst({ where: { name: p.name } });
+    if (!exists) {
+      await prisma.product.create({ data: p });
+    }
   }
 }
 
+function dedupeByKey<T extends Record<string, any>>(items: T[], key: keyof T): T[] {
+  const map = new Map<string, T>();
+  for (const item of items) {
+    const k = String(item[key]);
+    if (!map.has(k)) map.set(k, item);
+  }
+  return Array.from(map.values());
+}
 

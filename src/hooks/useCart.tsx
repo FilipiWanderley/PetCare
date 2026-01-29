@@ -6,7 +6,7 @@ export interface Product {
   id: number;
   name: string;
   price: number;
-  oldPrice?: number;
+  oldPrice?: number | null;
   image: string;
   isSale?: boolean;
 }

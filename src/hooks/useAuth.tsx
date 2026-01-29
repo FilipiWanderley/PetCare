@@ -56,10 +56,13 @@ export function AuthProvider({ children, initialUser }: { children: ReactNode, i
     setIsLoading(true);
     try {
       const result = await registerUser(credentials);
-      if (result.success && result.user) {
-        setUser(result.user);
+      if (result.success) {
+        // Registration successful, but email verification required.
+        // Do not set user or redirect to home immediately.
+        // Maybe redirect to a "check email" page or let the component handle it.
+        // For now, we just don't set user.
         router.refresh();
-        router.push('/');
+        // The UI should show the success message returned by registerUser
       } else {
         throw new Error(result.error || 'Registration failed');
       }

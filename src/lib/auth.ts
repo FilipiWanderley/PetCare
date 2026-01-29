@@ -1,3 +1,8 @@
+/**
+ * Core authentication types for the application.
+ * Defines the shape of user objects and credentials used across the system.
+ */
+
 export interface User {
   id: string;
   name: string;

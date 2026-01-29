@@ -14,8 +14,9 @@ export async function getTestimonials() {
         createdAt: 'asc',
       },
     });
+    const unique = dedupeByKey(testimonials, 'name');
     
-    return { success: true, data: testimonials };
+    return { success: true, data: unique };
   } catch (error) {
     console.error('Get testimonials error:', error);
     return { success: false, error: 'Erro ao buscar depoimentos' };
@@ -45,8 +46,18 @@ async function seedTestimonials() {
   ];
 
   for (const t of testimonials) {
-    await prisma.testimonial.create({
-      data: t,
-    });
+    const exists = await prisma.testimonial.findFirst({ where: { name: t.name } });
+    if (!exists) {
+      await prisma.testimonial.create({ data: t });
+    }
   }
+}
+
+function dedupeByKey<T extends Record<string, any>>(items: T[], key: keyof T): T[] {
+  const map = new Map<string, T>();
+  for (const item of items) {
+    const k = String(item[key]);
+    if (!map.has(k)) map.set(k, item);
+  }
+  return Array.from(map.values());
 }
