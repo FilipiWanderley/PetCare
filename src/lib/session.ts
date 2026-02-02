@@ -2,7 +2,7 @@ import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { prisma } from './db';
 
-const secretKey = 'secret-key-change-this-in-prod';
+const secretKey = process.env.JWT_SECRET || 'secret-key-change-this-in-prod';
 const key = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: any) {
