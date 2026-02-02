@@ -111,7 +111,7 @@ export default function DashboardPage() {
             <div className={styles.statusFilter}>
               <Select 
                 value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
+                onChange={(value) => setStatusFilter(value)}
                 options={[
                   { label: 'Todos os Status', value: 'all' },
                   { label: 'Pendentes', value: 'pending' },
