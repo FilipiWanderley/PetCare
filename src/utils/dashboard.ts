@@ -1,10 +1,4 @@
-
-export interface Appointment {
-  id: string;
-  petName: string;
-  ownerName: string;
-  status: string;
-}
+import { Appointment } from '@/types';
 
 export function filterAppointments(
   appointments: Appointment[],
