@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { filterAppointments } from '@/utils/dashboard';
 import { Appointment } from '@/types';
 
+// Unit tests for dashboard utility functions
 describe('filterAppointments', () => {
   const mockAppointments: Appointment[] = [
     {
