@@ -10,6 +10,7 @@ import { SalesList } from '@/components/features/dashboard/SalesList';
 import { Calendar, LogOut, DollarSign, ShoppingBag, TrendingUp } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
+import { filterAppointments } from '@/utils/dashboard';
 import styles from './page.module.css';
 
 export default function DashboardPage() {
@@ -19,15 +20,7 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
-  const filteredAppointments = appointments.filter((apt) => {
-    const matchesSearch = 
-      apt.petName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      apt.ownerName.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = statusFilter === 'all' || apt.status === statusFilter;
-
-    return matchesSearch && matchesStatus;
-  });
+  const filteredAppointments = filterAppointments(appointments, searchTerm, statusFilter);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
