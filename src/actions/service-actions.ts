@@ -51,11 +51,17 @@ async function seedServices() {
       image: '/assets/icons/SVG/cuidados.svg',
     },
     {
-      title: 'Curiosidades',
-      description: 'Dicas incríveis e informações úteis para você entender melhor o mundo pet.',
+      title: 'Palestras',
+      description: 'Workshops e palestras educativas para todos os tutores sobre saúde e comportamento animal.',
       image: '/assets/icons/SVG/curiosidades.svg',
     },
   ];
+
+  // Remove old "Curiosidades" if exists, as it is replaced by "Palestras"
+  const oldCuriosidades = await prisma.service.findFirst({ where: { title: 'Curiosidades' } });
+  if (oldCuriosidades) {
+    await prisma.service.delete({ where: { id: oldCuriosidades.id } });
+  }
 
   for (const s of services) {
     const exists = await prisma.service.findFirst({ where: { title: s.title } });

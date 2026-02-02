@@ -60,14 +60,23 @@ export async function getAppointments() {
   const session = await getSession();
   
   if (!session?.userId) {
+    // Return empty array for non-authenticated users instead of potentially exposing guest appointments
+    // Or we could implement a logic to show guest appointments if we had a guest session/cookie
     return { success: true, data: [] };
   }
 
   try {
+    let whereClause: any = {
+      ownerId: session.userId,
+    };
+
+    // If admin, show all appointments including guests
+    if (session.role === 'admin') {
+      whereClause = {}; // No filter, get everything
+    }
+
     const appointments = await prisma.appointment.findMany({
-      where: {
-        ownerId: session.userId,
-      },
+      where: whereClause,
       orderBy: {
         date: 'desc',
       },
@@ -79,7 +88,7 @@ export async function getAppointments() {
     // Map to frontend structure
     const mapped = appointments.map(apt => ({
       id: apt.id,
-      ownerName: apt.guestName || 'Você',
+      ownerName: apt.guestName || 'Cliente Cadastrado', // Fallback for registered users
       petName: apt.guestPet || apt.pet?.name || 'Pet',
       service: apt.service as any,
       phone: apt.phone || '',

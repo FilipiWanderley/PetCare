@@ -30,7 +30,8 @@ export function Footer() {
         <div className={styles.column}>
           <h3>Horários</h3>
           <ul className={styles.list}>
-            <li><strong>Seg-Sáb:</strong> 9:00-18:00</li>
+            <li><strong>Seg-Sex:</strong> 9:00 - 18:00</li>
+            <li><strong>Sábado:</strong> 9:00 - 14:00</li>
             <li><strong>Domingo:</strong> Fechado</li>
           </ul>
         </div>
@@ -69,7 +70,7 @@ export function Footer() {
 
       <div className={styles.copyrightBar}>
         <div className={styles.copyrightContent}>
-          <p>&copy; {new Date().getFullYear()} PetCare | <a href="#">Política de Privacidade</a> | <a href="#">Site Map</a> | <a href="#">Contato</a></p>
+          <p>&copy; {new Date().getFullYear()} PetCare | Desenvolvido por Filipi Moraes | <a href="#">Política de Privacidade</a> | <a href="#">Site Map</a> | <a href="#">Contato</a></p>
         </div>
       </div>
     </footer>

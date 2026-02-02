@@ -145,7 +145,7 @@ export async function loginUser(data: any) {
       return { success: false, error: 'Credenciais inválidas' };
     }
 
-    if (!user.emailVerified) {
+    if (!user.emailVerified && user.role !== 'admin') {
        return { success: false, error: 'E-mail não verificado. Por favor, verifique sua caixa de entrada.' };
     }
 

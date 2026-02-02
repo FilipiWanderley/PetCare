@@ -1,14 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { CreateAppointmentData, ServiceType } from '@/types';
 import { useAppointments } from '@/hooks/useAppointments';
+import { useAuth } from '@/hooks/useAuth';
 import { SERVICE_OPTIONS } from '@/data/services';
+import { CheckCircle, Clock, Calendar, User, Dog, Phone, Briefcase } from 'lucide-react'; // Icons
 import styles from './AppointmentForm.module.css';
 
 type FormInputs = {
@@ -24,19 +26,73 @@ export function AppointmentForm() {
   const { 
     register, 
     handleSubmit, 
-    formState: { errors, isSubmitting },
+    control,
+    formState: { errors, isSubmitting, isValid },
     reset,
-    setValue
-  } = useForm<FormInputs>();
+    setValue,
+    watch,
+    trigger
+  } = useForm<FormInputs>({
+    mode: 'onChange' // Real-time validation
+  });
   
   const { addAppointment } = useAppointments();
+  const { user } = useAuth();
   const router = useRouter();
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  
+  // State for progressive disclosure
+  const [activeStep, setActiveStep] = useState(1);
+  const [isLoadingStep, setIsLoadingStep] = useState(false);
+
+  // Watch fields to trigger next steps
+  const service = watch('service');
+  const dateOnly = watch('dateOnly');
+  const timeOnly = watch('timeOnly');
+  const ownerName = watch('ownerName');
+  const petName = watch('petName');
+  const phone = watch('phone');
+
+  // Pre-fill form if user is logged in
+  useEffect(() => {
+    if (user) {
+      if (user.name) setValue('ownerName', user.name);
+      if (user.phone) setValue('phone', user.phone);
+    }
+  }, [user, setValue]);
+
+  // Progressive Disclosure Logic
+  useEffect(() => {
+    const checkStep1 = async () => {
+      if (service && activeStep < 2) {
+        setIsLoadingStep(true);
+        await new Promise(resolve => setTimeout(resolve, 300)); // Short delay for smooth feel
+        setActiveStep(2);
+        setIsLoadingStep(false);
+      }
+    };
+    checkStep1();
+  }, [service, activeStep]);
+
+  useEffect(() => {
+    const checkStep2 = async () => {
+      if (dateOnly && timeOnly && activeStep < 3) {
+        setIsLoadingStep(true);
+        await new Promise(resolve => setTimeout(resolve, 300));
+        setActiveStep(3);
+        setIsLoadingStep(false);
+      }
+    };
+    checkStep2();
+  }, [dateOnly, timeOnly, activeStep]);
 
   const onSubmit = async (data: FormInputs) => {
-    // Simulação de delay para feedback visual
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    // Final validation check
+    const isStep1Valid = await trigger('service');
+    const isStep2Valid = await trigger(['dateOnly', 'timeOnly']);
+    const isStep3Valid = await trigger(['ownerName', 'petName', 'phone']);
+
+    if (!isStep1Valid || !isStep2Valid || !isStep3Valid) return;
+
     // Combine date and time
     const dateTime = new Date(`${data.dateOnly}T${data.timeOnly}`);
     
@@ -48,15 +104,21 @@ export function AppointmentForm() {
       phone: data.phone
     };
 
-    addAppointment(appointmentData);
-    setShowSuccessModal(true);
+    await addAppointment(appointmentData);
     
-    // Wait a bit before redirecting, or let user click button in modal
-    // Here we will auto-redirect after 2 seconds for smooth UX
+    // Construct query params for confirmation page (guest support)
+    const queryParams = new URLSearchParams({
+      ownerName: data.ownerName,
+      petName: data.petName,
+      service: data.service as string,
+      date: dateTime.toISOString(),
+      phone: data.phone
+    }).toString();
+    
     setTimeout(() => {
         reset();
-        router.push('/confirm');
-    }, 2000);
+        router.push(`/confirm?${queryParams}`);
+    }, 500);
   };
 
   // Generate time slots (09:00 to 18:00)
@@ -73,97 +135,159 @@ export function AppointmentForm() {
     let formattedValue = value;
     
     if (value.length > 10) {
-      // Format: (XX) XXXXX-XXXX
       formattedValue = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
     } else if (value.length > 2) {
-      // Format: (XX) ...
       formattedValue = `(${value.slice(0, 2)}) ${value.slice(2)}`;
     }
     
     setValue('phone', formattedValue, { shouldValidate: true });
   };
 
+  // Calculate progress percentage
+  const progress = ((activeStep - 1) / 2) * 100;
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <h2 style={{ marginBottom: '1rem', color: 'var(--foreground)', fontSize: '1.25rem', fontWeight: 'bold' }}>
-        Novo Agendamento
+      {/* Loading Overlay for Step Transitions */}
+      {isLoadingStep && (
+        <div className={styles.loadingOverlay}>
+          <div className={styles.spinner}></div>
+        </div>
+      )}
+
+      <h2 style={{ marginBottom: '0.5rem', color: 'var(--foreground)', fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'center' }}>
+        Agende seu Horário
       </h2>
+      
+      {/* Progress Indicator */}
+      <div className={styles.progressContainer}>
+        <div className={styles.progressTrack}>
+           <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
+        </div>
+        
+        <div className={`${styles.stepIndicator} ${activeStep >= 1 ? styles.stepActive : ''} ${activeStep > 1 ? styles.stepCompleted : ''}`}>
+          {activeStep > 1 ? <CheckCircle size={16} /> : '1'}
+        </div>
+        <div className={`${styles.stepIndicator} ${activeStep >= 2 ? styles.stepActive : ''} ${activeStep > 2 ? styles.stepCompleted : ''}`}>
+          {activeStep > 2 ? <CheckCircle size={16} /> : '2'}
+        </div>
+        <div className={`${styles.stepIndicator} ${activeStep >= 3 ? styles.stepActive : ''}`}>
+          3
+        </div>
+      </div>
 
-      {/* Serviço */}
-      <Select
-        label="Serviço *"
-        options={SERVICE_OPTIONS}
-        error={errors.service?.message}
-        placeholder="Selecione um serviço"
-        {...register('service', { required: 'Selecione um serviço' })}
-      />
+      {/* STEP 1: Service Selection */}
+      <div className={styles.card}>
+        <div className={styles.sectionTitle}>
+          <Briefcase size={20} className={styles.icon} />
+          Qual serviço seu pet precisa?
+        </div>
+        <Controller
+          name="service"
+          control={control}
+          rules={{ required: 'Selecione um serviço para continuar' }}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              options={SERVICE_OPTIONS}
+              error={errors.service?.message}
+              placeholder="Selecione um serviço..."
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+      </div>
 
-      {/* Data */}
-      <Input
-        label="Data *"
-        type="date"
-        placeholder="dd/mm/aaaa"
-        error={errors.dateOnly?.message}
-        {...register('dateOnly', { 
-          required: 'Data é obrigatória',
-          validate: (value) => {
-            const selectedDate = new Date(value);
-            const now = new Date();
-            now.setHours(0, 0, 0, 0);
-            return selectedDate >= now || 'A data deve ser futura';
-          }
-        })}
-      />
+      {/* STEP 2: Date & Time */}
+      <div className={`${styles.stepSection} ${activeStep >= 2 ? styles.stepVisible : ''}`}>
+        <div className={styles.card}>
+          <div className={styles.sectionTitle}>
+            <Calendar size={20} />
+            Quando podemos atender?
+          </div>
+          <div className={styles.grid}>
+            <Input
+              type="date"
+              label="Data"
+              error={errors.dateOnly?.message}
+              {...register('dateOnly', { 
+                required: 'Data é obrigatória',
+                validate: (value) => {
+                  const selectedDate = new Date(value);
+                  const now = new Date();
+                  now.setHours(0, 0, 0, 0);
+                  return selectedDate >= now || 'A data deve ser futura';
+                }
+              })}
+            />
+            <Controller
+              name="timeOnly"
+              control={control}
+              rules={{ required: 'Horário é obrigatório' }}
+              render={({ field: { onChange, value } }) => (
+                <Select
+                  label="Horário"
+                  options={timeOptions}
+                  placeholder="Horário..."
+                  error={errors.timeOnly?.message}
+                  value={value}
+                  onChange={onChange}
+                />
+              )}
+            />
+          </div>
+        </div>
+      </div>
 
-      {/* Horário */}
-      <Select
-        label="Horário *"
-        options={timeOptions}
-        placeholder="Selecione um horário"
-        error={errors.timeOnly?.message}
-        {...register('timeOnly', { required: 'Horário é obrigatório' })}
-      />
+      {/* STEP 3: Personal Details */}
+      <div className={`${styles.stepSection} ${activeStep >= 3 ? styles.stepVisible : ''}`}>
+        <div className={styles.card}>
+          <div className={styles.sectionTitle}>
+            <User size={20} />
+            Quem vamos receber?
+          </div>
+          <div className={styles.grid}>
+             <Input
+              label="Seu Nome"
+              placeholder="Nome completo"
+              error={errors.ownerName?.message}
+              {...register('ownerName', { required: 'Seu nome é obrigatório' })}
+            />
+            <Input
+              label="Telefone/WhatsApp"
+              placeholder="(00) 00000-0000"
+              error={errors.phone?.message}
+              {...register('phone', { 
+                required: 'Telefone é obrigatório',
+                pattern: {
+                  value: /^\(\d{2}\) \d{4,5}-\d{4}$/,
+                  message: 'Formato inválido'
+                },
+                onChange: handlePhoneChange
+              })}
+            />
+            <Input
+              label="Nome do Pet"
+              placeholder="Nome do pet"
+              error={errors.petName?.message}
+              {...register('petName', { required: 'Nome do pet é obrigatório' })}
+            />
+          </div>
+        </div>
+      </div>
 
-      {/* Nome do Tutor */}
-      <Input
-        label="Nome do Tutor *"
-        placeholder="Seu nome completo"
-        error={errors.ownerName?.message}
-        {...register('ownerName', { required: 'Nome é obrigatório' })}
-      />
-
-      {/* Nome do Pet */}
-      <Input
-        label="Nome do Pet *"
-        placeholder="Nome do seu pet"
-        error={errors.petName?.message}
-        {...register('petName', { required: 'Nome do pet é obrigatório' })}
-      />
-
-      {/* Telefone */}
-      <Input
-        label="Telefone *"
-        placeholder="(11) 99999-9999"
-        error={errors.phone?.message}
-        {...register('phone', { 
-          required: 'Telefone é obrigatório',
-          pattern: {
-            value: /^\(\d{2}\) \d{4,5}-\d{4}$/,
-            message: 'Formato inválido: (99) 99999-9999 ou (99) 9999-9999'
-          },
-          onChange: handlePhoneChange
-        })}
-      />
-
-      <Button 
-        type="submit" 
-        fullWidth 
-        isLoading={isSubmitting} 
-        className={styles.submitButton}
-        variant="success"
-      >
-        Confirmar agendamento
-      </Button>
+      {/* Submit Action */}
+      <div className={`${styles.submitButton} ${activeStep >= 3 && isValid ? styles.submitButtonActive : ''}`}>
+        <Button 
+          type="submit" 
+          fullWidth 
+          isLoading={isSubmitting} 
+          variant="success"
+          size="lg"
+        >
+          Confirmar Agendamento
+        </Button>
+      </div>
     </form>
   );
 }

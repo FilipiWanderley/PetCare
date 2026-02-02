@@ -7,8 +7,34 @@
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   width: 100%;
+}
+
+.contentWrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Desktop Layout */
+@media (min-width: 992px) {
+  .contentWrapper {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .title, .subtitle {
+    text-align: left !important;
+  }
+}
+
+/* Info Column Styles */
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .title {
@@ -16,13 +42,113 @@
   color: var(--text-primary);
   margin-bottom: 1rem;
   text-align: center;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .subtitle {
   text-align: center;
   color: var(--text-secondary);
-  margin-bottom: 3rem;
   font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 1rem;
+}
+
+.infoTitle {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* Steps List */
+.stepsList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stepItem {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.stepNumber {
+  background-color: var(--primary);
+  color: var(--text-on-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.stepItem strong {
+  display: block;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.stepItem p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Benefits List */
+.benefitsList {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.benefitsList li {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Hours Section */
+.hoursSection {
+  background-color: var(--surface-alt);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.hoursTitle {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.hoursSection p {
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hoursSection p:last-child {
+  margin-bottom: 0;
+}
+
+/* Form Column */
+.formColumn {
+  width: 100%;
 }
 
 .formWrapper {
@@ -30,4 +156,7 @@
   padding: 2rem;
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  position: sticky;
+  top: 6rem;
 }

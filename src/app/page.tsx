@@ -26,7 +26,7 @@ export default async function Home() {
               Dê ao seu melhor amigo <span className={styles.highlight}>o cuidado que ele merece</span>
             </h1>
             <p className={styles.heroSubtitle}>
-              Simplificamos a rotina para você focar no que importa: o amor pelo seu pet. Agende banho, tosa e consultas veterinárias com a agilidade que você precisa.
+              Soluções completas e profissionais para a saúde e bem-estar do seu animal. Agende banho, tosa e consultas veterinárias com rapidez e segurança.
             </p>
             <a href="#agendar" className={styles.ctaButton}>
               Agendar Agora

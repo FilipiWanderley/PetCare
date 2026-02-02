@@ -33,13 +33,13 @@ async function seedTestimonials() {
     },
     {
       name: 'Giovanna Lima',
-      role: 'Tutora de cachorro',
+      role: 'Tutor de cachorro',
       image: '/assets/icons/Picture/Picture2.svg',
       feedback: 'Desde que comecei a usar os serviços, percebi uma mudança positiva no comportamento do meu pet. As dicas de adestramento são valiosas!',
     },
     {
       name: 'Karla Santana',
-      role: 'Tutora de gato',
+      role: 'Tutor de gato',
       image: '/assets/icons/Picture/Picture3.svg',
       feedback: 'O atendimento não apenas me lembra das vacinas e consultas, mas também me conectou a uma comunidade incrível de amantes de animais.',
     },
@@ -49,6 +49,14 @@ async function seedTestimonials() {
     const exists = await prisma.testimonial.findFirst({ where: { name: t.name } });
     if (!exists) {
       await prisma.testimonial.create({ data: t });
+    } else {
+      // Update role if changed (to fix "Tutora" -> "Tutor")
+      if (exists.role !== t.role) {
+        await prisma.testimonial.update({
+          where: { id: exists.id },
+          data: { role: t.role },
+        });
+      }
     }
   }
 }

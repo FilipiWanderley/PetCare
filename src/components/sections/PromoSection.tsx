@@ -8,10 +8,10 @@ export function PromoSection() {
         <div className={styles.card}>
           <div className={styles.content}>
             <h2 className={styles.title}>
-              Cuide de quem você ama com os melhores profissionais
+              Excelência e dedicação no cuidado animal
             </h2>
             <p className={styles.description}>
-              Oferecemos serviços completos de banho, tosa e veterinária com todo o carinho que seu pet merece. Agende agora e garanta o bem-estar do seu melhor amigo!
+              Serviços especializados de banho, tosa e veterinária com infraestrutura moderna. Agende agora e proporcione o melhor tratamento para o seu pet.
             </p>
             <a href="#agendar" className={styles.ctaButton}>
               Agende Aqui

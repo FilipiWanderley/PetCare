@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
-import { Product } from '@/hooks/useCart'; // Or import from Prisma types if compatible, but useCart defines its own interface.
+import { Product } from '@/hooks/useCart';
 import styles from './page.module.css';
 
 interface ProductsGridProps {
@@ -27,15 +27,22 @@ export function ProductsGrid({ products }: ProductsGridProps) {
                   style={{ objectFit: 'contain', width: '100%', height: '100%' }}
                 />
              ) : (
-                <ShoppingBag size={48} />
+                <ShoppingCart size={48} />
              )}
           </div>
+          
+          <span className={styles.productPrice}>
+            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)}
+          </span>
+
           <h3 className={styles.productName}>{product.name}</h3>
-          <span className={styles.productPrice}>R$ {product.price.toFixed(2)}</span>
+          
           <button 
             className={styles.button}
             onClick={() => addToCart(product)}
+            aria-label={`Adicionar ${product.name} ao carrinho`}
           >
+            <ShoppingCart size={20} />
             Adicionar ao Carrinho
           </button>
         </div>

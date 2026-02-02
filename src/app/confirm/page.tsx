@@ -2,14 +2,28 @@
 
 import styles from './page.module.css';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useAppointments } from '@/hooks/useAppointments';
+import { Suspense } from 'react';
 
-export default function ConfirmPage() {
+function ConfirmContent() {
   const { appointments } = useAppointments();
-  // Derived state, no need for useState/useEffect
-  const lastAppointment = appointments && appointments.length > 0 ? appointments[0] : null;
+  const searchParams = useSearchParams();
+
+  // Try to get from params first (Guest flow)
+  const paramsAppointment = searchParams.get('date') ? {
+    ownerName: searchParams.get('ownerName') || '',
+    petName: searchParams.get('petName') || '',
+    service: searchParams.get('service') || '',
+    date: searchParams.get('date') || '',
+    phone: searchParams.get('phone') || '',
+    status: 'pending' as const
+  } : null;
+
+  // Fallback to context (Authenticated flow)
+  const lastAppointment = paramsAppointment || (appointments && appointments.length > 0 ? appointments[0] : null);
 
   if (!lastAppointment) {
     return (
@@ -90,5 +104,13 @@ export default function ConfirmPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ConfirmPage() {
+  return (
+    <Suspense fallback={<div>Carregando...</div>}>
+      <ConfirmContent />
+    </Suspense>
   );
 }

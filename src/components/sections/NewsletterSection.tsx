@@ -24,7 +24,7 @@ export function NewsletterSection() {
               </li>
               <li className={styles.benefitItem}>
                 <span className={styles.numberBadge}>03</span>
-                <span className={styles.benefitText}>Leia artigos sobre temas relevantes</span>
+                <span className={styles.benefitText}>Acesso a palestras e workshops exclusivos</span>
               </li>
             </ul>
 

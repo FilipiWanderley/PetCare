@@ -10,10 +10,10 @@ export function LoyaltySection() {
           <div className={styles.textContent}>
             <span className={styles.tag}>Clube de Vantagens</span>
             <h2 className={styles.title}>
-              Leve a felicidade do seu pet <span className={styles.highlight}>às alturas!</span>
+              Eleve o nível de cuidado <span className={styles.highlight}>com o seu pet!</span>
             </h2>
             <p className={styles.description}>
-              Faça parte do nosso clube exclusivo. Acumule pontos em banhos, tosas e consultas e troque por descontos e mimos especiais. Porque seu melhor amigo merece ser VIP.
+              Faça parte do nosso clube exclusivo. Acumule pontos em cada serviço realizado e troque por descontos e benefícios premium. Tratamento VIP para o seu melhor amigo.
             </p>
             
             <ul className={styles.benefitsList}>

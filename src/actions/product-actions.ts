@@ -30,7 +30,7 @@ export async function getProducts() {
 
 async function seedProducts() {
   const products = [
-    { name: 'Brit Premium Pet Food', price: 120.00, image: '/assets/images/Produtos/Background1.svg' },
+    { name: 'Ração Premium Brit', price: 120.00, image: '/assets/images/Produtos/Background1.svg' },
     { name: 'Petiscos para gatos exigentes', price: 12.00, image: '/assets/images/Produtos/Background2.svg' },
     { name: 'Nutrição exclusiva para animais de estimação', price: 88.00, image: '/assets/images/Produtos/Background3.svg' },
     { name: 'Miau Mordidas', price: 8.00, image: '/assets/images/Produtos/Background4.svg' },
@@ -41,9 +41,24 @@ async function seedProducts() {
   ];
 
   for (const p of products) {
-    const exists = await prisma.product.findFirst({ where: { name: p.name } });
+    // Check by name or maybe image to avoid duplicates if name changed
+    const exists = await prisma.product.findFirst({ 
+      where: { 
+        OR: [
+          { name: p.name },
+          { image: p.image }
+        ]
+      } 
+    });
+    
     if (!exists) {
       await prisma.product.create({ data: p });
+    } else if (exists.name === 'Brit Premium Pet Food' && p.name === 'Ração Premium Brit') {
+      // Update the specific item if it exists with old name
+      await prisma.product.update({
+        where: { id: exists.id },
+        data: { name: p.name }
+      });
     }
   }
 }

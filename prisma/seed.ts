@@ -14,6 +14,7 @@ async function main() {
     update: {
       role: 'admin',
       password: hashedPassword,
+      emailVerified: new Date(),
     },
     create: {
       email,
@@ -21,6 +22,7 @@ async function main() {
       password: hashedPassword,
       role: 'admin',
       phone: '0000000000',
+      emailVerified: new Date(),
     },
   });
 
