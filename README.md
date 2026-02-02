@@ -53,6 +53,11 @@ Bem-vindo ao repositório do projeto **Pet Care**! Esta é uma aplicação web c
 
 ## 🚀 Como Rodar o Projeto
 
+### Configuração em Produção (Vercel)
+
+Para popular o banco de dados em produção, acesse a seguinte rota após o deploy:
+`https://seu-dominio.vercel.app/api/seed?secret=petcare-setup`
+
 Para rodar o projeto localmente:
 
 1.  **Clone o repositório e instale as dependências:**
