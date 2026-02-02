@@ -10,9 +10,6 @@ export async function getProducts() {
     }
 
     const products = await prisma.product.findMany({
-      where: {
-        category: null, // Only regular products
-      },
       orderBy: {
         id: 'asc',
       },
