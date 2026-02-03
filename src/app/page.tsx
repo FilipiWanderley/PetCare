@@ -15,6 +15,7 @@ import { getTestimonials } from '@/actions/testimonial-actions';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+// Main Home Page Component
 export default async function Home() {
   // Force re-render to pick up seeded data
   console.log('Rendering Home Page...');
