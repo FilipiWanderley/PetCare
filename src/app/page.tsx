@@ -11,6 +11,7 @@ import { getServices } from '@/actions/service-actions';
 import { getTestimonials } from '@/actions/testimonial-actions';
 
 export default async function Home() {
+  // Fetch data directly from the database
   const [{ data: products }, { data: services }, { data: testimonials }] = await Promise.all([
     getProducts(),
     getServices(),
