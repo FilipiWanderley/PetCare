@@ -30,14 +30,15 @@ export default async function Home() {
     <main className={styles.main}>
       {/* DEBUG BANNER - TEMPORARY */}
       <div style={{ padding: '20px', background: '#ffebee', border: '2px solid red', margin: '20px', borderRadius: '8px' }}>
-        <h3 style={{ color: '#c62828' }}>🔧 Painel de Diagnóstico (Visível apenas para teste)</h3>
+        <h3 style={{ color: '#c62828' }}>🔧 Painel de Diagnóstico v2</h3>
         <ul style={{ listStyle: 'none', padding: 0, marginTop: '10px', color: '#333' }}>
           <li>📦 <strong>Produtos Encontrados:</strong> {products?.length || 0}</li>
           <li>🛠️ <strong>Serviços Encontrados:</strong> {services?.length || 0}</li>
           <li>💬 <strong>Depoimentos Encontrados:</strong> {testimonials?.length || 0}</li>
-          <li>📅 <strong>Data/Hora do Server:</strong> {new Date().toLocaleString('pt-BR')}</li>
+          <li>📅 <strong>Build:</strong> {new Date().toISOString()}</li>
+          <li>⚠️ <strong>Cache:</strong> Desativado via vercel.json</li>
         </ul>
-        <p style={{ fontSize: '0.9em', color: '#666' }}>Se os números forem 0, o banco de dados ainda não foi lido corretamente.</p>
+        <p style={{ fontSize: '0.9em', color: '#666' }}>Se você está vendo isso, o deploy funcionou.</p>
       </div>
 
       <section className={styles.heroSection}>
