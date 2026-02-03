@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
+import { revalidatePath } from 'next/cache';
 
 // Endpoint to seed the database in production
 export async function GET(request: Request) {
