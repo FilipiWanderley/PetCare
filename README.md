@@ -113,3 +113,5 @@ Para rodar o projeto localmente:
 
 ---
 *Desenvolvido com carinho para o melhor cuidado do seu pet.* 🐶🐱
+
+<!-- Force redeploy -->
