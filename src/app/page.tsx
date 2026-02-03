@@ -10,6 +10,11 @@ import { getProducts } from '@/actions/product-actions';
 import { getServices } from '@/actions/service-actions';
 import { getTestimonials } from '@/actions/testimonial-actions';
 
+// Force dynamic rendering to ensure the page always fetches fresh data from the database
+// This fixes the issue where the page was cached as static HTML when the database was empty
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function Home() {
   // Force re-render to pick up seeded data
   console.log('Rendering Home Page...');
