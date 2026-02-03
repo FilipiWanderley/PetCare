@@ -20,25 +20,29 @@ export default async function Home() {
   // Force re-render to pick up seeded data
   console.log('Rendering Home Page...');
   
-  const [{ data: products }, { data: services }, { data: testimonials }] = await Promise.all([
+  const [productsResult, servicesResult, testimonialsResult] = await Promise.all([
     getProducts(),
     getServices(),
     getTestimonials(),
   ]);
 
+  const products = productsResult.data || [];
+  const services = servicesResult.data || [];
+  const testimonials = testimonialsResult.data || [];
+
   return (
     <main className={styles.main}>
       {/* DEBUG BANNER - TEMPORARY */}
       <div style={{ padding: '20px', background: '#ffebee', border: '2px solid red', margin: '20px', borderRadius: '8px' }}>
-        <h3 style={{ color: '#c62828' }}>🔧 Painel de Diagnóstico v2</h3>
+        <h3 style={{ color: '#c62828' }}>🔧 Painel de Diagnóstico v3</h3>
         <ul style={{ listStyle: 'none', padding: 0, marginTop: '10px', color: '#333' }}>
-          <li>📦 <strong>Produtos Encontrados:</strong> {products?.length || 0}</li>
-          <li>🛠️ <strong>Serviços Encontrados:</strong> {services?.length || 0}</li>
-          <li>💬 <strong>Depoimentos Encontrados:</strong> {testimonials?.length || 0}</li>
+          <li>📦 <strong>Produtos:</strong> {products.length} (Erro: {productsResult.error || 'Nenhum'})</li>
+          <li>🛠️ <strong>Serviços:</strong> {services.length} (Erro: {servicesResult.error || 'Nenhum'})</li>
+          <li>💬 <strong>Depoimentos:</strong> {testimonials.length} (Erro: {testimonialsResult.error || 'Nenhum'})</li>
           <li>📅 <strong>Build:</strong> {new Date().toISOString()}</li>
           <li>⚠️ <strong>Cache:</strong> Desativado via vercel.json</li>
         </ul>
-        <p style={{ fontSize: '0.9em', color: '#666' }}>Se você está vendo isso, o deploy funcionou.</p>
+        <p style={{ fontSize: '0.9em', color: '#666' }}>Se houver erros acima, o problema é conexão com Banco de Dados.</p>
       </div>
 
       <section className={styles.heroSection}>
