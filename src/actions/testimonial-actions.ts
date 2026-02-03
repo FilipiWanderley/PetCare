@@ -1,25 +1,34 @@
 'use server';
 
 import { prisma } from '@/lib/db';
+import { withRetry } from '@/utils/retry';
 
 export async function getTestimonials() {
   try {
-    const count = await prisma.testimonial.count();
-    if (count === 0) {
-      await seedTestimonials();
-    }
+    const testimonials = await withRetry(async () => {
+      const count = await prisma.testimonial.count();
+      if (count === 0) {
+        await seedTestimonials();
+      }
 
-    const testimonials = await prisma.testimonial.findMany({
-      orderBy: {
-        createdAt: 'asc',
-      },
+      return await prisma.testimonial.findMany({
+        orderBy: {
+          createdAt: 'asc',
+        },
+      });
     });
+
     const unique = dedupeByKey(testimonials, 'name');
     
     return { success: true, data: unique };
-  } catch (error) {
-    console.error('Get testimonials error:', error);
-    return { success: false, error: 'Erro ao buscar depoimentos' };
+  } catch (error: any) {
+    console.error('❌ CRITICAL DB ERROR (Testimonials):', error);
+    const errorMessage = error.message || 'Erro desconhecido ao buscar depoimentos';
+    return { 
+      success: false, 
+      error: errorMessage,
+      details: JSON.stringify(error, Object.getOwnPropertyNames(error))
+    };
   }
 }
 

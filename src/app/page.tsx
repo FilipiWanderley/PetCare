@@ -49,6 +49,7 @@ export default async function Home() {
           <li>💬 <strong>Depoimentos:</strong> {testimonials.length} (Erro: {testimonialsResult.error || 'Nenhum'})</li>
           <li>📅 <strong>Build:</strong> {new Date().toISOString()}</li>
           <li>⚠️ <strong>Cache:</strong> Desativado via vercel.json</li>
+          <li>🔍 <strong>Diagnóstico Completo:</strong> <a href="/api/diagnose?secret=petcare-debug" target="_blank">Clique aqui</a></li>
         </ul>
         <p style={{ fontSize: '0.9em', color: '#666' }}>Se houver erros acima, o problema é conexão com Banco de Dados.</p>
       </div>

@@ -1,25 +1,36 @@
 'use server';
 
 import { prisma } from '@/lib/db';
+import { withRetry } from '@/utils/retry';
 
 export async function getProducts() {
   try {
-    const count = await prisma.product.count();
-    if (count === 0) {
-      await seedProducts();
-    }
+    const products = await withRetry(async () => {
+      const count = await prisma.product.count();
+      if (count === 0) {
+        await seedProducts();
+      }
 
-    const products = await prisma.product.findMany({
-      orderBy: {
-        id: 'asc',
-      },
+      return await prisma.product.findMany({
+        orderBy: {
+          id: 'asc',
+        },
+      });
     });
+
     const unique = dedupeByKey(products, 'name');
     
     return { success: true, data: unique };
-  } catch (error) {
-    console.error('Get products error:', error);
-    return { success: false, error: 'Erro ao buscar produtos' };
+  } catch (error: any) {
+    console.error('❌ CRITICAL DB ERROR (Products):', error);
+    
+    // Return detailed error for diagnosis
+    const errorMessage = error.message || 'Erro desconhecido ao buscar produtos';
+    return { 
+      success: false, 
+      error: errorMessage,
+      details: JSON.stringify(error, Object.getOwnPropertyNames(error))
+    };
   }
 }
 

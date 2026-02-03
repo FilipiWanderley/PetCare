@@ -1,25 +1,34 @@
 'use server';
 
 import { prisma } from '@/lib/db';
+import { withRetry } from '@/utils/retry';
 
 export async function getServices() {
   try {
-    const count = await prisma.service.count();
-    if (count === 0) {
-      await seedServices();
-    }
+    const services = await withRetry(async () => {
+      const count = await prisma.service.count();
+      if (count === 0) {
+        await seedServices();
+      }
 
-    const services = await prisma.service.findMany({
-      orderBy: {
-        createdAt: 'asc',
-      },
+      return await prisma.service.findMany({
+        orderBy: {
+          createdAt: 'asc',
+        },
+      });
     });
+
     const unique = dedupeByKey(services, 'title');
     
     return { success: true, data: unique };
-  } catch (error) {
-    console.error('Get services error:', error);
-    return { success: false, error: 'Erro ao buscar serviços' };
+  } catch (error: any) {
+    console.error('❌ CRITICAL DB ERROR (Services):', error);
+    const errorMessage = error.message || 'Erro desconhecido ao buscar serviços';
+    return { 
+      success: false, 
+      error: errorMessage,
+      details: JSON.stringify(error, Object.getOwnPropertyNames(error))
+    };
   }
 }
 
