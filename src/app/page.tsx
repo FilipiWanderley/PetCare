@@ -33,8 +33,16 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       {/* DEBUG BANNER - TEMPORARY */}
-      <div style={{ padding: '20px', background: '#ffebee', border: '2px solid red', margin: '20px', borderRadius: '8px' }}>
-        <h3 style={{ color: '#c62828' }}>🔧 Painel de Diagnóstico v3</h3>
+      <div style={{ 
+        padding: '20px', 
+        background: '#ffebee', 
+        border: '2px solid red', 
+        margin: '120px 20px 20px 20px', // Increased top margin to clear header
+        borderRadius: '8px',
+        position: 'relative',
+        zIndex: 1000 
+      }}>
+        <h3 style={{ color: '#c62828' }}>🔧 Painel de Diagnóstico v4</h3>
         <ul style={{ listStyle: 'none', padding: 0, marginTop: '10px', color: '#333' }}>
           <li>📦 <strong>Produtos:</strong> {products.length} (Erro: {productsResult.error || 'Nenhum'})</li>
           <li>🛠️ <strong>Serviços:</strong> {services.length} (Erro: {servicesResult.error || 'Nenhum'})</li>
