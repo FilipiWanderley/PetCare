@@ -32,28 +32,6 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      {/* DEBUG BANNER - TEMPORARY */}
-      <div style={{ 
-        padding: '20px', 
-        background: '#ffebee', 
-        border: '2px solid red', 
-        margin: '120px 20px 20px 20px', // Increased top margin to clear header
-        borderRadius: '8px',
-        position: 'relative',
-        zIndex: 1000 
-      }}>
-        <h3 style={{ color: '#c62828' }}>🔧 Painel de Diagnóstico v4</h3>
-        <ul style={{ listStyle: 'none', padding: 0, marginTop: '10px', color: '#333' }}>
-          <li>📦 <strong>Produtos:</strong> {products.length} (Erro: {productsResult.error || 'Nenhum'})</li>
-          <li>🛠️ <strong>Serviços:</strong> {services.length} (Erro: {servicesResult.error || 'Nenhum'})</li>
-          <li>💬 <strong>Depoimentos:</strong> {testimonials.length} (Erro: {testimonialsResult.error || 'Nenhum'})</li>
-          <li>📅 <strong>Build:</strong> {new Date().toISOString()}</li>
-          <li>⚠️ <strong>Cache:</strong> Desativado via vercel.json</li>
-          <li>🔍 <strong>Diagnóstico Completo:</strong> <a href="/api/diagnose?secret=petcare-debug" target="_blank">Clique aqui</a></li>
-        </ul>
-        <p style={{ fontSize: '0.9em', color: '#666' }}>Se houver erros acima, o problema é conexão com Banco de Dados.</p>
-      </div>
-
       <section className={styles.heroSection}>
         <div className={styles.heroContainer}>
           <div className={styles.heroContent}>

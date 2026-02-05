@@ -203,7 +203,7 @@
 }
 
 /* Responsive Styles */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .mobileMenuBtn {
     display: flex;
     align-items: center;
