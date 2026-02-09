@@ -14,7 +14,7 @@ interface ProductsSectionProps {
 function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
-  const [imgSrc, setImgSrc] = useState(product.image || '/assets/images/Produtos/img.svg');
+  const [imgSrc, setImgSrc] = useState(product.image || '/assets/images/Produtos/Background1.svg');
 
   const handleAdd = () => {
     addToCart(product);
@@ -32,7 +32,7 @@ function ProductCard({ product }: { product: Product }) {
           width={200}
           height={200}
           className={styles.productImage}
-          onError={() => setImgSrc('/assets/images/Produtos/img.svg')}
+          onError={() => setImgSrc('/assets/images/Produtos/Background1.svg')}
         />
       </div>
       <div className={styles.content}>
@@ -72,7 +72,7 @@ export function ProductsSection({ products = [] }: ProductsSectionProps) {
           <div className={styles.titleWrapper}>
             <div className={styles.pawBackground}>
               <Image
-                src="/assets/images/Produtos/img.svg"
+                src="/assets/images/Produtos/Background1.svg"
                 alt="Background Patinha"
                 width={100}
                 height={100}

@@ -69,17 +69,17 @@ async function main() {
   });
   console.log('Services seeded');
 
-  // Seed Products - Re-populating with ALL available images
+  // Seed Products - Using local assets from public/assets/images/Produtos/
   // First, delete existing products to ensure clean slate with new images
   await prisma.product.deleteMany({});
 
   await prisma.product.createMany({
     data: [
       {
-        name: 'Ração Premium Natural',
+        name: 'Weight Reduction',
         price: 129.9,
         oldPrice: 149.9,
-        image: 'https://loremflickr.com/500/500/dog,food?lock=1',
+        image: '/assets/images/Produtos/Background1.svg',
         description: 'Nutrição completa e balanceada para seu cão.',
         category: 'Alimentação',
         isSale: true,
@@ -87,45 +87,44 @@ async function main() {
         metadata: { weight: '15kg', flavor: 'Frango e Arroz' },
       },
       {
-        name: 'Cama Confortável Nuvem',
+        name: 'Aperitivos pro seu Pet',
         price: 189.9,
-        image: 'https://loremflickr.com/500/500/dog,bed?lock=2',
+        image: '/assets/images/Produtos/Background2.svg',
         description: 'O melhor descanso para seu amigo de quatro patas.',
         category: 'Acessórios',
         stock: 20,
         metadata: { size: 'G', color: 'Azul' },
       },
       {
-        name: 'Brinquedo Mordedor Resistente',
+        name: 'Ração Exclusive',
         price: 39.9,
-        image: 'https://loremflickr.com/500/500/dog,toy?lock=3',
+        image: '/assets/images/Produtos/Background3.svg',
         description: 'Ideal para cães que adoram roer.',
         category: 'Brinquedos',
         stock: 100,
       },
       {
-        name: 'Kit Higiene Pet',
+        name: 'Ração Brit pro seu Gato',
         price: 89.9,
         oldPrice: 99.9,
-        image: 'https://loremflickr.com/500/500/dog,shampoo?lock=4',
+        image: '/assets/images/Produtos/Background5.svg',
         description: 'Shampoo, condicionador e escova.',
         category: 'Higiene',
         isSale: true,
         stock: 30,
       },
-      // New products for Background images
       {
-        name: 'Coleira Ajustável Colorida',
+        name: 'Brinquedo Mordedor Resistente',
         price: 45.0,
-        image: 'https://loremflickr.com/500/500/dog,collar?lock=5',
+        image: '/assets/images/Produtos/Background6.svg',
         description: 'Coleira resistente e confortável.',
         category: 'Acessórios',
         stock: 50,
       },
       {
-        name: 'Biscoitos Naturais',
+        name: 'Ração Victor',
         price: 15.9,
-        image: 'https://loremflickr.com/500/500/dog,treats?lock=6',
+        image: '/assets/images/Produtos/Background7.svg',
         description: 'Petiscos saudáveis para recompensar seu pet.',
         category: 'Alimentação',
         stock: 200,
@@ -134,7 +133,7 @@ async function main() {
         name: 'Arranhador para Gatos',
         price: 120.0,
         oldPrice: 150.0,
-        image: 'https://loremflickr.com/500/500/cat,scratcher?lock=7',
+        image: '/assets/images/Produtos/Background8.svg',
         description: 'Diversão garantida para seu felino.',
         category: 'Brinquedos',
         isSale: true,
@@ -143,42 +142,10 @@ async function main() {
       {
         name: 'Roupinha de Inverno',
         price: 65.0,
-        image: 'https://loremflickr.com/500/500/dog,clothes?lock=8',
+        image: '/assets/images/Produtos/Background9.svg',
         description: 'Mantenha seu pet aquecido com estilo.',
         category: 'Vestuário',
         stock: 40,
-      },
-      {
-        name: 'Comedouro Automático',
-        price: 250.0,
-        image: 'https://loremflickr.com/500/500/pet,bowl?lock=9',
-        description: 'Praticidade na hora da alimentação.',
-        category: 'Acessórios',
-        stock: 10,
-      },
-      {
-        name: 'Shampoo Hipoalergênico',
-        price: 55.0,
-        image: 'https://loremflickr.com/500/500/shampoo,bottle?lock=10',
-        description: 'Cuidado especial para peles sensíveis.',
-        category: 'Higiene',
-        stock: 60,
-      },
-      {
-        name: 'Bolinha Interativa',
-        price: 25.0,
-        image: 'https://loremflickr.com/500/500/dog,ball?lock=11',
-        description: 'Brinquedo que estimula a inteligência.',
-        category: 'Brinquedos',
-        stock: 80,
-      },
-      {
-        name: 'Transportadora Segura',
-        price: 180.0,
-        image: 'https://loremflickr.com/500/500/pet,carrier?lock=12',
-        description: 'Segurança e conforto para viagens.',
-        category: 'Acessórios',
-        stock: 25,
       },
     ],
   });
