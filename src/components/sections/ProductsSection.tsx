@@ -70,14 +70,6 @@ export function ProductsSection({ products = [] }: ProductsSectionProps) {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.titleWrapper}>
-            <div className={styles.pawBackground}>
-              <Image
-                src="/assets/images/Produtos/Background1.svg"
-                alt="Background Patinha"
-                width={100}
-                height={100}
-              />
-            </div>
             <h2 className={styles.title}>Produtos</h2>
           </div>
 
