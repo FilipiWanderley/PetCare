@@ -1,118 +1,217 @@
-# 🐾 Pet Care - Plataforma Completa de Serviços Pet
+# 🐾 Pet Care Platform
 
-Bem-vindo ao repositório do projeto **Pet Care**! Esta é uma aplicação web completa, moderna e responsiva para clínicas veterinárias e pet shops, integrando serviços de agendamento com e-commerce de produtos pet. O projeto foi evoluído para uma aplicação Full-Stack funcional com persistência de dados em banco de dados PostgreSQL (Neon) via Prisma ORM.
+Plataforma completa para gestão de serviços de Pet Care, desenvolvida com foco em **qualidade de produção**, **segurança**, **observabilidade** e **arquitetura escalável**.
 
-## 🛠️ Tecnologias Utilizadas
-
-- **Next.js 16**: Framework React de última geração com Server Components, App Router e Server Actions.
-- **React 19**: Biblioteca para construção de interfaces interativas e reativas.
-- **TypeScript**: Tipagem estática robusta para segurança e manutenibilidade do código.
-- **Prisma ORM (v6)**: ORM moderno para Node.js e TypeScript, garantindo type-safety nas queries.
-- **Neon (PostgreSQL)**: Banco de dados relacional serverless.
-- **Zod**: Validação de schema e dados (TypeScript-first).
-- **CSS Modules**: Estilização modular e escalável.
-- **Context API**: Gerenciamento de estado global para Carrinho e Autenticação.
-- **JWT & Bcrypt**: Autenticação segura e hash de senhas.
-
-## ✅ Funcionalidades Implementadas
-
-### 1. Backend e Persistência de Dados 🗄️
-- **Integração com Banco de Dados**: Persistência real de dados (Usuários, Pets, Agendamentos, Produtos, Serviços, Depoimentos) utilizando PostgreSQL.
-- **Server Actions**: Operações CRUD executadas diretamente no servidor, garantindo segurança e performance.
-- **Autenticação Segura**: Login e Cadastro com validação, hash de senhas e sessões via JWT.
-- **Optimistic Updates**: Interface reativa que antecipa o sucesso das operações para melhor UX.
-- **Seeding Automático**: Povoamento inicial do banco de dados com produtos e serviços padrão.
-
-### 2. E-commerce e Carrinho de Compras 🛒
-- **Catálogo Dinâmico**: Produtos carregados diretamente do banco de dados.
-- **Carrinho Inteligente**: 
-  - Adição e remoção de itens.
-  - Controle de quantidade (+/-).
-  - Cálculo automático de subtotal e total.
-  - Persistência local (em processo de migração para o servidor).
-
-### 3. Dashboard Administrativo 📊
-- **Visão Geral**: Painel para administradores/gestores.
-- **Estatísticas em Tempo Real**: Receita, Vendas e Agendamentos baseados em dados reais.
-- **Gestão de Agendamentos**: Visualização e gerenciamento de status (Pendente/Confirmado/Cancelado).
-
-### 4. Sistema de Agendamento 📅
-- **Formulário Integrado**: Agendamento vinculado a usuários registrados ou convidados.
-- **Validações**: Verificação de disponibilidade e dados obrigatórios.
-- **Meus Agendamentos**: Área para o usuário visualizar seu histórico.
-
-### 5. Interface e Experiência do Usuário (UI/UX) ✨
-- **Design Responsivo**: Otimizado para Mobile, Tablet e Desktop.
-- **Feedback Visual**: Toasts e mensagens de erro/sucesso claras.
-- **Performance**: Carregamento paralelo de dados e otimização de imagens.
-
-### 6. Fluxo de Registro e Confirmação 📧
-- **Cadastro Completo**: Validação de e-mail e requisitos de senha fortes.
-- **Confirmação por E-mail**: Sistema de verificação com token único enviado por e-mail.
-- **Segurança Reforçada**: Acesso bloqueado até a confirmação do e-mail.
-
-## 🚀 Como Rodar o Projeto
-
-### Configuração em Produção (Vercel)
-
-Para popular o banco de dados em produção, acesse a seguinte rota após o deploy:
-`https://seu-dominio.vercel.app/api/seed?secret=petcare-setup`
-
-Para rodar o projeto localmente:
-
-1.  **Clone o repositório e instale as dependências:**
-    ```bash
-    npm install
-    ```
-
-2.  **Configure as Variáveis de Ambiente:**
-    Crie um arquivo `.env` na raiz do projeto com a URL do seu banco de dados e chaves de segurança:
-    ```env
-    DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
-    JWT_SECRET="sua_chave_secreta_aqui"
-    
-    # Configuração de E-mail (Gmail - Recomendado para Testes Reais)
-    SMTP_HOST=smtp.gmail.com
-    SMTP_PORT=465
-    SMTP_USER=seu-email@gmail.com
-    SMTP_PASS=sua-senha-de-app-google # Gerar em: myaccount.google.com/apppasswords
-    
-    NEXT_PUBLIC_APP_URL="http://localhost:3000"
-    ```
-
-3.  **Configure o Banco de Dados:**
-    Execute as migrações para criar as tabelas e gerar o cliente Prisma:
-    ```bash
-    npx prisma migrate dev --name init
-    ```
-
-4.  **Rode os Testes (Opcional):**
-    Para validar se o fluxo de autenticação e registro está funcionando corretamente:
-    ```bash
-    npm test
-    ```
-
-5.  **Rode o servidor de desenvolvimento:**
-    ```bash
-    npm run dev
-    ```
-
-6.  **Acesse a aplicação:**
-    Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
-
-## 📁 Estrutura do Projeto
-
-- `/src/actions`: Server Actions para operações de banco de dados (CRUD).
-- `/src/app`: Rotas e páginas da aplicação (App Router).
-- `/src/components`: Componentes reutilizáveis (Layout, Features, UI).
-- `/src/hooks`: Hooks personalizados (useCart, useAuth, etc.).
-- `/src/lib`: Configurações de bibliotecas (Prisma, Auth, Session).
-- `/src/types`: Definições de tipos TypeScript.
-- `/prisma`: Schema do banco de dados e migrações.
-- `/public`: Assets estáticos.
+Este projeto foi construído como um **MVP production-ready**, seguindo padrões reais de mercado (CI/CD, validação de ambiente, tratamento de erros tipado, arquitetura serverless e documentação operacional).
 
 ---
-*Desenvolvido com carinho para o melhor cuidado do seu pet.* 🐶🐱
 
-<!-- Force redeploy -->
- 
+## 🎯 Objetivo do Projeto
+
+Demonstrar a construção de uma aplicação moderna **pronta para produção**, indo além de “funcionar”, com atenção especial a:
+
+- Confiabilidade
+- Previsibilidade
+- Manutenibilidade
+- Experiência do usuário
+- Operação em ambiente real (Vercel)
+
+Este repositório também funciona como **cartão de visitas técnico**.
+
+---
+
+## ✨ Funcionalidades
+
+- Autenticação segura com confirmação por e-mail
+- Gestão de Pets
+- Agendamento de serviços
+- Carrinho e dashboard
+- Integração com pagamentos (Stripe)
+- API protegida com controle administrativo
+- Healthcheck para monitoramento
+- Observabilidade e logs estruturados
+
+---
+
+## 🧠 Decisões Técnicas (Diferenciais)
+
+Este projeto foi desenhado com mentalidade de **ambiente enterprise**.
+
+### 🔐 Tratamento de Erros Tipado
+
+- Catálogo central de erros (`ERROR_CATALOG`)
+- Cada erro possui:
+  - código estável
+  - mensagem segura
+  - status HTTP consistente
+  - `message_key` preparado para i18n
+- Testes validam **código**, não texto
+
+### 🚦 Validação de Ambiente (Fail-Fast)
+
+- A aplicação **não inicia** se variáveis críticas estiverem ausentes ou inválidas
+- Validação feita com Zod no startup
+
+### ☁️ Arquitetura Serverless (Vercel)
+
+- Prisma configurado com padrão Singleton
+- PostgreSQL (Neon / Vercel Postgres)
+- Estratégia segura de migrations documentada
+
+### 📊 Observabilidade
+
+- Logs estruturados em produção (JSON)
+- `x-request-id` propagado por request
+- Healthcheck real validando dependências
+
+### 🔁 CI/CD com Quality Gates
+
+- Nenhum código entra sem:
+  - lint
+  - typecheck
+  - testes
+  - validação do Prisma
+
+---
+
+## 🏗️ Arquitetura Geral
+
+```
+Client (Next.js App Router)
+   │
+   ├── Server Actions (Business Logic)
+   │       └── withErrorHandling
+   │
+   ├── API Routes (/api)
+   │       ├── health
+   │       ├── seed
+   │       ├── diagnose
+   │       └── webhooks
+   │
+   ├── Prisma ORM
+   │       └── PostgreSQL
+   │
+   └── Serviços Externos
+           ├── Email Provider
+           └── Stripe
+```
+
+---
+
+## 📂 Organização de Pastas
+
+```
+src/
+├── app/                 # Rotas, layouts e pages
+│   ├── api/             # API Routes (health, seed, diagnose, webhooks)
+│   └── (pages)/         # Páginas da aplicação
+│
+├── actions/             # Server Actions (camada de negócio)
+│
+├── lib/                 # Infraestrutura e utilitários
+│   ├── db.ts            # Prisma client (serverless-safe)
+│   ├── env.ts           # Validação de variáveis de ambiente
+│   ├── errors.ts        # ERROR_CATALOG + AppError
+│   ├── logger.ts        # Logs estruturados
+│   └── exceptions.ts    # withErrorHandling
+│
+├── tests/               # Testes automatizados (Vitest)
+│
+└── prisma/
+    ├── schema.prisma    # Schema do banco
+    └── migrations/      # Migrations versionadas
+```
+
+---
+
+## 🚀 Setup Local
+
+1. Clonar o repositório
+
+```bash
+git clone https://github.com/FilipiWanderley/PetCare.git
+cd PetCare
+```
+
+2. Instalar dependências
+
+```bash
+npm install
+```
+
+3. Configurar variáveis de ambiente  
+   Crie um `.env` baseado em `.env.example`.
+
+4. Rodar migrations
+
+```bash
+npx prisma migrate dev
+```
+
+5. Rodar a aplicação
+
+```bash
+npm run dev
+```
+
+---
+
+## 🧪 Testes
+
+```bash
+npm run test
+```
+
+- Testes cobrem fluxos críticos:
+  - Auth
+  - Agendamentos
+  - Carrinho
+  - Dashboard
+
+---
+
+## 🩺 Healthcheck
+
+```http
+GET /api/health
+```
+
+- Verifica conectividade real com o banco
+- Retorna `200` se saudável
+
+---
+
+## 🔐 Segurança
+
+- Nenhum segredo hardcoded
+- Rotas sensíveis protegidas via `x-admin-secret`
+- Seed e diagnose protegidos em produção
+- Erros não vazam stack ou detalhes internos
+
+---
+
+## 📦 Deploy (Vercel)
+
+- Ambiente serverless
+- PostgreSQL (Neon / Vercel Postgres)
+- Migrations via `prisma migrate deploy`
+- Logs via Vercel Logs
+- CI bloqueia builds quebrados
+
+---
+
+## ⚠️ Riscos Conhecidos (Serverless)
+
+- Cold start inicial (1–2s)
+- Dependência de Webhooks (Stripe)
+- Limites de conexão sem pooling
+
+Todos documentados e mitigados.
+
+---
+
+## 👨‍💻 Autor
+
+Filipi Moraes  
+Backend / Full Stack Engineer  
+Foco em aplicações robustas, escaláveis e prontas para produção.

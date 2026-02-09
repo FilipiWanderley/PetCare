@@ -10,16 +10,11 @@ import { getProducts } from '@/actions/product-actions';
 import { getServices } from '@/actions/service-actions';
 import { getTestimonials } from '@/actions/testimonial-actions';
 
-// Force dynamic rendering to ensure the page always fetches fresh data from the database
-// This fixes the issue where the page was cached as static HTML when the database was empty
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
-// Main Home Page Component
+// Page optimized with ISR (via unstable_cache in actions)
 export default async function Home() {
   // Force re-render to pick up seeded data
   console.log('Rendering Home Page...');
-  
+
   const [productsResult, servicesResult, testimonialsResult] = await Promise.all([
     getProducts(),
     getServices(),
@@ -36,16 +31,18 @@ export default async function Home() {
         <div className={styles.heroContainer}>
           <div className={styles.heroContent}>
             <h1 className={styles.heroTitle}>
-              Dê ao seu melhor amigo <span className={styles.highlight}>o cuidado que ele merece</span>
+              Dê ao seu melhor amigo{' '}
+              <span className={styles.highlight}>o cuidado que ele merece</span>
             </h1>
             <p className={styles.heroSubtitle}>
-              Soluções completas e profissionais para a saúde e bem-estar do seu animal. Agende banho, tosa e consultas veterinárias com rapidez e segurança.
+              Soluções completas e profissionais para a saúde e bem-estar do seu animal. Agende
+              banho, tosa e consultas veterinárias com rapidez e segurança.
             </p>
             <a href="#agendar" className={styles.ctaButton}>
               Agendar Agora
             </a>
           </div>
-          
+
           <div className={styles.heroImageWrapper}>
             <div className={styles.blobYellowLarge}></div>
             <div className={styles.blobYellowSmall}></div>
@@ -53,18 +50,18 @@ export default async function Home() {
             <div className={`${styles.sparkle} ${styles.sparkleEar}`}></div>
             <div className={`${styles.sparkle} ${styles.sparklePaw}`}></div>
             <div className={`${styles.sparkle} ${styles.sparkleRight}`}></div>
-            <Image 
-              src="/assets/images/ilustration.png" 
-              alt="Cão e Gato felizes" 
-              width={600} 
-              height={500} 
+            <Image
+              src="/assets/images/ilustration.png"
+              alt="Cão e Gato felizes"
+              width={600}
+              height={500}
               className={styles.heroImage}
               priority
             />
           </div>
         </div>
       </section>
-      
+
       <ServicesSection services={services || []} />
       <PromoSection />
       <ProductsSection products={products || []} />

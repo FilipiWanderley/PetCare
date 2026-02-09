@@ -1,18 +1,25 @@
-
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { apiErrorResponse, withApiErrorHandling } from '@/lib/api-utils';
+import { ErrorCodes } from '@/lib/errors';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request) {
+export const GET = withApiErrorHandling(async (request: Request) => {
   const { searchParams } = new URL(request.url);
-  const secret = searchParams.get('secret');
+  const secretQuery = searchParams.get('secret');
+  const secretHeader = request.headers.get('x-admin-secret');
+  const adminSecret = process.env.ADMIN_SECRET;
 
-  if (secret !== 'petcare-debug') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!adminSecret) {
+    return apiErrorResponse(ErrorCodes.API_ENDPOINT_DISABLED);
   }
 
-  const report: any = {
+  if (secretHeader !== adminSecret && secretQuery !== adminSecret) {
+    return apiErrorResponse(ErrorCodes.API_UNAUTHORIZED);
+  }
+
+  const report: Record<string, unknown> = {
     timestamp: new Date().toISOString(),
     env: {
       NODE_ENV: process.env.NODE_ENV,
@@ -34,28 +41,40 @@ export async function GET(request: Request) {
   try {
     // 1. Test basic connection
     await prisma.$connect();
-    report.connection.status = 'connected';
-    
+    (report.connection as Record<string, unknown>).status = 'connected';
+
     // 2. Test simple query
     await prisma.$queryRaw`SELECT 1`;
-    report.connection.queryTest = 'passed';
+    (report.connection as Record<string, unknown>).queryTest = 'passed';
 
     // 3. Check data
-    report.tables.products = await prisma.product.count();
-    report.tables.services = await prisma.service.count();
-    report.tables.testimonials = await prisma.testimonial.count();
+    (report.tables as Record<string, unknown>).products = await prisma.product.count();
+    (report.tables as Record<string, unknown>).services = await prisma.service.count();
+    (report.tables as Record<string, unknown>).testimonials = await prisma.testimonial.count();
+  } catch (error: unknown) {
+    (report.connection as Record<string, unknown>).status = 'failed';
+    const err = error as Error & { code?: string; meta?: unknown };
 
-  } catch (error: any) {
-    report.connection.status = 'failed';
-    report.connection.error = {
-      message: error.message,
-      code: error.code,
-      meta: error.meta,
-      name: error.name,
-    };
+    // Only expose full error details in development
+    if (process.env.NODE_ENV === 'development') {
+      (report.connection as Record<string, unknown>).error = {
+        message: err.message,
+        code: err.code,
+        meta: err.meta,
+        name: err.name,
+      };
+    } else {
+      (report.connection as Record<string, unknown>).error = 'Database connection failed';
+    }
   } finally {
     await prisma.$disconnect();
   }
 
-  return NextResponse.json(report, { status: report.connection.status === 'failed' ? 500 : 200 });
-}
+  const status = (report.connection as Record<string, unknown>).status === 'failed' ? 500 : 200;
+
+  if (status === 500) {
+    return apiErrorResponse(ErrorCodes.API_DIAGNOSE_FAILED, undefined, report);
+  }
+
+  return NextResponse.json(report, { status });
+});

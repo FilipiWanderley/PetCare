@@ -1,0 +1,16 @@
+.form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.errorMessage {
+  color: var(--error);
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.actions {
+  margin-top: 2rem;
+}

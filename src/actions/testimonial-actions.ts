@@ -1,80 +1,41 @@
 'use server';
 
 import { prisma } from '@/lib/db';
-import { withRetry } from '@/utils/retry';
+import { dedupeByKey } from '@/lib/utils';
+import { unstable_cache } from 'next/cache';
+
+const getCachedTestimonials = unstable_cache(
+  async () => {
+    return await prisma.testimonial.findMany({
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+  },
+  ['testimonials-list'],
+  { tags: ['testimonials'], revalidate: 3600 }
+);
 
 export async function getTestimonials() {
   try {
-    const testimonials = await withRetry(async () => {
-      const count = await prisma.testimonial.count();
-      if (count === 0) {
-        await seedTestimonials();
-      }
+    console.log('🔍 Fetching testimonials...');
 
-      return await prisma.testimonial.findMany({
-        orderBy: {
-          createdAt: 'asc',
-        },
-      });
-    });
+    // REMOVED: Implicit Seeding Side Effect
+
+    const testimonials = await getCachedTestimonials();
 
     const unique = dedupeByKey(testimonials, 'name');
-    
+    console.log(`✅ Found ${unique.length} testimonials`);
+
     return { success: true, data: unique };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ CRITICAL DB ERROR (Testimonials):', error);
-    const errorMessage = error.message || 'Erro desconhecido ao buscar depoimentos';
-    return { 
-      success: false, 
+    const errorMessage =
+      error instanceof Error ? error.message : 'Erro desconhecido ao buscar depoimentos';
+    return {
+      success: false,
       error: errorMessage,
-      details: JSON.stringify(error, Object.getOwnPropertyNames(error))
+      details: error instanceof Error ? error.stack : String(error),
     };
   }
-}
-
-async function seedTestimonials() {
-  const testimonials = [
-    {
-      name: 'Renato Santos',
-      role: 'Tutor de gato',
-      image: '/assets/icons/Picture/Picture1.svg',
-      feedback: 'O serviço simplificou o treinamento e me manteve atualizado sobre a saúde do meu amigo peludo. Nunca foi tão fácil proporcionar o melhor para ele. Recomendo a todos os amantes de animais!',
-    },
-    {
-      name: 'Giovanna Lima',
-      role: 'Tutor de cachorro',
-      image: '/assets/icons/Picture/Picture2.svg',
-      feedback: 'Desde que comecei a usar os serviços, percebi uma mudança positiva no comportamento do meu pet. As dicas de adestramento são valiosas!',
-    },
-    {
-      name: 'Karla Santana',
-      role: 'Tutor de gato',
-      image: '/assets/icons/Picture/Picture3.svg',
-      feedback: 'O atendimento não apenas me lembra das vacinas e consultas, mas também me conectou a uma comunidade incrível de amantes de animais.',
-    },
-  ];
-
-  for (const t of testimonials) {
-    const exists = await prisma.testimonial.findFirst({ where: { name: t.name } });
-    if (!exists) {
-      await prisma.testimonial.create({ data: t });
-    } else {
-      // Update role if changed (to fix "Tutora" -> "Tutor")
-      if (exists.role !== t.role) {
-        await prisma.testimonial.update({
-          where: { id: exists.id },
-          data: { role: t.role },
-        });
-      }
-    }
-  }
-}
-
-function dedupeByKey<T extends Record<string, any>>(items: T[], key: keyof T): T[] {
-  const map = new Map<string, T>();
-  for (const item of items) {
-    const k = String(item[key]);
-    if (!map.has(k)) map.set(k, item);
-  }
-  return Array.from(map.values());
 }

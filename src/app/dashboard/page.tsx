@@ -11,21 +11,45 @@ import { Calendar, LogOut, DollarSign, ShoppingBag, TrendingUp } from 'lucide-re
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { filterAppointments } from '@/utils/dashboard';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { EmptyState } from '@/components/ui/EmptyState';
 import styles from './page.module.css';
 
 export default function DashboardPage() {
   const { user, signOut } = useAuth();
-  const { appointments, stats } = useAppointments();
+  const { appointments, stats, isLoading } = useAppointments();
   const { sales, stats: salesStats } = useSales();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
   const filteredAppointments = filterAppointments(appointments, searchTerm, statusFilter);
 
+  if (isLoading) {
+    return (
+      <main className={styles.main}>
+        <div className={styles.header}>
+          <Skeleton width={200} height={32} borderRadius={4} className={styles.skeletonItem} />
+          <Skeleton width={300} height={20} borderRadius={4} className={styles.skeletonItem} />
+        </div>
+
+        <div className={styles.statsGrid}>
+          {[1, 2, 3, 4].map((i) => (
+            <Skeleton key={i} height={120} borderRadius={8} className={styles.skeletonCard} />
+          ))}
+        </div>
+
+        <div className={styles.dashboardGrid}>
+          <Skeleton height={400} borderRadius={8} />
+          <Skeleton height={400} borderRadius={8} />
+        </div>
+      </main>
+    );
+  }
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
+      currency: 'BRL',
     }).format(value);
   };
 
@@ -37,15 +61,15 @@ export default function DashboardPage() {
             <h1>Dashboard Administrativo</h1>
             <p>Olá, {user?.name || 'Admin'}. Visão geral do negócio.</p>
           </div>
-          <button 
+          <button
             onClick={signOut}
             className={styles.mobileLogout}
-            style={{ 
-              background: 'none', 
-              border: 'none', 
-              cursor: 'pointer', 
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
               color: '#ef4444',
-              display: 'none'
+              display: 'none',
             }}
           >
             <LogOut size={24} />
@@ -54,29 +78,29 @@ export default function DashboardPage() {
       </header>
 
       <section className={styles.statsGrid}>
-        <StatsCard 
-          title="Receita Total" 
-          value={formatCurrency(salesStats.totalRevenue)} 
-          icon={<DollarSign size={24} />} 
-          variant="success" 
+        <StatsCard
+          title="Receita Total"
+          value={formatCurrency(salesStats.totalRevenue)}
+          icon={<DollarSign size={24} />}
+          variant="success"
         />
-        <StatsCard 
-          title="Vendas Realizadas" 
-          value={salesStats.totalSales} 
-          icon={<ShoppingBag size={24} />} 
-          variant="primary" 
+        <StatsCard
+          title="Vendas Realizadas"
+          value={salesStats.totalSales}
+          icon={<ShoppingBag size={24} />}
+          variant="primary"
         />
-        <StatsCard 
-          title="Ticket Médio" 
-          value={formatCurrency(salesStats.averageTicket)} 
-          icon={<TrendingUp size={24} />} 
-          variant="warning" 
+        <StatsCard
+          title="Ticket Médio"
+          value={formatCurrency(salesStats.averageTicket)}
+          icon={<TrendingUp size={24} />}
+          variant="warning"
         />
-        <StatsCard 
-          title="Agendamentos Hoje" 
+        <StatsCard
+          title="Agendamentos Hoje"
           value={stats.pending} // Usando pending como proxy para hoje/próximos por enquanto
-          icon={<Calendar size={24} />} 
-          variant="primary" 
+          icon={<Calendar size={24} />}
+          variant="primary"
         />
       </section>
 
@@ -92,21 +116,21 @@ export default function DashboardPage() {
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Agendamentos Recentes</h2>
           </div>
-          
+
           <div className={styles.filters}>
             <div className={styles.searchFilter}>
-              <Input 
-                placeholder="Buscar agendamento..." 
+              <Input
+                placeholder="Buscar agendamento..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className={styles.statusFilter}>
-              <Select 
+              <Select
                 value={statusFilter}
                 onChange={(value) => setStatusFilter(value)}
                 options={[
-                  { label: 'Todos os Status', value: 'all' },
+                  { label: 'Todos', value: 'all' },
                   { label: 'Pendentes', value: 'pending' },
                   { label: 'Confirmados', value: 'confirmed' },
                   { label: 'Cancelados', value: 'cancelled' },
@@ -117,14 +141,16 @@ export default function DashboardPage() {
 
           {filteredAppointments.length > 0 ? (
             <div className={styles.appointmentsGrid}>
-              {filteredAppointments.map((apt) => (
-                <AppointmentCard key={apt.id} appointment={apt} />
+              {filteredAppointments.map((appointment) => (
+                <AppointmentCard key={appointment.id} appointment={appointment} />
               ))}
             </div>
           ) : (
-            <div className={styles.emptyState}>
-              <p>Nenhum agendamento encontrado.</p>
-            </div>
+            <EmptyState
+              title="Agenda livre!"
+              description="Nenhum agendamento encontrado para os filtros selecionados. Aproveite para organizar o espaço!"
+              icon={Calendar}
+            />
           )}
         </section>
       </div>

@@ -59,13 +59,13 @@ export function AppointmentsProvider({ children }: { children: ReactNode }) {
       status: 'pending',
       ...data,
     };
-    
+
     setAppointments((state) => [newAppointment, ...state]);
 
     try {
       const result = await createAppointment(data);
       if (!result.success) {
-        throw new Error(result.error);
+        throw new Error(result.error?.message || 'Unknown error');
       }
       // Reload to get real ID and data
       await fetchAppointments();
@@ -84,25 +84,21 @@ export function AppointmentsProvider({ children }: { children: ReactNode }) {
 
   const confirmAppointment = (id: string) => {
     setAppointments((state) =>
-      state.map((apt) =>
-        apt.id === id ? { ...apt, status: 'confirmed' } : apt
-      )
+      state.map((apt) => (apt.id === id ? { ...apt, status: 'confirmed' } : apt))
     );
   };
 
   const cancelAppointment = (id: string) => {
     setAppointments((state) =>
-      state.map((apt) =>
-        apt.id === id ? { ...apt, status: 'cancelled' } : apt
-      )
+      state.map((apt) => (apt.id === id ? { ...apt, status: 'cancelled' } : apt))
     );
   };
 
   const stats = {
     total: appointments.length,
-    confirmed: appointments.filter(a => a.status === 'confirmed').length,
-    pending: appointments.filter(a => a.status === 'pending').length,
-    cancelled: appointments.filter(a => a.status === 'cancelled').length,
+    confirmed: appointments.filter((a) => a.status === 'confirmed').length,
+    pending: appointments.filter((a) => a.status === 'pending').length,
+    cancelled: appointments.filter((a) => a.status === 'cancelled').length,
   };
 
   return (
@@ -114,7 +110,7 @@ export function AppointmentsProvider({ children }: { children: ReactNode }) {
         confirmAppointment,
         cancelAppointment,
         isLoading,
-        stats
+        stats,
       }}
     >
       {children}

@@ -1,4 +1,3 @@
-
 import { verifyEmail } from '@/actions/auth-actions';
 import Link from 'next/link';
 import styles from './page.module.css';
@@ -52,7 +51,9 @@ export default async function ConfirmEmailPage({ searchParams }: ConfirmEmailPag
           <XCircle className={styles.errorIcon} />
           <h1 className={styles.title}>Erro na Confirmação</h1>
           <p className={styles.message}>
-            {result.error || 'Não foi possível confirmar seu e-mail. O link pode ter expirado.'}
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {(result as any).error?.message ||
+              'Não foi possível confirmar seu e-mail. O link pode ter expirado.'}
           </p>
           <Link href="/login" className={styles.button}>
             Voltar para Login

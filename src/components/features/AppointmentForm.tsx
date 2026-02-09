@@ -23,26 +23,28 @@ type FormInputs = {
 };
 
 export function AppointmentForm() {
-  const { 
-    register, 
-    handleSubmit, 
+  const {
+    register,
+    handleSubmit,
     control,
     formState: { errors, isSubmitting, isValid },
     reset,
     setValue,
     watch,
-    trigger
+    trigger,
   } = useForm<FormInputs>({
-    mode: 'onChange' // Real-time validation
+    mode: 'onChange', // Real-time validation
   });
-  
+
   const { addAppointment } = useAppointments();
   const { user } = useAuth();
   const router = useRouter();
-  
+
   // State for progressive disclosure
   const [activeStep, setActiveStep] = useState(1);
   const [isLoadingStep, setIsLoadingStep] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Watch fields to trigger next steps
   const service = watch('service');
@@ -65,7 +67,7 @@ export function AppointmentForm() {
     const checkStep1 = async () => {
       if (service && activeStep < 2) {
         setIsLoadingStep(true);
-        await new Promise(resolve => setTimeout(resolve, 300)); // Short delay for smooth feel
+        await new Promise((resolve) => setTimeout(resolve, 300)); // Short delay for smooth feel
         setActiveStep(2);
         setIsLoadingStep(false);
       }
@@ -77,7 +79,7 @@ export function AppointmentForm() {
     const checkStep2 = async () => {
       if (dateOnly && timeOnly && activeStep < 3) {
         setIsLoadingStep(true);
-        await new Promise(resolve => setTimeout(resolve, 300));
+        await new Promise((resolve) => setTimeout(resolve, 300));
         setActiveStep(3);
         setIsLoadingStep(false);
       }
@@ -86,6 +88,9 @@ export function AppointmentForm() {
   }, [dateOnly, timeOnly, activeStep]);
 
   const onSubmit = async (data: FormInputs) => {
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
     // Final validation check
     const isStep1Valid = await trigger('service');
     const isStep2Valid = await trigger(['dateOnly', 'timeOnly']);
@@ -95,30 +100,37 @@ export function AppointmentForm() {
 
     // Combine date and time
     const dateTime = new Date(`${data.dateOnly}T${data.timeOnly}`);
-    
+
     const appointmentData: CreateAppointmentData = {
       ownerName: data.ownerName,
       petName: data.petName,
       service: data.service as ServiceType,
       date: dateTime.toISOString(),
-      phone: data.phone
+      phone: data.phone,
     };
 
-    await addAppointment(appointmentData);
-    
-    // Construct query params for confirmation page (guest support)
-    const queryParams = new URLSearchParams({
-      ownerName: data.ownerName,
-      petName: data.petName,
-      service: data.service as string,
-      date: dateTime.toISOString(),
-      phone: data.phone
-    }).toString();
-    
-    setTimeout(() => {
+    try {
+      await addAppointment(appointmentData);
+      setSubmitStatus('success');
+
+      // Construct query params for confirmation page (guest support)
+      const queryParams = new URLSearchParams({
+        ownerName: data.ownerName,
+        petName: data.petName,
+        service: data.service as string,
+        date: dateTime.toISOString(),
+        phone: data.phone,
+      }).toString();
+
+      setTimeout(() => {
         reset();
         router.push(`/confirm?${queryParams}`);
-    }, 500);
+      }, 1000); // Give user time to see success message
+    } catch (error) {
+      console.error(error);
+      setSubmitStatus('error');
+      setErrorMessage('Ocorreu um erro ao realizar o agendamento. Tente novamente.');
+    }
   };
 
   // Generate time slots (09:00 to 18:00)
@@ -131,15 +143,15 @@ export function AppointmentForm() {
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, '');
     if (value.length > 11) value = value.slice(0, 11);
-    
+
     let formattedValue = value;
-    
+
     if (value.length > 10) {
       formattedValue = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
     } else if (value.length > 2) {
       formattedValue = `(${value.slice(0, 2)}) ${value.slice(2)}`;
     }
-    
+
     setValue('phone', formattedValue, { shouldValidate: true });
   };
 
@@ -155,20 +167,32 @@ export function AppointmentForm() {
         </div>
       )}
 
-      <h2 style={{ marginBottom: '0.5rem', color: 'var(--foreground)', fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'center' }}>
+      <h2
+        style={{
+          marginBottom: '0.5rem',
+          color: 'var(--foreground)',
+          fontSize: '1.5rem',
+          fontWeight: 'bold',
+          textAlign: 'center',
+        }}
+      >
         Agende seu Horário
       </h2>
-      
+
       {/* Progress Indicator */}
       <div className={styles.progressContainer}>
         <div className={styles.progressTrack}>
-           <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
+          <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
         </div>
-        
-        <div className={`${styles.stepIndicator} ${activeStep >= 1 ? styles.stepActive : ''} ${activeStep > 1 ? styles.stepCompleted : ''}`}>
+
+        <div
+          className={`${styles.stepIndicator} ${activeStep >= 1 ? styles.stepActive : ''} ${activeStep > 1 ? styles.stepCompleted : ''}`}
+        >
           {activeStep > 1 ? <CheckCircle size={16} /> : '1'}
         </div>
-        <div className={`${styles.stepIndicator} ${activeStep >= 2 ? styles.stepActive : ''} ${activeStep > 2 ? styles.stepCompleted : ''}`}>
+        <div
+          className={`${styles.stepIndicator} ${activeStep >= 2 ? styles.stepActive : ''} ${activeStep > 2 ? styles.stepCompleted : ''}`}
+        >
           {activeStep > 2 ? <CheckCircle size={16} /> : '2'}
         </div>
         <div className={`${styles.stepIndicator} ${activeStep >= 3 ? styles.stepActive : ''}`}>
@@ -210,14 +234,14 @@ export function AppointmentForm() {
               type="date"
               label="Data"
               error={errors.dateOnly?.message}
-              {...register('dateOnly', { 
+              {...register('dateOnly', {
                 required: 'Data é obrigatória',
                 validate: (value) => {
                   const selectedDate = new Date(value);
                   const now = new Date();
                   now.setHours(0, 0, 0, 0);
                   return selectedDate >= now || 'A data deve ser futura';
-                }
+                },
               })}
             />
             <Controller
@@ -247,7 +271,7 @@ export function AppointmentForm() {
             Quem vamos receber?
           </div>
           <div className={styles.grid}>
-             <Input
+            <Input
               label="Seu Nome"
               placeholder="Nome completo"
               error={errors.ownerName?.message}
@@ -257,13 +281,13 @@ export function AppointmentForm() {
               label="Telefone/WhatsApp"
               placeholder="(00) 00000-0000"
               error={errors.phone?.message}
-              {...register('phone', { 
+              {...register('phone', {
                 required: 'Telefone é obrigatório',
                 pattern: {
                   value: /^\(\d{2}\) \d{4,5}-\d{4}$/,
-                  message: 'Formato inválido'
+                  message: 'Formato inválido',
                 },
-                onChange: handlePhoneChange
+                onChange: handlePhoneChange,
               })}
             />
             <Input
@@ -277,17 +301,31 @@ export function AppointmentForm() {
       </div>
 
       {/* Submit Action */}
-      <div className={`${styles.submitButton} ${activeStep >= 3 && isValid ? styles.submitButtonActive : ''}`}>
-        <Button 
-          type="submit" 
-          fullWidth 
-          isLoading={isSubmitting} 
-          variant="success"
-          size="lg"
-        >
-          Confirmar Agendamento
-        </Button>
-      </div>
+      {activeStep === 3 && (
+        <div className={styles.buttonContainer}>
+          <Button
+            type="submit"
+            fullWidth
+            isLoading={isSubmitting}
+            disabled={isSubmitting || submitStatus === 'success'}
+          >
+            {submitStatus === 'success' ? 'Agendado!' : 'Confirmar Agendamento'}
+          </Button>
+
+          {submitStatus === 'success' && (
+            <div className={styles.successMessage}>
+              <CheckCircle size={20} />
+              <span>Agendamento realizado com sucesso! Redirecionando...</span>
+            </div>
+          )}
+
+          {submitStatus === 'error' && (
+            <div className={styles.errorMessage}>
+              <span>{errorMessage}</span>
+            </div>
+          )}
+        </div>
+      )}
     </form>
   );
 }

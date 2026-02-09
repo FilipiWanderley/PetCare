@@ -21,14 +21,16 @@
 
 /* Card Styling - Reference Design */
 .card {
-  background: #F9F5F0; /* Light beige background */
+  background: #f9f5f0; /* Light beige background */
   border-radius: 24px; /* Highly rounded corners */
   padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition:
+    transform 0.4s ease-in-out,
+    box-shadow 0.4s ease-in-out;
   cursor: pointer;
   border: 1px solid transparent;
   position: relative;
@@ -39,7 +41,7 @@
 .card:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-  border-color: #EAE5DE;
+  border-color: #eae5de;
 }
 
 .productImage {
@@ -80,7 +82,7 @@
   padding: 0.875rem 2.5rem;
   background-color: transparent;
   color: var(--text-primary);
-  border: 1px solid #D1D5DB;
+  border: 1px solid #d1d5db;
   border-radius: 9999px; /* Pill shape */
   cursor: pointer;
   font-weight: 600;
@@ -93,11 +95,38 @@
 
 /* Button Hover: Fill with primary color */
 .button:hover {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  color: var(--text-on-primary);
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(251, 188, 5, 0.3);
+  background-color: var(--primary-dark);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.emptyIcon {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+}
+
+.emptyState h3 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.emptyState p {
+  color: var(--text-secondary);
 }
 
 /* Responsive Adjustments */
@@ -106,7 +135,7 @@
     grid-template-columns: 1fr;
     padding: 0 1rem;
   }
-  
+
   .card {
     padding: 1.5rem;
   }

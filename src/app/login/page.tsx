@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 import styles from './page.module.css';
 import type { LoginCredentials } from '@/lib/auth';
 import clsx from 'clsx';
@@ -17,9 +19,15 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState('');
-  const [recoveryStatus, setRecoveryStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
-  
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>();
+  const [recoveryStatus, setRecoveryStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
+    'idle'
+  );
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginCredentials>();
 
   const onSubmit = async (data: LoginCredentials) => {
     setError(null);
@@ -27,7 +35,7 @@ export default function LoginPage() {
     try {
       // Pass false to handle redirect manually
       const user = await signIn(data, false);
-      
+
       if (!user) {
         throw new Error('Falha na autenticação');
       }
@@ -43,15 +51,27 @@ export default function LoginPage() {
       } else {
         // Client tab
         if (user.role === 'admin') {
-           // Optional: Redirect admin to dashboard even if they login on client tab, 
-           // OR enforce they must use admin tab. Let's be helpful and redirect.
-           router.push('/dashboard');
+          // Optional: Redirect admin to dashboard even if they login on client tab,
+          // OR enforce they must use admin tab. Let's be helpful and redirect.
+          router.push('/dashboard');
         } else {
-           router.push('/');
+          router.push('/');
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Ocorreu um erro ao fazer login');
+      const rawMessage = err instanceof Error ? err.message : 'Ocorreu um erro ao fazer login';
+      let friendlyMessage = rawMessage;
+
+      // Map technical errors to friendly Portuguese messages
+      if (rawMessage.includes('Invalid credentials') || rawMessage.includes('Invalid password')) {
+        friendlyMessage = 'E-mail ou senha incorretos. Por favor, tente novamente.';
+      } else if (rawMessage.includes('User not found')) {
+        friendlyMessage = 'Conta não encontrada. Verifique o e-mail ou cadastre-se.';
+      } else if (rawMessage.includes('Network request failed')) {
+        friendlyMessage = 'Erro de conexão. Verifique sua internet.';
+      }
+
+      setError(friendlyMessage);
     } finally {
       setIsLoading(false);
     }
@@ -60,7 +80,7 @@ export default function LoginPage() {
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setRecoveryStatus('sending');
-    
+
     // Simulate API call
     setTimeout(() => {
       setRecoveryStatus('sent');
@@ -80,8 +100,8 @@ export default function LoginPage() {
             {activeTab === 'admin' ? 'Área do Administrador' : 'Bem-vindo'}
           </h1>
           <p className={styles.subtitle}>
-            {activeTab === 'admin' 
-              ? 'Acesso restrito para gestão' 
+            {activeTab === 'admin'
+              ? 'Acesso restrito para gestão'
               : 'Entre com suas credenciais para continuar'}
           </p>
         </div>
@@ -107,32 +127,28 @@ export default function LoginPage() {
           {error && <div className={styles.error}>{error}</div>}
 
           <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>Email</label>
-            <input
-              id="email"
+            <Input
+              label="Email"
               type="email"
-              className={styles.input}
-              placeholder={activeTab === 'admin' ? "admin@petcare.com" : "cliente@petcare.com"}
+              placeholder={activeTab === 'admin' ? 'admin@petcare.com' : 'cliente@petcare.com'}
               {...register('email', { required: 'Email é obrigatório' })}
+              error={errors.email?.message}
             />
-            {errors.email && <span className={styles.subtitle} style={{ color: 'red' }}>{errors.email.message}</span>}
           </div>
 
           <div className={styles.inputGroup}>
-            <label htmlFor="password" className={styles.label}>Senha</label>
-            <input
-              id="password"
+            <Input
+              label="Senha"
               type="password"
-              className={styles.input}
               placeholder="••••••••"
               {...register('password', { required: 'Senha é obrigatória' })}
+              error={errors.password?.message}
             />
-            {errors.password && <span className={styles.subtitle} style={{ color: 'red' }}>{errors.password.message}</span>}
           </div>
 
           <div className={styles.forgotPassword}>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className={styles.forgotPasswordButton}
               onClick={() => setShowForgotPassword(true)}
             >
@@ -140,14 +156,17 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <button type="submit" className={styles.button} disabled={isLoading}>
-            {isLoading ? <div className={styles.spinner} /> : (activeTab === 'admin' ? 'Acessar Painel' : 'Entrar')}
-          </button>
+          <Button type="submit" fullWidth isLoading={isLoading} size="lg">
+            {activeTab === 'admin' ? 'Acessar Painel' : 'Entrar'}
+          </Button>
         </form>
 
         <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem' }}>
           <span style={{ color: 'var(--text-secondary)' }}>Não tem uma conta? </span>
-          <Link href="/register" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>
+          <Link
+            href="/register"
+            style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}
+          >
             Cadastre-se
           </Link>
         </div>

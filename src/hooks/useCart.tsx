@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { CartLogic } from '@/lib/cart';
 
 export interface Product {
   id: number;
@@ -23,12 +24,14 @@ interface CartContextType {
   clearCart: () => void;
   totalItems: number;
   totalValue: number;
+  isInitialized: boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -43,6 +46,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           console.error('Failed to parse cart from localStorage', e);
         }
       }
+      setIsInitialized(true);
     }, 0);
   }, []);
 
@@ -52,35 +56,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [cart]);
 
   const addToCart = (product: Product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
-      
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      } else {
-        return [...prevCart, { ...product, quantity: 1 }];
-      }
-    });
+    setCart((prevCart) => CartLogic.addToCart(prevCart, product));
   };
 
   const removeFromCart = (productId: number) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === productId);
-      
-      if (existingItem && existingItem.quantity > 1) {
-        return prevCart.map((item) =>
-          item.id === productId
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        );
-      } else {
-        return prevCart.filter((item) => item.id !== productId);
-      }
-    });
+    setCart((prevCart) => CartLogic.removeFromCart(prevCart, productId));
   };
 
   const deleteFromCart = (productId: number) => {
@@ -91,12 +71,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setCart([]);
   };
 
-  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-  
-  const totalValue = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const { totalItems, totalValue } = CartLogic.calculateTotals(cart);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, deleteFromCart, clearCart, totalItems, totalValue }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        deleteFromCart,
+        clearCart,
+        totalItems,
+        totalValue,
+        isInitialized,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

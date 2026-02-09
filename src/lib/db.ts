@@ -1,17 +1,27 @@
 import { PrismaClient } from '@prisma/client';
 
 /**
- * Global Prisma Client instance to prevent multiple connections in development.
- * 
- * In development, Next.js HMR (Hot Module Replacement) can instantiate multiple Prisma Clients,
- * exhausting the database connection limit. We attach the client to the global object
- * to ensure a singleton instance.
+ * PrismaClient Singleton Pattern
+ *
+ * Recommended pattern for Next.js in development to avoid exhausting
+ * database connections due to Hot Module Replacement (HMR).
+ *
+ * See: https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/nextjs-prisma-client-dev-practices
  */
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+const prismaClientSingleton = () => {
+  return new PrismaClient({
+    // Log queries in development for better debugging
+    log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
+  });
+};
 
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient();
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClientSingleton | undefined;
+};
+
+export const prisma = globalForPrisma.prisma ?? prismaClientSingleton();
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;

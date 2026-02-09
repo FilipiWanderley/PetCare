@@ -16,7 +16,13 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children, initialUser }: { children: ReactNode, initialUser: User | null }) {
+export function AuthProvider({
+  children,
+  initialUser,
+}: {
+  children: ReactNode;
+  initialUser: User | null;
+}) {
   const [user, setUser] = useState<User | null>(initialUser);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -30,10 +36,12 @@ export function AuthProvider({ children, initialUser }: { children: ReactNode, i
     setIsLoading(true);
     try {
       const result = await loginUser(credentials);
-      if (result.success && result.user) {
+      if (result.success && 'user' in result) {
+        if (!result.user) throw new Error('User data missing');
+
         setUser(result.user);
         router.refresh();
-        
+
         if (shouldRedirect) {
           if (result.user.role === 'admin') {
             router.push('/dashboard');
@@ -43,7 +51,8 @@ export function AuthProvider({ children, initialUser }: { children: ReactNode, i
         }
         return result.user;
       } else {
-        throw new Error(result.error || 'Login failed');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        throw new Error((result as any).error?.message || 'Login failed');
       }
     } catch (error) {
       throw error;
@@ -64,7 +73,8 @@ export function AuthProvider({ children, initialUser }: { children: ReactNode, i
         router.refresh();
         // The UI should show the success message returned by registerUser
       } else {
-        throw new Error(result.error || 'Registration failed');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        throw new Error((result as any).error?.message || 'Registration failed');
       }
     } catch (error) {
       throw error;

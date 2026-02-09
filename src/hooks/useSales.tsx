@@ -21,54 +21,54 @@ export interface SalesStats {
 const MOCK_SALES: Sale[] = [
   {
     id: '1',
-    productName: 'Brit Premium Pet Food',
+    productName: 'Ração Premium Natural',
     customerName: 'Ana Silva',
     date: '2024-01-26',
-    amount: 120.00,
+    amount: 129.9,
     quantity: 1,
     status: 'completed',
-    image: '/assets/images/Produtos/Background1.svg'
+    image: 'https://loremflickr.com/500/500/dog,food?lock=1',
   },
   {
     id: '2',
-    productName: 'Petiscos para gatos',
+    productName: 'Biscoitos Naturais',
     customerName: 'Carlos Oliveira',
     date: '2024-01-26',
-    amount: 24.00,
+    amount: 31.8,
     quantity: 2,
     status: 'completed',
-    image: '/assets/images/Produtos/Background2.svg'
+    image: 'https://loremflickr.com/500/500/dog,treats?lock=6',
   },
   {
     id: '3',
-    productName: 'Nutrição exclusiva',
+    productName: 'Arranhador para Gatos',
     customerName: 'Mariana Santos',
     date: '2024-01-25',
-    amount: 88.00,
+    amount: 120.0,
     quantity: 1,
     status: 'pending',
-    image: '/assets/images/Produtos/Background3.svg'
+    image: 'https://loremflickr.com/500/500/cat,scratcher?lock=7',
   },
   {
     id: '4',
-    productName: 'Ração Ocean Treats',
+    productName: 'Comedouro Automático',
     customerName: 'Roberto Costa',
     date: '2024-01-25',
-    amount: 250.00,
+    amount: 250.0,
     quantity: 1,
     status: 'completed',
-    image: '/assets/images/Produtos/Background5.svg'
+    image: 'https://loremflickr.com/500/500/pet,bowl?lock=9',
   },
   {
     id: '5',
     productName: 'Brinquedos Variados',
     customerName: 'Julia Lima',
     date: '2024-01-24',
-    amount: 72.00,
+    amount: 72.0,
     quantity: 2,
     status: 'cancelled',
-    image: '/assets/images/Produtos/Background6.svg'
-  }
+    image: '/assets/images/Produtos/Background6.svg',
+  },
 ];
 
 export function useSales() {
@@ -76,23 +76,23 @@ export function useSales() {
 
   const stats = useMemo(() => {
     const totalRevenue = sales
-      .filter(s => s.status === 'completed')
+      .filter((s) => s.status === 'completed')
       .reduce((acc, curr) => acc + curr.amount, 0);
-    
-    const totalSales = sales.filter(s => s.status === 'completed').length;
-    const pendingSales = sales.filter(s => s.status === 'pending').length;
+
+    const totalSales = sales.filter((s) => s.status === 'completed').length;
+    const pendingSales = sales.filter((s) => s.status === 'pending').length;
     const averageTicket = totalSales > 0 ? totalRevenue / totalSales : 0;
 
     return {
       totalRevenue,
       totalSales,
       averageTicket,
-      pendingSales
+      pendingSales,
     };
   }, [sales]);
 
   const addSale = (sale: Sale) => {
-    setSales(prev => [sale, ...prev]);
+    setSales((prev) => [sale, ...prev]);
   };
 
   return { sales, stats, addSale };

@@ -1,90 +1,43 @@
 'use server';
 
 import { prisma } from '@/lib/db';
-import { withRetry } from '@/utils/retry';
+import { dedupeByKey } from '@/lib/utils';
+import { unstable_cache } from 'next/cache';
+import { logger } from '@/lib/logger';
+
+const getCachedServices = unstable_cache(
+  async () => {
+    return await prisma.service.findMany({
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+  },
+  ['services-list'],
+  { tags: ['services'], revalidate: 3600 }
+);
 
 export async function getServices() {
   try {
-    const services = await withRetry(async () => {
-      const count = await prisma.service.count();
-      if (count === 0) {
-        await seedServices();
-      }
+    logger.info('Fetching services...');
 
-      return await prisma.service.findMany({
-        orderBy: {
-          createdAt: 'asc',
-        },
-      });
-    });
+    // REMOVED: Implicit Seeding Side Effect
+    // Seeding should be done via admin script or build step, not on every read.
+
+    const services = await getCachedServices();
 
     const unique = dedupeByKey(services, 'title');
-    
+    logger.info(`Found ${unique.length} services`);
+
     return { success: true, data: unique };
-  } catch (error: any) {
-    console.error('❌ CRITICAL DB ERROR (Services):', error);
-    const errorMessage = error.message || 'Erro desconhecido ao buscar serviços';
-    return { 
-      success: false, 
+  } catch (error: unknown) {
+    logger.error('CRITICAL DB ERROR (Services):', { error });
+    const errorMessage =
+      error instanceof Error ? error.message : 'Erro desconhecido ao buscar serviços';
+    return {
+      success: false,
       error: errorMessage,
-      details: JSON.stringify(error, Object.getOwnPropertyNames(error))
+      details: error instanceof Error ? error.stack : String(error),
     };
   }
-}
-
-async function seedServices() {
-  const services = [
-    {
-      title: 'Adestramento',
-      description: 'Técnicas modernas para melhorar o comportamento e a obediência do seu pet.',
-      image: '/assets/icons/SVG/Adestra.svg',
-    },
-    {
-      title: 'Alimentação',
-      description: 'Opções nutritivas e balanceadas para a saúde e vitalidade do seu companheiro.',
-      image: '/assets/icons/SVG/Alimen.svg',
-    },
-    {
-      title: 'Saúde',
-      description: 'Cuidados veterinários completos para garantir o bem-estar do seu animal.',
-      image: '/assets/icons/SVG/Saúde.svg',
-    },
-    {
-      title: 'Adoção',
-      description: 'Encontre seu novo melhor amigo e dê um lar cheio de amor para quem precisa.',
-      image: '/assets/icons/SVG/adoçao.svg',
-    },
-    {
-      title: 'Cuidados',
-      description: 'Banho, tosa e higiene completa com profissionais carinhosos e experientes.',
-      image: '/assets/icons/SVG/cuidados.svg',
-    },
-    {
-      title: 'Palestras',
-      description: 'Workshops e palestras educativas para todos os tutores sobre saúde e comportamento animal.',
-      image: '/assets/icons/SVG/curiosidades.svg',
-    },
-  ];
-
-  // Remove old "Curiosidades" if exists, as it is replaced by "Palestras"
-  const oldCuriosidades = await prisma.service.findFirst({ where: { title: 'Curiosidades' } });
-  if (oldCuriosidades) {
-    await prisma.service.delete({ where: { id: oldCuriosidades.id } });
-  }
-
-  for (const s of services) {
-    const exists = await prisma.service.findFirst({ where: { title: s.title } });
-    if (!exists) {
-      await prisma.service.create({ data: s });
-    }
-  }
-}
-
-function dedupeByKey<T extends Record<string, any>>(items: T[], key: keyof T): T[] {
-  const map = new Map<string, T>();
-  for (const item of items) {
-    const k = String(item[key]);
-    if (!map.has(k)) map.set(k, item);
-  }
-  return Array.from(map.values());
 }

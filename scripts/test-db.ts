@@ -1,4 +1,3 @@
-
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient({
@@ -7,7 +6,7 @@ const prisma = new PrismaClient({
 
 async function main() {
   console.log('🔍 Iniciando diagnóstico de conexão com o banco de dados...');
-  
+
   const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) {
     console.error('❌ ERRO: Variável de ambiente DATABASE_URL não encontrada!');
@@ -22,7 +21,7 @@ async function main() {
     console.log('⏳ Tentando conectar ao banco de dados...');
     await prisma.$connect();
     console.log('✅ Conexão estabelecida com sucesso!');
-    
+
     // Test basic query
     console.log('⏳ Executando query de teste (SELECT 1)...');
     const result = await prisma.$queryRaw`SELECT 1 as result`;
@@ -30,28 +29,27 @@ async function main() {
 
     // Check tables
     console.log('⏳ Verificando contagem de registros...');
-    
+
     try {
       const productCount = await prisma.product.count();
       console.log(`📦 Produtos: ${productCount}`);
-    } catch (e: any) {
-      console.error('❌ Erro ao contar Produtos:', e.message || e);
+    } catch (e: unknown) {
+      console.error('❌ Erro ao contar Produtos:', e instanceof Error ? e.message : String(e));
     }
 
     try {
       const serviceCount = await prisma.service.count();
       console.log(`🛠️ Serviços: ${serviceCount}`);
-    } catch (e: any) {
-      console.error('❌ Erro ao contar Serviços:', e.message || e);
+    } catch (e: unknown) {
+      console.error('❌ Erro ao contar Serviços:', e instanceof Error ? e.message : String(e));
     }
 
     try {
       const testimonialCount = await prisma.testimonial.count();
       console.log(`💬 Depoimentos: ${testimonialCount}`);
-    } catch (e: any) {
-      console.error('❌ Erro ao contar Depoimentos:', e.message || e);
+    } catch (e: unknown) {
+      console.error('❌ Erro ao contar Depoimentos:', e instanceof Error ? e.message : String(e));
     }
-
   } catch (error) {
     console.error('❌ FALHA CRÍTICA NA CONEXÃO:');
     console.error(error);

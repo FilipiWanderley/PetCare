@@ -21,6 +21,7 @@ model User {
   appointments Appointment[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  orders       Order[]
 }
 
 model Pet {
@@ -34,6 +35,8 @@ model Pet {
   appointments Appointment[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+
+  @@index([ownerId])
 }
 
 model Appointment {
@@ -56,6 +59,10 @@ model Appointment {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([petId])
+  @@index([date])
 }
 
 model Service {
@@ -90,4 +97,36 @@ model Product {
   metadata    Json?    // For specific UI fields like blobColor, blobRotation, weight
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  orderItems  OrderItem[]
+
+  @@index([category])
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  total           Float
+  status          String      @default("pending") // pending, paid, failed, cancelled
+  paymentIntentId String?     @unique
+  items           OrderItem[]
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id])
+  customerEmail   String?
+  customerName    String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+
+  @@index([orderId])
+  @@index([productId])
 }
