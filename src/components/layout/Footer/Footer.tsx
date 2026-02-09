@@ -7,11 +7,11 @@ export function Footer() {
     <footer className={styles.footer}>
       <div className={styles.content}>
         <div className={`${styles.column} ${styles.logoColumn}`}>
-          <Image 
-            src="/assets/logo/pet1.png" 
-            alt="Pet Care Logo" 
-            width={350} 
-            height={140} 
+          <Image
+            src="/assets/logo/pet1.png"
+            alt="Pet Care Logo"
+            width={350}
+            height={140}
             className={styles.logoImage}
           />
         </div>
@@ -19,20 +19,36 @@ export function Footer() {
         <div className={styles.column}>
           <h3>Serviços</h3>
           <ul className={styles.list}>
-            <li><PawPrint size={16} /> Banho e Tosa</li>
-            <li><PawPrint size={16} /> Consulta Veterinária</li>
-            <li><PawPrint size={16} /> Vacinação</li>
-            <li><PawPrint size={16} /> Hospedagem</li>
-            <li><PawPrint size={16} /> Adestramento</li>
+            <li>
+              <PawPrint size={16} /> Banho e Tosa
+            </li>
+            <li>
+              <PawPrint size={16} /> Consulta Veterinária
+            </li>
+            <li>
+              <PawPrint size={16} /> Vacinação
+            </li>
+            <li>
+              <PawPrint size={16} /> Hospedagem
+            </li>
+            <li>
+              <PawPrint size={16} /> Adestramento
+            </li>
           </ul>
         </div>
 
         <div className={styles.column}>
           <h3>Horários</h3>
           <ul className={styles.list}>
-            <li><strong>Seg-Sex:</strong> 9:00 - 18:00</li>
-            <li><strong>Sábado:</strong> 9:00 - 14:00</li>
-            <li><strong>Domingo:</strong> Fechado</li>
+            <li>
+              <strong>Seg-Sex:</strong> 9:00 - 18:00
+            </li>
+            <li>
+              <strong>Sábado:</strong> 9:00 - 14:00
+            </li>
+            <li>
+              <strong>Domingo:</strong> Fechado
+            </li>
           </ul>
         </div>
 
@@ -59,10 +75,10 @@ export function Footer() {
       </div>
 
       <div className={styles.animalsWrapper}>
-        <Image 
-          src="/assets/images/Produtos/ani.svg" 
-          alt="Pets" 
-          width={350} 
+        <Image
+          src="/assets/images/ani.svg"
+          alt="Pets"
+          width={350}
           height={150}
           className={styles.animalsImage}
         />
@@ -70,7 +86,11 @@ export function Footer() {
 
       <div className={styles.copyrightBar}>
         <div className={styles.copyrightContent}>
-          <p>&copy; {new Date().getFullYear()} PetCare | Desenvolvido por Filipi Moraes | <a href="#">Política de Privacidade</a> | <a href="#">Site Map</a> | <a href="#">Contato</a></p>
+          <p>
+            &copy; {new Date().getFullYear()} PetCare | Desenvolvido por Filipi Moraes |{' '}
+            <a href="#">Política de Privacidade</a> | <a href="#">Site Map</a> |{' '}
+            <a href="#">Contato</a>
+          </p>
         </div>
       </div>
     </footer>
