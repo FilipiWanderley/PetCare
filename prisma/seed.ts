@@ -157,22 +157,22 @@ async function main() {
   await prisma.testimonial.createMany({
     data: [
       {
-        name: 'Renato Santos',
-        role: 'Tutor de gato',
+        name: 'Pamela Santos',
+        role: 'Tutora de Gato',
         image: '/assets/icons/Picture/Picture1.svg',
         feedback:
           'O serviço simplificou o treinamento e me manteve atualizado sobre a saúde do meu amigo peludo. Nunca foi tão fácil proporcionar o melhor para ele. Recomendo a todos os amantes de animais!',
       },
       {
         name: 'Giovanna Lima',
-        role: 'Tutor de cachorro',
+        role: 'Tutora de Cachorro',
         image: '/assets/icons/Picture/Picture2.svg',
         feedback:
           'Desde que comecei a usar os serviços, percebi uma mudança positiva no comportamento do meu pet. As dicas de adestramento são valiosas!',
       },
       {
-        name: 'Karla Santana',
-        role: 'Tutor de gato',
+        name: 'Ricardo Moraes',
+        role: 'Tutor de Gato',
         image: '/assets/icons/Picture/Picture3.svg',
         feedback:
           'O atendimento não apenas me lembra das vacinas e consultas, mas também me conectou a uma comunidade incrível de amantes de animais.',
