@@ -141,6 +141,7 @@ npm install
 
 3. Configurar variáveis de ambiente  
    Crie um `.env` baseado em `.env.example`.
+   **Nota:** O projeto utiliza PostgreSQL. Configure a variável `DATABASE_URL` com sua conexão local ou do Neon (Serverless Postgres).
 
 4. Rodar migrations
 
