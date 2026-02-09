@@ -1,6 +1,6 @@
 .section {
   padding: 4rem 1.5rem;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   position: relative;
   overflow: hidden;
 }
@@ -36,7 +36,7 @@
 
 .subtitle {
   font-size: 1.25rem;
-  color: #9CA3AF;
+  color: #9ca3af;
   font-weight: 500;
   margin-bottom: 0.25rem;
   position: relative;
@@ -56,7 +56,7 @@
   padding: 0.75rem 1.5rem;
   background-color: var(--primary);
   border-radius: 50px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
@@ -100,18 +100,21 @@
 .card {
   display: flex;
   flex-direction: column;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 1rem;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   height: 100%;
-  border: 1px solid #F3F4F6;
+  border: 1px solid #f3f4f6;
 }
 
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-  border-color: #FCD34D;
+  border-color: var(--primary);
+  background-color: var(--primary);
 }
 
 .imageContainer {
@@ -134,15 +137,15 @@
 }
 
 .card:hover .productImage {
-  transform: scale(1.05);
+  transform: translateY(-10px) scale(1.05);
 }
 
 .saleTag {
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: #F59E0B;
-  color: #FFFFFF;
+  background-color: #f59e0b;
+  color: #ffffff;
   font-size: 0.75rem;
   font-weight: 700;
   padding: 0.25rem 0.75rem;
@@ -168,13 +171,13 @@
 
 .price {
   font-size: 1.1rem;
-  color: #6B7280;
+  color: #6b7280;
   font-weight: 600;
 }
 
 .oldPrice {
   font-size: 0.9rem;
-  color: #9CA3AF;
+  color: #9ca3af;
   text-decoration: line-through;
 }
 
@@ -198,8 +201,8 @@
   gap: 0.5rem;
   width: 100%;
   padding: 0.75rem;
-  background-color: #FFFFFF;
-  border: 1px solid #F3F4F6;
+  background-color: #ffffff;
+  border: 1px solid #f3f4f6;
   border-radius: 2rem;
   color: var(--primary);
   font-weight: 600;
@@ -210,7 +213,7 @@
 }
 
 .addButton:hover {
-  background-color: #FFFBEB;
+  background-color: #fffbeb;
   border-color: var(--primary);
   color: var(--primary-hover);
 }
@@ -226,7 +229,7 @@
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .title {
     font-size: 2.5rem;
   }
@@ -238,11 +241,11 @@
     align-items: flex-start;
     gap: 1rem;
   }
-  
+
   .viewAllBtn {
     align-self: flex-start;
   }
-  
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
@@ -253,7 +256,7 @@
   .grid {
     grid-template-columns: 1fr;
   }
-  
+
   .title {
     font-size: 2rem;
   }
